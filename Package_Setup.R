@@ -29,14 +29,12 @@ usethis::use_vignette("my-vignette")
 
 #Create a directory of tests
 usethis::use_testthat()
-
+# 
 # geo_lookup <- read.csv("data/geo_lookup.csv")
-# intervention_lookup <- read.csv("data/intervention_lookup.csv")
 # geo_lookup <- geo_lookup %>%
 #   mutate(admin1_name = iconv(admin1_name, "UTF-8", "ASCII//TRANSLIT"))
-# 
 # use_data(geo_lookup, overwrite = TRUE)
+
+# intervention_lookup <- read.csv("data/intervention_lookup.csv")
 # use_data(intervention_lookup, overwrite = TRUE)
 
-data(geo_lookup)
-data(intervention_lookup)

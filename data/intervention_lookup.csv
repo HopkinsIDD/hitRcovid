@@ -1,0 +1,42 @@
+unique_id,intervention_group,intervention_specific,intervention_group_name,intervention_name
+limit_mvt,limited_mvt,limited_mvt,Limiting movement within borders,Limiting movement within borders
+confinement,household_confined,household_confined,Household confinement,Household confinement
+nursing_home,nursing_home_closed,nursing_home_closed,Nursing home/long-term care closures,Nursing home/long-term care closures
+office,office_closed,office_closed,Office closures,Office closures
+entertainment,entertainment_closed,entertainment_closed,Leisure and entertainment venue closures,Leisure and entertainment venue closures
+religion,religion_closed,religion_closed,Religious venue closures,Religious venue closures
+store,store_closed,store_closed,Retail store closures (excluding essentials),Retail store closures (excluding essentials)
+public_transport,public_transport_closed,public_transport_closed,Public transportation closures,Public transportation closures
+public_space,public_space_closed,public_space_closed,Public space closures,Public space closures
+social_limits,social_group_limits,social_group_limits,Limiting size of gatherings,Limiting size of gatherings
+testing_symp,testing_symp,testing_symp,Testing of symptomatic individuals,Testing of symptomatic individuals
+testing_asymp,testing_asymp,testing_asymp,Testing of asymptomatic individuals,Testing of asymptomatic individuals
+mask,mask,mask,Universal facemask policies,Universal facemask policies
+enforcement,enforcement_deployed,enforcement_deployed,Military and police deployment,Military and police deployment
+emergency,state_of_emergency,state_of_emergency,State of emergency,State of emergency
+border_in_air,closed_border,closed_border_in_air,Border closures,Border closures for entering by air
+border_in_land,closed_border,closed_border_in_land,Border closures,Border closures for entering by land
+border_in_sea,closed_border,closed_border_in_sea,Border closures,Border closures for entering by sea
+border_out_air,closed_border,closed_border_out_air,Border closures,Border closures for leaving by air
+border_out_land,closed_border,closed_border_out_land,Border closures,Border closures for leaving by land
+border_out_sea,closed_border,closed_border_out_sea,Border closures,Border closures for leaving by sea
+screening_air,symp_screening,symp_screening_air,Symptom screening,Symptom screening when entering by air
+screening_land,symp_screening,symp_screening_land,Symptom screening,Symptom screening when entering by land
+screening_sea,symp_screening,symp_screening_sea,Symptom screening,Symptom screening when entering by sea
+screening_within,symp_screening,symp_screening_within,Symptom screening,Symptom screening at checkpoints within borders
+nursery_school,school_closed,nursery_school_closed,School closures,Nursery school closures
+primary_school,school_closed,primary_school_closed,School closures,Primary school closures
+sec_school,school_closed,sec_school_closed,School closures,Secondary school closures
+post_school,school_closed,post_school_closed,School closures,Post-secondary school closures
+unknown_school,school_closed,unknown_school_closed,School closures,School closures of unknown type
+restaurant_closed,restaurant_closed,restaurant_closed,Restaurant closures and limitations,Restaurant closures (excluding takeout/delivery)
+restaurant_reduced,restaurant_closed,restaurant_reduced,Restaurant closures and limitations,Limiting number of patrons in restaurants
+contact_tracing,contact_tracing,contact_tracing,Contact tracing,Contact tracing
+contact_quarantine,contact_tracing,contact_quarantine,Contact tracing,Contact tracing quarantine
+quar_travel,quar_iso,quar_travel,Quarantine and home isolation,Quarantine of travelers
+quar_confirm,quar_iso,quar_confirm,Quarantine and home isolation,Quarantine of contacts confirmed cases
+quar_suspect,quar_iso,quar_suspect,Quarantine and home isolation,Quarantine of contacts suspected (symptomatic) cases
+quar_other,quar_iso,quar_other,Quarantine and home isolation,Quarantine of other asymptomatic individuals
+iso_suspect,quar_iso,iso_suspect,Quarantine and home isolation,Home isolation of suspected (symptomatic) cases
+iso_confirm,quar_iso,iso_confirm,Quarantine and home isolation,Home isolation of non-hospitalized confirmed cases
+iso_discharged,quar_iso,iso_discharged,Quarantine and home isolation,Home isolation of confirmed cases discharged from the hospital
