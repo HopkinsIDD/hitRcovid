@@ -1,2 +1,2 @@
-# hit-covid-extractR
+# hitRcovid
 R package to extract hit-covid data
