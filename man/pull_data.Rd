@@ -2,7 +2,7 @@
 % Please edit documentation in R/pull_data.R
 \name{pull_data}
 \alias{pull_data}
-\title{Pulls current HIT-COVID database from GitHub and subsets if desired}
+\title{Pulls HIT-COVID database from GitHub}
 \usage{
 pull_data(
   country = NULL,
@@ -16,10 +16,10 @@ pull_data(
 }
 \arguments{
 \item{country}{vector of ISO 3166-1 alpha-3 country codes to filter the data to
-(see \code{\link{geo_lookup.csv}} for concordance of country codes to names)}
+(see \link{geo_lookup} for concordance of country codes to names)}
 
 \item{admin1}{vector of the first administrative unit codes to filter the data to
-(see \code{\link{geo_lookup.csv}} for concordance of admin 1 codes to names)}
+(see \link{geo_lookup} for concordance of admin 1 codes to names)}
 
 \item{locality}{vector of the names of localities to include (this is a free text field)}
 
@@ -29,10 +29,10 @@ county-level will be removed and country filtering will be determined by the \co
 argument.}
 
 \item{intervention}{vector of intervention group codes to filter the data to
-(see \code{\link{intervention_lookup.csv}} column "intervention" for options)}
+(see \link{intervention_lookup} column "intervention" for options)}
 
 \item{intervention_specific}{vector of specific interventions to filter the data to
-(see \code{\link{intervention_lookup.csv}} column "intervention_specific" for options)}
+(see \link{intervention_lookup} column "intervention_specific" for options)}
 
 \item{remove_columns}{a logical indicating if columns with only missing values should be removed
 (default is TRUE)}
@@ -45,8 +45,8 @@ values if \code{remove_columns = TRUE}
 \description{
 This function pulls the HIT-COVID database from the GitHub repo:
 \url{https://github.com/HopkinsIDD/hit-covid}.
-If no arguments are supplied the entire database is returned. There is also the option to specify
-filtering by country, admin 1 unit, locality, intervention group, and/or specific intervention.
+If no arguments are supplied the entire database is returned. There is also the option to
+filter by country, admin 1 unit, locality, intervention group, and/or specific intervention.
 }
 \details{
 All filtering arguments are optional. If none are provided, the entire database will be returned.

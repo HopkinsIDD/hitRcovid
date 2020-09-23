@@ -1,3 +1,4 @@
 ^hitRcovid\.Rproj$
 ^\.Rproj\.user$
-^Package_Setup$
+^Package_Setup\.R$
+^LICENSE\.md$
