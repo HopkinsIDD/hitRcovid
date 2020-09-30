@@ -13,6 +13,7 @@ library(dplyr)
 
 load_all()
 document()
+test()
 check()
 
 #Add package dependence

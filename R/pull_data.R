@@ -121,7 +121,7 @@ filter_data <- function(hit_data, continent = NULL, country = NULL, admin1 = NUL
   if(!is.null(country)){
     miss_country <- country[!country %in% data$country & !country %in% wrong_country]
     if(length(miss_country) >= 1){
-      warning("The following countries are not represented in the database: ",
+      warning("The following countries are not represented in the database with the provided continent: ",
               paste0(paste0(miss_country, collapse = ", "))) 
     }
     data2 <- data[data$country %in% country ,]
@@ -145,7 +145,7 @@ filter_data <- function(hit_data, continent = NULL, country = NULL, admin1 = NUL
   if(!is.null(locality)){
     miss_local <- locality[!locality %in% data3$locality]
     if(length(miss_local) >= 1){
-      warning("The following admin1 units are not represented in the database with the provided countries and admin1 units: ",
+      warning("The following localities are not represented in the database with the provided countries and admin1 units: ",
               paste0(paste0(miss_local, collapse = ", "))) 
     }
     data4 <- data3[data3$locality %in% locality,]
@@ -173,8 +173,6 @@ filter_data <- function(hit_data, continent = NULL, country = NULL, admin1 = NUL
     data6 <- data5[!is.na(data5$usa_county), ]
   }else if(include_usa_county == FALSE){
     data6 <- data5[is.na(data5$usa_county), ]
-  }else{
-    data6 <- data5
   }
   
   
@@ -184,9 +182,9 @@ filter_data <- function(hit_data, continent = NULL, country = NULL, admin1 = NUL
     warning("The set of filters provided did not match any records in the database.")
   }
   
-  #Remove columns that are completely empty (print note with columns that were removed)
+  #Remove columns that are completely empty
   if(remove_columns == TRUE){
-    # Removing empty columns except status and date_of_update
+    # Removing empty columns
     data7 <- data6[, dplyr::select_if(data6, ~ !all(is.na(.))) %>% names()]
   }else{
     data7 <- data6
