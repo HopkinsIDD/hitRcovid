@@ -70,7 +70,7 @@ hit_pull <- function(){
 #' (\url{https://github.com/HopkinsIDD/hit-covid}) but excluding any columns that have only missing
 #' values if \code{remove_columns = TRUE}
 #' 
-#' @example 
+#' @examples
 #' 
 #' # Pulling HIT-COVID database
 #' hit_data <- hit_pull()
@@ -83,6 +83,12 @@ hit_pull <- function(){
 #' 
 #' #Filtering to all national data
 #' national <- hit_filter(hit_data, admin1 = NA)
+#' 
+#' #Filtering to all USA county data
+#' usa_county <- hit_filter(hit_data, include_usa_county = TRUE)
+#' 
+#' #Removing USA county data
+#' no_county <- hit_filter(hit_data, include_usa_county = FALSE)
 #' 
 #' @seealso \link{hit_pull}
 #' 
@@ -200,7 +206,8 @@ hit_filter <- function(hit_data, continent = NULL, country = NULL, admin1 = NULL
   #Remove columns that are completely empty
   if(remove_columns == TRUE){
     # Removing empty columns
-    data7 <- data6[, dplyr::select_if(data6, ~ !all(is.na(.))) %>% names()]
+    emptycols <- colSums(is.na(data6)) == nrow(data6)
+    data7 <- data6[!emptycols]
   }else{
     data7 <- data6
   }

@@ -25,7 +25,8 @@ hit_filter(
 (see \link{geo_lookup} for concordance of country codes to names)}
 
 \item{admin1}{vector of the first administrative unit codes to filter the data to
-(see \link{geo_lookup} for concordance of admin 1 codes to names)}
+(see \link{geo_lookup} for concordance of admin 1 codes to names). If only national data is desired,
+set admin1 to NA}
 
 \item{locality}{vector of the names of localities to include (this is a free text field)}
 
@@ -63,6 +64,27 @@ As part of the larger effort, there was a special project to collect some USA co
 If interested in that project, set \code{usa_county} to TRUE. If you want to exclude the USA
 county-level data, set \code{usa_county} to FALSE, if you want to include the USA county-level data
 along with other records, keep usa_county as NULL
+}
+\examples{
+
+# Pulling HIT-COVID database
+hit_data <- hit_pull()
+
+#Filtering to Africa
+africa <- hit_filter(hit_data, continent = "Africa")
+
+#Filtering to border closures in china
+china <- hit_filter(hit_data, country = "CHN", intervention_group = "closed_border")
+
+#Filtering to all national data
+national <- hit_filter(hit_data, admin1 = NA)
+
+#Filtering to all USA county data
+usa_county <- hit_filter(hit_data, include_usa_county = TRUE)
+
+#Removing USA county data
+no_county <- hit_filter(hit_data, include_usa_county = FALSE)
+
 }
 \seealso{
 \link{hit_pull}

@@ -44,7 +44,8 @@ continent2 <- continent %>%
 
 geo_lookup <- geo_lookup1 %>%
   select(country = admin0, admin1 = GID_1, country_name = NAME_0, admin1_name = NAME_1) %>%
-  mutate(admin1_name = iconv(admin1_name, "UTF-8", "ASCII//TRANSLIT")) %>%
+  mutate(admin1_name = iconv(admin1_name, "UTF-8", "ASCII//TRANSLIT"),
+         country_name = iconv(country_name, "UTF-8", "ASCII//TRANSLIT")) %>%
   left_join(continent2, by = "country")
 
 use_data(geo_lookup, overwrite = TRUE)
