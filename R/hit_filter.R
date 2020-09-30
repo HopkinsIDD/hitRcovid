@@ -8,12 +8,12 @@
 #' A dataframe with columns as described in the GitHub README 
 #' (\url{https://github.com/HopkinsIDD/hit-covid}) 
 #' 
-#' @seealso \link{filter_data}
+#' @seealso \link{hit_filter}
 #' 
 #' @export
 
 
-pull_data <- function(){
+hit_pull <- function(){
   
   #Pulling data from GitHub
   urlfile = 'https://raw.githubusercontent.com/HopkinsIDD/hit-covid/master/data/hit-covid-longdata.csv'
@@ -30,7 +30,7 @@ pull_data <- function(){
 
 #' Subsets HIT-COVID database
 #' 
-#' This function subsets the HIT-COVID database after it has been loaded with \link{pull_data}.
+#' This function subsets the HIT-COVID database after it has been loaded with \link{hit_pull}.
 #' If no filtering arguments are supplied the entire database is returned.
 #' There is the option to filter by continent, country, admin 1 unit, locality or intervention group.
 #' 
@@ -46,7 +46,7 @@ pull_data <- function(){
 #' county-level data, set \code{usa_county} to FALSE, if you want to include the USA county-level data
 #' along with other records, keep usa_county as NULL
 #' 
-#' @param hit_data the full HIT-COVID database pulled from GitHub, pulled using \link{pull_data}
+#' @param hit_data the full HIT-COVID database pulled from GitHub, pulled using \link{hit_pull}
 #' @param continent vector of continent names to filter the data to; should be one of
 #' \code{c("Asia", "Europe", "Africa", "Oceania", "North America", "South America")}
 #' @param country vector of ISO 3166-1 alpha-3 country codes to filter the data to 
@@ -64,7 +64,7 @@ pull_data <- function(){
 #' @param remove_columns a logical indicating if columns with only missing values should be removed 
 #' (default is TRUE)
 #' 
-#' @seealso \link{pull_data}
+#' @seealso \link{hit_pull}
 #' 
 #' @return 
 #' A dataframe with columns as described in the GitHub README
@@ -74,7 +74,7 @@ pull_data <- function(){
 #' @export
 
 
-filter_data <- function(hit_data, continent = NULL, country = NULL, admin1 = NULL, locality = NULL,
+hit_filter <- function(hit_data, continent = NULL, country = NULL, admin1 = NULL, locality = NULL,
                         intervention_group = NULL, include_usa_county = NULL, remove_columns = TRUE){
   
   ## Error handling -------------------------------------------------------------------------------
