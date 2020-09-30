@@ -52,7 +52,8 @@ hit_pull <- function(){
 #' @param country vector of ISO 3166-1 alpha-3 country codes to filter the data to 
 #' (see \link{geo_lookup} for concordance of country codes to names)
 #' @param admin1 vector of the first administrative unit codes to filter the data to
-#' (see \link{geo_lookup} for concordance of admin 1 codes to names)
+#' (see \link{geo_lookup} for concordance of admin 1 codes to names). If only national data is desired,
+#' set admin1 to NA
 #' @param locality vector of the names of localities to include (this is a free text field)
 #' @param intervention_group vector of intervention group to filter the data to 
 #' (see \link{intervention_lookup} column "intervention_group" or "intervention_specific" for options)
@@ -64,12 +65,26 @@ hit_pull <- function(){
 #' @param remove_columns a logical indicating if columns with only missing values should be removed 
 #' (default is TRUE)
 #' 
-#' @seealso \link{hit_pull}
-#' 
 #' @return 
 #' A dataframe with columns as described in the GitHub README
 #' (\url{https://github.com/HopkinsIDD/hit-covid}) but excluding any columns that have only missing
 #' values if \code{remove_columns = TRUE}
+#' 
+#' @example 
+#' 
+#' # Pulling HIT-COVID database
+#' hit_data <- hit_pull()
+#' 
+#' #Filtering to Africa
+#' africa <- hit_filter(hit_data, continent = "Africa")
+#' 
+#' #Filtering to border closures in china
+#' china <- hit_filter(hit_data, country = "CHN", intervention_group = "closed_border")
+#' 
+#' #Filtering to all national data
+#' national <- hit_filter(hit_data, admin1 = NA)
+#' 
+#' @seealso \link{hit_pull}
 #' 
 #' @export
 

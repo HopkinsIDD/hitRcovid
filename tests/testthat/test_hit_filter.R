@@ -21,6 +21,7 @@ test_that("hit_pull and hit_filter return a dataframes",{
                                         country = country_test,
                                         admin1 = admin1_test,
                                         intervention_group = int_test)))
+  expect_true(is.data.frame(hit_filter(hit, admin1 = NA)))
   expect_true(is.data.frame(hit_filter(hit, locality = local_test)))
   expect_true(is.data.frame(hit_filter(hit, include_usa_county = TRUE)))
   expect_true(is.data.frame(hit_filter(hit, include_usa_county = FALSE)))
