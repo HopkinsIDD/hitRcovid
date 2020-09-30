@@ -10,6 +10,7 @@
 #' \item{admin1}{first administrative unit code (following GADM5 unless otherwise noted)}
 #' \item{country_name}{country name}
 #' \item{admin1_name}{level 1 administrative unit name}
+#' \item{continent}{continent name}
 #' }
 #' 
 #' @references
