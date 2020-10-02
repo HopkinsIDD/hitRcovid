@@ -17,13 +17,14 @@ test()
 check()
 
 #Add package dependence
-use_package()
+use_package("ggplot2")
 
 #Create license
 use_gpl3_license()
 
 #Add to ignore file
 use_build_ignore("Package_Setup.R")
+use_build_ignore("Paper_Figures.R")
 
 #Create a vingnette
 usethis::use_vignette("my-vignette")
@@ -48,8 +49,11 @@ geo_lookup <- geo_lookup1 %>%
          country_name = iconv(country_name, "UTF-8", "ASCII//TRANSLIT")) %>%
   left_join(continent2, by = "country")
 
-use_data(geo_lookup, overwrite = TRUE)
+#use_data(geo_lookup, overwrite = TRUE)
 
-# intervention_lookup <- read.csv("data/intervention_lookup.csv")
-# use_data(intervention_lookup, overwrite = TRUE)
+intervention_lookup <- read.csv("data/intervention_lookup.csv")
+intervention_lookup <- intervention_lookup %>%
+  arrange(intervention_type, intervention_group)
+
+#use_data(intervention_lookup, overwrite = TRUE)
 

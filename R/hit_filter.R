@@ -98,6 +98,9 @@ hit_pull <- function(){
 hit_filter <- function(hit_data, continent = NULL, country = NULL, admin1 = NULL, locality = NULL,
                         intervention_group = NULL, include_usa_county = NULL, remove_columns = TRUE){
   
+  #TODO: add include_national, include_admin1, include_locality
+  #TODO: change name of include_usa_county
+  
   ## Error handling -------------------------------------------------------------------------------
   
   #Determine if continent input is valid
@@ -129,6 +132,12 @@ hit_filter <- function(hit_data, continent = NULL, country = NULL, admin1 = NULL
   
   
   ## Filtering by parameters specified ------------------------------------------------------------
+  
+  #Removing missing status_simp
+  hit_data <- hit_data[!is.na(hit_data$status_simp), ]
+  
+  #Removing restaurant reduced (duplicate information)
+  hit_data <- hit_data[hit_data$intervention_name != "Limiting number of patrons in restaurants",]
   
   #Continent
   if(!is.null(continent)){
