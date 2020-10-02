@@ -10,8 +10,11 @@ hit_filter(
   country = NULL,
   admin1 = NULL,
   locality = NULL,
+  include_national = TRUE,
+  include_admin1 = TRUE,
+  include_locality = FALSE,
   intervention_group = NULL,
-  include_usa_county = NULL,
+  usa_county_data = NULL,
   remove_columns = TRUE
 )
 }
@@ -25,19 +28,24 @@ hit_filter(
 (see \link{geo_lookup} for concordance of country codes to names)}
 
 \item{admin1}{vector of the first administrative unit codes to filter the data to
-(see \link{geo_lookup} for concordance of admin 1 codes to names). If only national data is desired,
-set admin1 to NA}
+(see \link{geo_lookup} for concordance of admin 1 codes to names).}
 
 \item{locality}{vector of the names of localities to include (this is a free text field)}
+
+\item{include_national}{logical indicating if national-level data should be included (default is TRUE)}
+
+\item{include_admin1}{logical indicating if admin1-level data should be included (default is TRUE)}
+
+\item{include_locality}{logical indicating if locality data should be included (default is FALSE)}
 
 \item{intervention_group}{vector of intervention group to filter the data to
 (see \link{intervention_lookup} column "intervention_group" or "intervention_specific" for options)}
 
-\item{include_usa_county}{logical indicating if the data should be filtered to USA county-level data.
+\item{usa_county_data}{logical indicating if the data should be filtered to USA county-level data.
 If set to TRUE, only county-level data from \code{country = "USA"} will be provided.
-If FALSE, all USA county-level will be removed and country filtering will be determined by the
-\code{country} argument. If left as NULL, USA county-level data will be included and the country
-filtering will be determined by the \code{country} argument.}
+If FALSE, all USA county-level will be removed from the filtered dataset.
+If left as NULL (the default), USA county-level data will be included along with other records in
+the filtered dataset.}
 
 \item{remove_columns}{a logical indicating if columns with only missing values should be removed
 (default is TRUE)}
@@ -60,10 +68,18 @@ should only be used if it is known that the database has a certain locality (low
 admin1 level). The dataset is filtered in the following order:
 continent, country, admin1, locality, intervention group
 
+If filtering to certain admin1 units, national data will by default be included as often these
+policies carry down to the admin units. If only the admin1 data is desired, set
+\code{include_national} to FALSE. Conversely when filtering to certain countries or
+continents, all admin1 information for those countries  will be by default included. If only
+national data is desired, set \code{include_admin1} to FALSE. Because the locality field is
+rarely used, the locality (lower than admin1) data is excluded by default unless a locality is
+specified for filtering or if \code{include_locality} is set to TRUE.
+
 As part of the larger effort, there was a special project to collect some USA county-level data.
-If interested in that project, set \code{usa_county} to TRUE. If you want to exclude the USA
-county-level data, set \code{usa_county} to FALSE, if you want to include the USA county-level data
-along with other records, keep usa_county as NULL
+If interested in that project, set \code{usa_county_data} to TRUE. If you want to exclude the USA
+county-level data, set \code{usa_county_data} to FALSE, if you want to include the USA county-level data
+along with other records, keep \code{usa_county_data} as NULL
 }
 \examples{
 
@@ -76,14 +92,20 @@ africa <- hit_filter(hit_data, continent = "Africa")
 #Filtering to border closures in china
 china <- hit_filter(hit_data, country = "CHN", intervention_group = "closed_border")
 
-#Filtering to all national data
-national <- hit_filter(hit_data, admin1 = NA)
+#Filtering to New Jersey state and national data
+nj <- hit_filter(hit_data, admin1 = "USA.31_1")
 
-#Filtering to all USA county data
-usa_county <- hit_filter(hit_data, include_usa_county = TRUE)
+#Filtering to just New Jersey state-level data
+nj <- hit_filter(hit_data, admin1 = "USA.31_1", include_national = FALSE)
+
+#Filtering to all national data
+national <- hit_filter(hit_data, include_admin1 = FALSE)
+
+#Filtering to just USA county data
+usa_county <- hit_filter(hit_data, usa_county_data = TRUE)
 
 #Removing USA county data
-no_county <- hit_filter(hit_data, include_usa_county = FALSE)
+no_county <- hit_filter(hit_data, usa_county_data = FALSE)
 
 }
 \seealso{

@@ -16,6 +16,7 @@ column of the database}
 \item{intervention_group_name}{name corresponding to the intervention group (\code{intervention})}
 \item{intervention_name}{name corresponding to the specific intervention used in the
 \code{intervention_name} column of the database}
+\item{intervention_type}{broad category of the intervnetion}
 
 }
 }

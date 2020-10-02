@@ -3,8 +3,8 @@ context("hit_pull and hit_filter")
 library(hitRcovid)
 
 continent_test <- c("Asia", "North America")
-country_test <- c("USA", "CHN")
-admin1_test <- c("USA.39_1", "CHN.24_1")
+country_test <- c("USA", "CAN", "CHN")
+admin1_test <- c("USA.33_1", "USA.39_1", "CHN.24_1")
 local_test <- "New York City"
 int_test <- c("household_confined", "school_closed")
 
@@ -23,8 +23,8 @@ test_that("hit_pull and hit_filter return a dataframes",{
                                         intervention_group = int_test)))
   expect_true(is.data.frame(hit_filter(hit, admin1 = NA)))
   expect_true(is.data.frame(hit_filter(hit, locality = local_test)))
-  expect_true(is.data.frame(hit_filter(hit, include_usa_county = TRUE)))
-  expect_true(is.data.frame(hit_filter(hit, include_usa_county = FALSE)))
+  expect_true(is.data.frame(hit_filter(hit, usa_county_data = TRUE)))
+  expect_true(is.data.frame(hit_filter(hit, usa_county_data = FALSE)))
 
 })
 
@@ -52,19 +52,20 @@ test_that("Descriptive warning messages returned from hit_filter",{
   expect_warning(hit_filter(hit, country = "USA", admin1 = "USA.39_1", locality = "New York City"),
                  "The following localities are not represented in the database with the provided countries and admin1 units: New York City")
   
-  expect_warning(hit_filter(hit, country = "USA", admin1 = "USA.39_1", intervention_group = "closed_border"),
+  expect_warning(hit_filter(hit, country = "USA", admin1 = "USA.39_1", intervention_group = "closed_border",
+                            include_national = FALSE),
                  "The following interventions are not represented in the database with the provided countries, admin1 units, and localities: closed_border")
   
-  expect_warning(hit_filter(hit, admin1 = "USA.22_1", include_usa_county = TRUE),
+  expect_warning(hit_filter(hit, admin1 = "USA.22_1", usa_county_data = TRUE),
                  "The set of filters provided did not match any records in the database.")
   
 })
 
 test_that("include_usa_counties works correctly",{
   
-  a <- hit_filter(hit, country = "USA", include_usa_county = TRUE)
-  b <- hit_filter(hit, country = "USA", include_usa_county = FALSE)
-  c <- hit_filter(hit, country = c("USA", "CAN"), include_usa_county = TRUE)
+  a <- hit_filter(hit, country = "USA", usa_county_data = TRUE)
+  b <- hit_filter(hit, country = "USA", usa_county_data = FALSE)
+  c <- hit_filter(hit, country = c("USA", "CAN"), usa_county_data = TRUE)
   
   expect_true(sum(!is.na(a$usa_county)) == nrow(a))
   expect_false("usa_county" %in% names(b))
@@ -72,12 +73,76 @@ test_that("include_usa_counties works correctly",{
   
 })
 
+test_that("inclusion arguments work correctly",{
+  
+  #Admin1 and national
+  a <- hit_filter(hit, admin1 = admin1_test)
+  #Admin1 only
+  b <- hit_filter(hit, admin1 = admin1_test, include_national = FALSE)
+  #Admin1, national, locality
+  c <- hit_filter(hit, admin1 = admin1_test, include_locality = TRUE)
+  #Admin1, national
+  d <- hit_filter(hit, country = country_test)
+  #National only
+  e <- hit_filter(hit, country = country_test, include_admin1 = FALSE)
+  #Admin1 only
+  f <- hit_filter(hit, country = country_test, include_national = FALSE)
+  #Admin1, national, locality
+  g <- hit_filter(hit, country = country_test, include_locality = TRUE)
+  #Locality only
+  h <- hit_filter(hit, locality = local_test)
+  
+  #Admin1 and national (conflicting arguments)
+  i <- hit_filter(hit, admin1 = admin1_test, include_admin1 = FALSE)
+  #Locality only (conflicting arguments)
+  j <- hit_filter(hit, locality = local_test, include_locality = FALSE)
+  
+  #Confirming conflicting commands works
+  expect_true(nrow(a) == nrow(i))
+  expect_true(nrow(h) == nrow(j))
+  
+  #Confirming national is included when it should be
+  expect_true(sum(is.na(a$admin1)) > 0)
+  expect_true(sum(is.na(c$admin1)) > 0)
+  expect_true(sum(is.na(d$admin1)) > 0)
+  expect_true(sum(is.na(g$admin1)) > 0)
+  
+  #Confirming national is excluded when it should be
+  expect_true(sum(is.na(b$admin1)) == 0)
+  expect_true(sum(is.na(f$admin1)) == 0)
+  expect_true(sum(is.na(h$admin1)) == 0)
+  
+  #Confirming admin1 is included when it should be
+  expect_true(sum(!is.na(a$admin1)) > 0)
+  expect_true(sum(!is.na(b$admin1)) > 0)
+  expect_true(sum(!is.na(c$admin1)) > 0)
+  expect_true(sum(!is.na(d$admin1)) > 0)
+  expect_true(sum(!is.na(f$admin1)) > 0)
+  expect_true(sum(!is.na(g$admin1)) > 0)
+  
+  #Confirming admin1 is excluded when it should be
+  expect_true(!"admin1" %in% names(e))
+  
+  #Confirming locality is included when it should be
+  expect_true(sum(!is.na(c$locality)) > 0)
+  expect_true(sum(!is.na(g$locality)) > 0)
+  expect_true(sum(!is.na(h$locality)) > 0)
+  
+  #Confirming locality is excluded when it should be
+  expect_true(!"locality" %in% names(a))
+  expect_true(!"locality" %in% names(b))
+  expect_true(!"locality" %in% names(d))
+  expect_true(!"locality" %in% names(e))
+  expect_true(!"locality" %in% names(f))
+  
+})
+
 test_that("remove_columns works correctly",{
   
-  d <- hit_filter(hit, intervention_group = "closed_border", remove_columns = TRUE)
-  e <- hit_filter(hit, intervention_group = "closed_border", remove_columns = FALSE)
+  a <- hit_filter(hit, intervention_group = "closed_border", remove_columns = TRUE)
+  b <- hit_filter(hit, intervention_group = "closed_border", remove_columns = FALSE)
   
-  expect_true(ncol(d) < ncol(e))
+  expect_true(ncol(a) < ncol(b))
   
 })
 
