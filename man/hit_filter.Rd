@@ -39,7 +39,7 @@ hit_filter(
 \item{include_locality}{logical indicating if locality data should be included (default is FALSE)}
 
 \item{intervention_group}{vector of intervention group to filter the data to
-(see \link{intervention_lookup} column "intervention_group" or "intervention_specific" for options)}
+(see \link{intervention_lookup} column "intervention_group" for options)}
 
 \item{usa_county_data}{logical indicating if the data should be filtered to USA county-level data.
 If set to TRUE, only county-level data from \code{country = "USA"} will be provided.
@@ -68,10 +68,10 @@ should only be used if it is known that the database has a certain locality (low
 admin1 level). The dataset is filtered in the following order:
 continent, country, admin1, locality, intervention group
 
-If filtering to certain admin1 units, national data will by default be included as often these
+If filtering to certain admin1 units, national data will be included by default as often these
 policies carry down to the admin units. If only the admin1 data is desired, set
 \code{include_national} to FALSE. Conversely when filtering to certain countries or
-continents, all admin1 information for those countries  will be by default included. If only
+continents, all admin1 information for those countries will be included by default. If only
 national data is desired, set \code{include_admin1} to FALSE. Because the locality field is
 rarely used, the locality (lower than admin1) data is excluded by default unless a locality is
 specified for filtering or if \code{include_locality} is set to TRUE.
