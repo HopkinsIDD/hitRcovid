@@ -4,6 +4,11 @@
 #' This function pulls the HIT-COVID database from the GitHub repo: 
 #' \url{https://github.com/HopkinsIDD/hit-covid}.
 #' 
+#' ADD DETAILS OF FIRST CASE/FIRST DEATH INFO
+#' 
+#' @param add_first_case a logical indicating if information about the first case and the first
+#' death for each country should be added to the dataset
+#' 
 #' @return 
 #' A dataframe with columns as described in the GitHub README 
 #' (\url{https://github.com/HopkinsIDD/hit-covid}) 
@@ -13,7 +18,7 @@
 #' @export
 
 
-hit_pull <- function(){
+hit_pull <- function(add_first_case = TRUE){
   
   #Pulling data from GitHub
   urlfile = 'https://raw.githubusercontent.com/HopkinsIDD/hit-covid/master/data/hit-covid-longdata.csv'
@@ -111,9 +116,17 @@ hit_pull <- function(){
 #' @export
 
 
-hit_filter <- function(hit_data, continent = NULL, country = NULL, admin1 = NULL, locality = NULL,
-                       include_national = TRUE, include_admin1 = TRUE, include_locality = FALSE,
-                        intervention_group = NULL, usa_county_data = NULL, remove_columns = TRUE){
+hit_filter <- function(hit_data,
+                       continent = NULL,
+                       country = NULL,
+                       admin1 = NULL,
+                       locality = NULL,
+                       intervention_group = NULL,
+                       include_national = TRUE,
+                       include_admin1 = TRUE,
+                       include_locality = FALSE,
+                       usa_county_data = NULL,
+                       remove_columns = TRUE){
   
   ## Error handling -------------------------------------------------------------------------------
   
