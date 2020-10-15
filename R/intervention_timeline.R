@@ -120,11 +120,11 @@ intervention_timeline <- function(hit_data,
   
   #Determining facet variable
   if(facet_by == "country"){
-    facet_var <- "country_name"
+    data$facet_var <- data$country_name
   }else if(facet_by == "admin1"){
-      facet_var <- "admin1_name"
+    data$facet_var <- data$admin1_name
   }else{
-      facet_var <- facet_by
+    data$facet_var <- data[, facet_by]
   }
   
   #Find first case for continent/country/admin unit
@@ -138,21 +138,23 @@ intervention_timeline <- function(hit_data,
     
     #Finding first case and first death by facet variable
     if(facet_var != "none"){
-      first_case <- data[order(data[, facet_var], data[, "first_case"]),
-                         c(facet_var, "first_case")]
-      first_case <- first_case[!duplicated(first_case[, facet_var]), ]
+      first_case <- data[order(data$facet_var, data$first_case),
+                         c("facet_var", "first_case")]
+      first_case <- first_case[!duplicated(first_case$facet_var), ]
       
-      first_death <- data[order(data[, facet_var], data[, "first_death"]),
-                          c(facet_var, "first_death")]
-      first_death <- first_death[!duplicated(first_death[, facet_var]), ]
+      first_death <- data[order(data$facet_var, data$first_death),
+                          c("facet_var", "first_death")]
+      first_death <- first_death[!duplicated(first_death$facet_var), ]
       
-      firsts <- merge(first_case, first_death, by = facet_var)
+      firsts <- merge(first_case, first_death, by = "facet_var")
     }else{
       first_case <- min(data$first_case, na.rm = TRUE)
       first_death <- min(data$first_death, na.rm = TRUE)
       
       firsts <- cbind.data.frame("first_case" = first_case, "first_death" = first_death)
     }
+    firsts <- merge(firsts, int_types$labels)
+    #names(firsts)[names(firsts) == "y"] <- "intervention_type"
   }
   
   #Setting upper bound of plot to be two weeks into the future
@@ -164,34 +166,31 @@ intervention_timeline <- function(hit_data,
   
   #Create ggplot
   p <- ggplot2::ggplot(data = data,
-                       ggplot2::aes(x = data[, "date_of_update"],
-                                    y = data[, "intervention_group_name"]))
+                       ggplot2::aes(x = date_of_update,
+                                    y = intervention_group_name))
   
   #Drawing points including national if specified
   if(include_national == TRUE & include_admin1 == TRUE){
-    p <- p + ggplot2::geom_jitter(ggplot2::aes(col = data[, "status_simp"],
-                                               shape = data[, "level"]), 
-                    alpha=0.3, size=2, width=0, height=0.2)
+    p <- p + ggplot2::geom_jitter(ggplot2::aes(col = status_simp, shape = level), 
+                                  alpha=0.3, size=2, width=0, height=0.2)
   }else{
-    p <- p + ggplot2::geom_jitter(ggplot2::aes(col = data[, "status_simp"]), 
+    p <- p + ggplot2::geom_jitter(ggplot2::aes(col = status_simp), 
                     alpha=0.3, size=2, width=0, height=0.2)
   }
   
   #Faceting by provided level
   if(facet_by != "none"){
-    p <- p + ggplot2::facet_grid(data$intervention_type ~ data[, facet_var],
-                                 scales = "free", space="free")
+    p <- p + ggplot2::facet_grid(ggplot2::vars(intervention_type),
+                                 ggplot2::vars(facet_var), scales = "free_y", space="free") 
   }
-  
-  #FACETTING ISN'T WORKING HERE, LIKELY NEED TO COPY firsts FOR EACH INTERVENTION TYPE
   
   #Adding line for date of first case and death
   if(first_case_line == TRUE){
-    p <- p + ggplot2::geom_vline(data = firsts, ggplot2::aes(xintercept = firsts[, "first_case"]),
-                                 lty = 2, size = 1)
+    p <- p + ggplot2::geom_vline(data = firsts, ggplot2::aes(xintercept = first_case),
+                                   lty = 2, size = 1)
   }
   if(first_death_line == TRUE){
-    p <- p + ggplot2::geom_vline(data = firsts, ggplot2::aes(xintercept = firsts[, "first_death"]),
+    p <- p + ggplot2::geom_vline(data = firsts, ggplot2::aes(xintercept = first_death),
                                  lty = 3, size = 1)
   }
    

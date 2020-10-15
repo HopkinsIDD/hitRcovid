@@ -172,7 +172,7 @@ hit_filter <- function(hit_data,
   ## Filtering by parameters specified ------------------------------------------------------------
   
   #Removing missing status_simp (invalid "unknown" status from early survey versions)
-  hit_data <- hit_data[!is.na(hit_data$status_simp), ]
+  hit_data <- hit_data[!is.na(hit_data$status_simp) & hit_data$status_simp != "Unknown", ]
   
   #Removing restaurant reduced (duplicate information)
   hit_data <- hit_data[hit_data$intervention_name != "Limiting number of patrons in restaurants",]
