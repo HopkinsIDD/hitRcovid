@@ -1,6 +1,4 @@
 
-
-
 library(COVID19)
 library(covidregionaldata)
 library(ISOcodes)
@@ -10,14 +8,14 @@ get_first_case <- function(){
   #### COVID-19 Data Hub ####
   
   # Pull case and death data from COVID-19 Data Hub
-  case_data1 <- COVID19::covid19()
+  case_data1 <- COVID19::covid19(verbose = FALSE)
   
   #Finding first case and first death
-  have_cases1 <- case_data[case_data1$confirmed > 0, ]
+  have_cases1 <- case_data1[case_data1$confirmed > 0, ]
   first_case1 <- aggregate(have_cases1$date, list(have_cases1$id), min)
   names(first_case1) <- c("country", "first_case_COVID19")
   
-  have_deaths1 <- case_data[case_data1$deaths > 0, ]
+  have_deaths1 <- case_data1[case_data1$deaths > 0, ]
   first_death1 <- aggregate(have_deaths1$date, list(have_deaths1$id), min)
   names(first_death1) <- c("country", "first_death_COVID19")
   

@@ -10,11 +10,21 @@ int_test <- c("household_confined", "school_closed")
 
 #Pulling data
 hit <- hit_pull()
+hit2 <- hit_pull(add_first_case = FALSE)
 
-
-test_that("hit_pull and hit_filter return a dataframes",{
+test_that("hit_pull returns a dataframe",{
   
   expect_true(is.data.frame(hit))
+  expect_true(is.data.frame(hit2))
+  
+  expect_true("first_case" %in% names(hit))
+  expect_false("first_case" %in% names(hit2))
+  
+})
+
+
+test_that("hit_filter returns a dataframe",{
+  
   expect_true(is.data.frame(hit_filter(hit)))
   expect_true(is.data.frame(hit_filter(hit,
                                         continent = continent_test,
