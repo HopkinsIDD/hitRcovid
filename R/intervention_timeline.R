@@ -12,7 +12,9 @@ intervention_timeline <- function(hit_data,
                                   include_admin1 = TRUE,
                                   include_locality = FALSE,
                                   usa_county_data = FALSE,
-                                  facet_by = c("none", "continent", "country", "admin1")){
+                                  facet_by = c("none", "continent", "country", "admin1"),
+                                  first_case_line = TRUE,
+                                  first_death_line = TRUE){
   
   
   ## Error handling -------------------------------------------------------------------------------
@@ -56,7 +58,8 @@ intervention_timeline <- function(hit_data,
                      include_national = include_national,
                      include_admin1 = include_admin1,
                      include_locality = include_locality,
-                     usa_county_data = usa_county_data)
+                     usa_county_data = usa_county_data,
+                     remove_columns = FALSE)
   
   #Making sure date is a date variable
   data$date_of_update <- as.Date(as.character(data$date_of_update))
@@ -105,6 +108,12 @@ intervention_timeline <- function(hit_data,
     }
   }
   
+  #If facet_by = continent, add continent data (note this will duplicate data from countries in Eurasia)
+  if(facet_by == "continent"){
+    continent_data <- unique(geo_lookup[geo_lookup$continent %in% continent,
+                                        c("continent", "country")])
+    data <- merge(data, continent_data)
+  }
   
   
   ## Setting plotting paramters -------------------------------------------------------------------
@@ -116,16 +125,34 @@ intervention_timeline <- function(hit_data,
       facet_var <- "admin1_name"
   }else{
       facet_var <- facet_by
-    }
+  }
   
-  #TODO
   #Find first case for continent/country/admin unit
-  
-  #Subseting to just sub-national if include_national == FALSE
-  if(include_national == FALSE){
-    data <- data[!is.na(data$admin1), ]
-  }else if(include_admin1 == FALSE){
-    data <- data[is.na(data$admin1)]
+  if(first_case_line == TRUE | first_death_line == TRUE){
+   
+    #If it is not included in data, add information
+    if(!"first_case" %in% names(data)){
+      firsts <- get_first_case()
+      data <- merge(data, firsts, all.x = TRUE)
+    }
+    
+    #Finding first case and first death by facet variable
+    if(facet_var != "none"){
+      first_case <- data[order(data[, facet_var], data[, "first_case"]),
+                         c(facet_var, "first_case")]
+      first_case <- first_case[!duplicated(first_case[, facet_var]), ]
+      
+      first_death <- data[order(data[, facet_var], data[, "first_death"]),
+                          c(facet_var, "first_death")]
+      first_death <- first_death[!duplicated(first_death[, facet_var]), ]
+      
+      firsts <- merge(first_case, first_death, by = facet_var)
+    }else{
+      first_case <- min(data$first_case, na.rm = TRUE)
+      first_death <- min(data$first_death, na.rm = TRUE)
+      
+      firsts <- cbind.data.frame("first_case" = first_case, "first_death" = first_death)
+    }
   }
   
   #Setting upper bound of plot to be two weeks into the future
@@ -156,9 +183,17 @@ intervention_timeline <- function(hit_data,
                                  scales = "free", space="free")
   }
   
-  #Adding line for date of first case
-  # p <- p + ggplot2::geom_vline(data = firstcase,
-  #                              aes(xintercept = firstcase[, "date_of_update"]), lty=2) +
+  #FACETTING ISN'T WORKING HERE, LIKELY NEED TO COPY firsts FOR EACH INTERVENTION TYPE
+  
+  #Adding line for date of first case and death
+  if(first_case_line == TRUE){
+    p <- p + ggplot2::geom_vline(data = firsts, ggplot2::aes(xintercept = firsts[, "first_case"]),
+                                 lty = 2, size = 1)
+  }
+  if(first_death_line == TRUE){
+    p <- p + ggplot2::geom_vline(data = firsts, ggplot2::aes(xintercept = firsts[, "first_death"]),
+                                 lty = 3, size = 1)
+  }
    
   #Formatting legend, labels, axes, and colors 
   p <- p + ggplot2::theme_bw() +
