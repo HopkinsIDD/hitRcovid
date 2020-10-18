@@ -28,7 +28,15 @@ hit_pull <- function(add_first_case = TRUE){
   keep_col <- !names(data) %in% c("record_id", "update", "national_entry")
   data2 <- data[data$update == "Update", keep_col]
   
-  return(data2)
+  #Adding first case and first death
+  if(add_first_case == TRUE){
+    firsts <- get_first_case()
+    data3 <- merge(data2, firsts, all.x = TRUE)
+  }else{
+    data3 <- data2
+  }
+  
+  return(data3)
 }
 
 
@@ -53,6 +61,9 @@ hit_pull <- function(add_first_case = TRUE){
 #' national data is desired, set \code{include_admin1} to FALSE. Because the locality field is 
 #' rarely used, the locality (lower than admin1) data is excluded by default unless a locality is
 #' specified for filtering or if \code{include_locality} is set to TRUE.
+#' 
+#' If filtering by continent, countries in "Eurasia" will be included when filtering to either
+#' "Europe" or "Asia".
 #' 
 #' As part of the larger effort, there was a special project to collect some USA county-level data.
 #' If interested in that project, set \code{usa_county_data} to TRUE. If you want to exclude the USA
@@ -161,7 +172,7 @@ hit_filter <- function(hit_data,
   ## Filtering by parameters specified ------------------------------------------------------------
   
   #Removing missing status_simp (invalid "unknown" status from early survey versions)
-  hit_data <- hit_data[!is.na(hit_data$status_simp), ]
+  hit_data <- hit_data[!is.na(hit_data$status_simp) & hit_data$status_simp != "Unknown", ]
   
   #Removing restaurant reduced (duplicate information)
   hit_data <- hit_data[hit_data$intervention_name != "Limiting number of patrons in restaurants",]
