@@ -18,6 +18,9 @@ check()
 
 #Add package dependence
 use_package("ggplot2")
+use_package("maps")
+use_package("ISOcodes")
+use_package("covidregionaldata")
 
 #Create license
 use_gpl3_license()
@@ -25,6 +28,7 @@ use_gpl3_license()
 #Add to ignore file
 use_build_ignore("Package_Setup.R")
 use_build_ignore("Paper_Figures.R")
+use_build_ignore("Paper_Testing.R")
 
 #Create a vingnette
 usethis::use_vignette("my-vignette")

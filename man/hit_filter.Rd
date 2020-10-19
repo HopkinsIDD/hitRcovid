@@ -10,10 +10,10 @@ hit_filter(
   country = NULL,
   admin1 = NULL,
   locality = NULL,
+  intervention_group = NULL,
   include_national = TRUE,
   include_admin1 = TRUE,
   include_locality = FALSE,
-  intervention_group = NULL,
   usa_county_data = NULL,
   remove_columns = TRUE
 )
@@ -32,14 +32,14 @@ hit_filter(
 
 \item{locality}{vector of the names of localities to include (this is a free text field)}
 
+\item{intervention_group}{vector of intervention group to filter the data to
+(see \link{intervention_lookup} column "intervention_group" for options)}
+
 \item{include_national}{logical indicating if national-level data should be included (default is TRUE)}
 
 \item{include_admin1}{logical indicating if admin1-level data should be included (default is TRUE)}
 
 \item{include_locality}{logical indicating if locality data should be included (default is FALSE)}
-
-\item{intervention_group}{vector of intervention group to filter the data to
-(see \link{intervention_lookup} column "intervention_group" for options)}
 
 \item{usa_county_data}{logical indicating if the data should be filtered to USA county-level data.
 If set to TRUE, only county-level data from \code{country = "USA"} will be provided.
@@ -75,6 +75,9 @@ continents, all admin1 information for those countries will be included by defau
 national data is desired, set \code{include_admin1} to FALSE. Because the locality field is
 rarely used, the locality (lower than admin1) data is excluded by default unless a locality is
 specified for filtering or if \code{include_locality} is set to TRUE.
+
+If filtering by continent, countries in "Eurasia" will be included when filtering to either
+"Europe" or "Asia".
 
 As part of the larger effort, there was a special project to collect some USA county-level data.
 If interested in that project, set \code{usa_county_data} to TRUE. If you want to exclude the USA

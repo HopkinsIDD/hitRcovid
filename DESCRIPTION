@@ -9,6 +9,8 @@ Authors@R: c(
            role = c("cre", "cph"), email = "azman@jhu.edu"),
     person(given = "Qulu", family = "Zheng",
            role = c("aut"), email = "qzhehn14@jhmi.edu"), 
+    person(given = "Hanmeng", family = "Xu",
+           role = c("aut"), email = "hxu70@jh.edu"), 
     person(given = "Forrest", family = "Jones",
            role = c("aut"), email = "forrestjones@jhu.edu")
            )
@@ -29,4 +31,6 @@ VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
 Imports: 
-    ggplot2
+    ggplot2,
+    ISOcodes,
+    covidregionaldata

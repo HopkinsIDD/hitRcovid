@@ -4,7 +4,11 @@
 \alias{hit_pull}
 \title{Pulls HIT-COVID database from GitHub}
 \usage{
-hit_pull()
+hit_pull(add_first_case = TRUE)
+}
+\arguments{
+\item{add_first_case}{a logical indicating if information about the first case and the first
+death for each country should be added to the dataset}
 }
 \value{
 A dataframe with columns as described in the GitHub README
@@ -13,6 +17,12 @@ A dataframe with columns as described in the GitHub README
 \description{
 This function pulls the HIT-COVID database from the GitHub repo:
 \url{https://github.com/HopkinsIDD/hit-covid}.
+}
+\details{
+ADD DETAILS OF FIRST CASE/FIRST DEATH INFO
+}
+\examples{
+
 }
 \seealso{
 \link{hit_filter}

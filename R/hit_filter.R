@@ -13,6 +13,8 @@
 #' A dataframe with columns as described in the GitHub README 
 #' (\url{https://github.com/HopkinsIDD/hit-covid}) 
 #' 
+#' @examples 
+#' 
 #' @seealso \link{hit_filter}
 #' 
 #' @export
