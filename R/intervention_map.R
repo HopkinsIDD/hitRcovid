@@ -7,6 +7,8 @@
 ## a package, the fact that dplyr does not put column names in quotes causes issues.
 ## 2. Add documentation (see structure below and the hit_filter() function)
 ## 3. Add examples (see structure below and the hit_filter() function)
+## 4. If you want to learn how to write formal tests we can set up a call and I can show you how
+## and you can add the tests.
 
 
 ## SVL - documentation template
