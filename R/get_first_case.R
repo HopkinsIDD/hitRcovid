@@ -1,74 +1,88 @@
 
+#' Get date of first case and first death
+#' 
+#' Uses the \code{covidregionaldata} package to find the date of the first case of COVID-19 and the
+#' date of the first death from COVID-19. The source is either the European Centre for Disease
+#' Control (ECDC) or the World Health Organization (WHO). 
+#' 
+#' This function can be run on its own to get the first case and death information if that is of 
+#' interest. However, it is primarily meant to be run inside of \link{hit_pull} to add this
+#' information to the HIT-COVID database.
+#' 
+#' @param source the source of the case data that is used to determine the date of first case and first
+#' death: one of "ECDC" or "WHO" (default is "WHO")
+#' 
+#' @return 
+#' A dataframe with three columns:
+#' \enumerate{
+#'    \item \code{country} the country code to link with the HIT-COVID database
+#'    \item \code{first_case} the date of the first case of COVID-19 in that country according to
+#'    the source specified.
+#'    \item \code{first_death} the date of the first death in that country from COVID-19 according
+#'    to the source specified.
+#' }
+#' 
+#' @examples 
+#' 
+#' \donttest{
+#' #Pulling from ECDC
+#' firsts <- get_first_case(source = "ECDC")
+#' 
+#' #Pulling from WHO
+#' firsts <- get_first_case(source = "WHO")
+#' }
+#' 
+#' @seealso \link{hit_filter}, \link{get_national_data}
+#' 
+#' @references 
+#' Sam Abbott, Katharine Sherratt, Jonnie Bevan, Hamish Gibbs, Joel Hellewell, James Munday,
+#' Paul Campbell and Sebastian Funk (2020). covidregionaldata: Subnational Data for the
+#' Covid-19 Outbreak. R package version 0.6.0.
+#' https://CRAN.R-project.org/package=covidregionaldata
+#' 
+#' @export
 
-get_first_case <- function(){
+get_first_case <- function(source = c("WHO", "ECDC")){
   
-  #### COVID-19 Data Hub ####
+  source <- toupper(source)
   
-  # # Pull case and death data from COVID-19 Data Hub
-  # case_data1 <- COVID19::covid19(verbose = FALSE)
-  # 
-  # #Finding first case and first death
-  # have_cases1 <- case_data1[case_data1$confirmed > 0, ]
-  # first_case1 <- aggregate(have_cases1$date, list(have_cases1$id), min)
-  # names(first_case1) <- c("country", "first_case_COVID19")
-  # 
-  # have_deaths1 <- case_data1[case_data1$deaths > 0, ]
-  # first_death1 <- aggregate(have_deaths1$date, list(have_deaths1$id), min)
-  # names(first_death1) <- c("country", "first_death_COVID19")
-  # 
-  # #Combining first case and first death
-  # firsts1 <- merge(first_case1, first_death1, by = "country", all = TRUE)
+  #Setting default source to WHO and throwing an error if the source is not valid
+  if(all(source == c("WHO", "ECDC"))){
+    source <- "WHO"
+  }else if(length(source) > 1){
+    stop("source should be one of 'ECDC' or 'WHO'")
+  }else if(!source %in% c("WHO", "ECDC")){
+    stop("source should be one of 'ECDC' or 'WHO'")
+  }
   
+  case_counts <- covidregionaldata::get_national_data(source = source)
   
-  #### epiforcast ####
+  #Finding first case
+  have_cases <- case_counts[case_counts$cases_total > 0, ]
+  first_case <- aggregate(have_cases$date, list(have_cases$iso_code), min)
+  names(first_case) <- c("iso_code", "first_case")
   
-  #Pull data sourced from European Centre for Disease Control (ECDC)
-  case_counts2 <- covidregionaldata::get_national_data(source = "ECDC")
-  
-  #Finding first case and first death
-  have_cases2 <- case_counts2[case_counts2$cases_total > 0, ]
-  first_case2 <- aggregate(have_cases2$date, list(have_cases2$iso_code), min)
-  names(first_case2) <- c("iso_code", "first_case_ECDC")
-  
-  have_deaths2 <- case_counts2[case_counts2$deaths_total > 0, ]
-  first_death2 <- aggregate(have_deaths2$date, list(have_deaths2$iso_code), min)
-  names(first_death2) <- c("iso_code", "first_death_ECDC")
+  #Finding first death
+  have_deaths <- case_counts[case_counts$deaths_total > 0, ]
+  first_death <- aggregate(have_deaths$date, list(have_deaths$iso_code), min)
+  names(first_death) <- c("iso_code", "first_death")
   
   #Combining first case and first death
-  firsts2 <- merge(first_case2, first_death2, by = "iso_code", all = TRUE)
+  firsts <- merge(first_case, first_death, by = "iso_code", all = TRUE)
   
-  #Adding Alpha_3 code
-  firsts2 <- merge(firsts2, ISO_3166_1[, c("Alpha_2", "Alpha_3")],
+  #Adding Alpha_3 code to link to the HIT-COVID database
+  firsts <- merge(firsts, ISOcodes::ISO_3166_1[, c("Alpha_2", "Alpha_3")],
                    by.x = "iso_code", by.y = "Alpha_2", all.x = TRUE)
   
   #Filling in missing codes
-  firsts2$Alpha_3 <- ifelse(firsts2$iso_code == "UK", "GBR", firsts2$Alpha_3)
-  firsts2$Alpha_3 <- ifelse(firsts2$iso_code == "EL", "GRC", firsts2$Alpha_3)
-  firsts2$Alpha_3 <- ifelse(firsts2$iso_code == "XK", "XKO", firsts2$Alpha_3)
+  firsts$Alpha_3 <- ifelse(firsts$iso_code == "UK", "GBR", firsts$Alpha_3)
+  firsts$Alpha_3 <- ifelse(firsts$iso_code == "EL", "GRC", firsts$Alpha_3)
+  firsts$Alpha_3 <- ifelse(firsts$iso_code == "XK", "XKO", firsts$Alpha_3)
   
-  firsts2 <- firsts2[, c("Alpha_3", "first_case_ECDC", "first_death_ECDC")]
-  names(firsts2) <- c("country", "first_case_ECDC", "first_death_ECDC")
+  firsts <- firsts[, c("Alpha_3", "first_case", "first_death")]
+  names(firsts) <- c("country", "first_case", "first_death")
   
-  
-  
-  #### Combining both sources ####
-  
-  firsts3 <- merge(firsts1, firsts2, by = "country", all = TRUE)
-  
-  firsts3$first_case <- ifelse(is.na(firsts3$first_case_ECDC), firsts3$first_case_COVID19,
-                               ifelse(is.na(firsts3$first_case_COVID19), firsts3$first_case_ECDC,
-                                      ifelse(firsts3$first_case_COVID19 <= firsts3$first_case_ECDC,
-                                             firsts3$first_case_COVID19, firsts3$first_case_ECDC)))
-  firsts3$first_case <- as.Date(firsts3$first_case, origin = "1970-01-01")
-  
-  firsts3$first_death <- ifelse(is.na(firsts3$first_death_ECDC), firsts3$first_death_COVID19,
-                                ifelse(is.na(firsts3$first_death_COVID19), firsts3$first_death_ECDC,
-                                       ifelse(firsts3$first_death_COVID19 <= firsts3$first_death_ECDC,
-                                              firsts3$first_death_COVID19, firsts3$first_death_ECDC)))
-  firsts3$first_death <- as.Date(firsts3$first_death, origin = "1970-01-01")
-  
-  firsts_final <- firsts3[, c("country", "first_case", "first_death")]
-  return(firsts_final)
+  return(firsts)
 }
 
 

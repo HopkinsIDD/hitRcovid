@@ -30,6 +30,9 @@
 #' 
 #' @seealso \link{hit_filter}
 #' 
+#' @references 
+#' Add any references if relevant
+#' 
 #' @export
 
 

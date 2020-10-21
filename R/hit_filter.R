@@ -2,12 +2,15 @@
 #' Pulls HIT-COVID database from GitHub
 #' 
 #' This function pulls the HIT-COVID database from the GitHub repo: 
-#' \url{https://github.com/HopkinsIDD/hit-covid}.
-#' 
-#' ADD DETAILS OF FIRST CASE/FIRST DEATH INFO
+#' \url{https://github.com/HopkinsIDD/hit-covid}. If desired, it also uses the 
+#' \code{covidregionaldata} package to add the date of the first case of COVID-19 and the date of 
+#' the first death from COVID-19. The source is either the European Centre for Disease Control 
+#' (ECDC) or the World Health Organization (WHO).
 #' 
 #' @param add_first_case a logical indicating if information about the first case and the first
 #' death for each country should be added to the dataset
+#' @param source the source of the case data that is used to determine the date of first case and
+#' first death if \code{add_first_case} is TRUE: one of "ECDC" or "WHO" (default is "WHO")
 #' 
 #' @return 
 #' A dataframe with columns as described in the GitHub README 
@@ -15,12 +18,26 @@
 #' 
 #' @examples 
 #' 
-#' @seealso \link{hit_filter}
+#' \donttest{
+#' #Pulling the HIT-COVID database and adding date of first case and death from WHO
+#' hit_data <- hit_pull(add_first_case = TRUE, source = "WHO")
+#' 
+#' #Pulling the HIT-COVID databasea and not adding the date of first case and first death
+#' hit_data <- hit_pull(add_first_case = FALSE)
+#' }
+#' 
+#' @seealso \link{hit_filter}, \link{get_first_case}, \link{get_national_data}
+#'
+#' @references 
+#' Sam Abbott, Katharine Sherratt, Jonnie Bevan, Hamish Gibbs, Joel Hellewell, James Munday,
+#' Paul Campbell and Sebastian Funk (2020). covidregionaldata: Subnational Data for the
+#' Covid-19 Outbreak. R package version 0.6.0.
+#' https://CRAN.R-project.org/package=covidregionaldata
 #' 
 #' @export
 
 
-hit_pull <- function(add_first_case = TRUE){
+hit_pull <- function(add_first_case = TRUE, source = c("WHO", "ECDC")){
   
   #Pulling data from GitHub
   urlfile = 'https://raw.githubusercontent.com/HopkinsIDD/hit-covid/master/data/hit-covid-longdata.csv'
@@ -32,7 +49,7 @@ hit_pull <- function(add_first_case = TRUE){
   
   #Adding first case and first death
   if(add_first_case == TRUE){
-    firsts <- get_first_case()
+    firsts <- get_first_case(source = source)
     data3 <- merge(data2, firsts, all.x = TRUE)
   }else{
     data3 <- data2
@@ -144,37 +161,48 @@ hit_filter <- function(hit_data,
   ## Error handling -------------------------------------------------------------------------------
   
   #Determine if continent input is valid
-  continentTest <- !continent %in% c("Asia", "Europe", "Africa", "Oceania", "North America", "South America")
-  if(sum(continentTest) > 0){
-    warning("At least one continent provided is not valid")
+  if(!is.null(continent)){
+    continentTest <- !continent %in% c("Asia", "Europe", "Africa", "Oceania", "North America", "South America")
+    if(sum(continentTest) > 0){
+      warning("At least one continent provided is not valid")
+    }
   }
   
   #Look for countries specified, return warning with any not found
-  wrong_country <- country[!country %in% geo_lookup$country]
-  if(length(wrong_country) >= 1){
-    warning("The following country codes are not valid: ",
-            paste0(paste0(wrong_country, collapse = ", ")))
+  if(!is.null(country)){
+    wrong_country <- country[!country %in% geo_lookup$country]
+    if(length(wrong_country) >= 1){
+      warning("The following country codes are not valid: ",
+              paste0(paste0(wrong_country, collapse = ", ")))
+    }
   }
   
   #Look for admin units specified, return warning with any not found
-  wrong_admin1 <- admin1[!admin1 %in% geo_lookup$admin1]
-  if(length(wrong_admin1) >= 1){
-    warning("The following admin1 codes are not valid: ",
-            paste0(paste0(wrong_admin1, collapse = ", ")))
+  if(!is.null(admin1)){
+    wrong_admin1 <- admin1[!admin1 %in% geo_lookup$admin1]
+    if(length(wrong_admin1) >= 1){
+      warning("The following admin1 codes are not valid: ",
+              paste0(paste0(wrong_admin1, collapse = ", ")))
+    }
   }
   
   #Look for intervention specified, return warning with any not found
-  wrong_int <- intervention_group[!intervention_group %in% intervention_lookup$intervention_group]
-  if(length(wrong_int >= 1)){
-    warning("The following intervention codes are not valid: ",
-            paste0(paste0(wrong_int, collapse = ", ")))
+  if(!is.null(intervention_group)){
+    wrong_int <- intervention_group[!intervention_group %in% intervention_lookup$intervention_group]
+    if(length(wrong_int >= 1)){
+      warning("The following intervention codes are not valid: ",
+              paste0(paste0(wrong_int, collapse = ", ")))
+    }
   }
   
   
   ## Filtering by parameters specified ------------------------------------------------------------
   
   #Removing missing status_simp (invalid "unknown" status from early survey versions)
-  hit_data <- hit_data[!is.na(hit_data$status_simp) & hit_data$status_simp != "Unknown", ]
+  #Also removing any other record with missing time (only 1 as of 10/21/2020)
+  hit_data <- hit_data[!is.na(hit_data$status_simp) & 
+                         hit_data$status_simp != "Unknown" &
+                         !is.na(hit_data$date_of_update), ]
   
   #Removing restaurant reduced (duplicate information)
   hit_data <- hit_data[hit_data$intervention_name != "Limiting number of patrons in restaurants",]
@@ -263,7 +291,7 @@ hit_filter <- function(hit_data,
   ## Final formatting -----------------------------------------------------------------------------
   
   if(nrow(data6) == 0){
-    warning("The set of filters provided did not match any records in the database.")
+    stop("The set of filters provided did not match any records in the database.")
   }
   
   #Remove columns that are completely empty

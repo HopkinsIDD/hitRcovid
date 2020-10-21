@@ -11,14 +11,17 @@ int_test <- c("household_confined", "school_closed")
 #Pulling data
 hit <- hit_pull()
 hit2 <- hit_pull(add_first_case = FALSE)
+hit3 <- hit_pull(add_first_case = TRUE, source = "ECDC")
 
 test_that("hit_pull returns a dataframe",{
   
   expect_true(is.data.frame(hit))
   expect_true(is.data.frame(hit2))
+  expect_true(is.data.frame(hit3))
   
   expect_true("first_case" %in% names(hit))
   expect_false("first_case" %in% names(hit2))
+  expect_true("first_case" %in% names(hit3))
   
 })
 
@@ -66,7 +69,7 @@ test_that("Descriptive warning messages returned from hit_filter",{
                             include_national = FALSE),
                  "The following interventions are not represented in the database with the provided countries, admin1 units, and localities: closed_border")
   
-  expect_warning(hit_filter(hit, admin1 = "USA.22_1", usa_county_data = TRUE),
+  expect_error(hit_filter(hit, admin1 = "USA.22_1", usa_county_data = TRUE),
                  "The set of filters provided did not match any records in the database.")
   
 })
