@@ -1,0 +1,22 @@
+citHeader("To cite hitRcovid in publications use:")
+
+citEntry(
+entry="Article",
+title = "HIT-COVID, a global database tracking public health interventions to COVID-19",
+author = personList(as.person("Qulu Zheng"),
+                   as.person("Forrest K Jones"),
+                   as.person("Sarah V Leavitt"),
+                   as.person("Lawson Ung"),
+                   as.person("Alain B Labrique"),
+                   as.person("David H Peters"),
+                   as.person("Elizabeth C Lee"),
+                   as.person("Andrew S Azman")),
+journal= "Scientific data",
+doi = "10.1038/s41597-020-00610-2",
+pages = "1-8",
+url = "https://www.nature.com/articles/s41597-020-00610-2",
+volume = "7",
+issue = "1",
+year = "2020",
+textVersion = "Qulu Zheng, Forrest K. Jones, Sarah V. Leavitt, Lawson Ung, Alain B. Labrique, David H. Peters, Elizabeth C. Lee, and Andrew S. Azman. (2020). HIT-COVID, a global database tracking public health interventions to COVID-19. Scientific data, 7(1), 1-8. https://doi.org/10.1038/s41597-020-00610-2."
+)
