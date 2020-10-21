@@ -34,3 +34,32 @@ intervention_map(hit_data, intervention_group = "quar_", time_point = "3/24/2020
 intervention_map(intervention_group = "quar_iso", time_point = "3/24/2050")
 
 
+#Testing timeline function
+
+hit1 <- hit_pull(add_first_case = FALSE)
+intervention_timeline(hit1, country = "USA")
+
+hit <- hit_pull()
+
+intervention_timeline(hit, facet_by = "continent", include_admin1 = FALSE)
+intervention_timeline(hit, facet_by = "continent", include_admin1 = FALSE, verbose = FALSE)
+
+intervention_timeline(hit, country = "USA")
+
+intervention_timeline(hit, country = c("IND", "USA"), facet_by = "country")
+
+intervention_timeline(hit, continent = c("Africa", "North America", "Asia"),
+                      facet_by = "continent")
+
+intervention_timeline(hit, country = c("IND", "USA"),
+                      intervention_group = c("closed_border", "school_closed", "household_confined"),
+                      facet_by = "country")
+
+intervention_timeline(hit, admin1 = c("USA.1_1", "USA.2_1", "USA.4_1"),
+                      facet_by = "admin1", include_national = TRUE)
+#Errors/warnings
+intervention_timeline(hit, continent = c("Africa", "North America", "Asia"),
+                      facet_by = "country")
+
+
+
