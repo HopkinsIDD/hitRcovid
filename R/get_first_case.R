@@ -59,12 +59,12 @@ get_first_case <- function(source = c("WHO", "ECDC")){
   
   #Finding first case
   have_cases <- case_counts[case_counts$cases_total > 0, ]
-  first_case <- aggregate(have_cases$date, list(have_cases$iso_code), min)
+  first_case <- stats::aggregate(have_cases$date, list(have_cases$iso_code), min)
   names(first_case) <- c("iso_code", "first_case")
   
   #Finding first death
   have_deaths <- case_counts[case_counts$deaths_total > 0, ]
-  first_death <- aggregate(have_deaths$date, list(have_deaths$iso_code), min)
+  first_death <- stats::aggregate(have_deaths$date, list(have_deaths$iso_code), min)
   names(first_death) <- c("iso_code", "first_death")
   
   #Combining first case and first death

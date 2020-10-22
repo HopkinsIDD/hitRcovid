@@ -33,4 +33,5 @@ Depends:
 Imports: 
     ggplot2,
     ISOcodes,
-    covidregionaldata
+    covidregionaldata,
+    rlang

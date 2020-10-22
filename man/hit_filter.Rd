@@ -22,7 +22,7 @@ hit_filter(
 \item{hit_data}{the full HIT-COVID database pulled from GitHub, pulled using \link{hit_pull}}
 
 \item{continent}{vector of continent names to filter the data to; should be one of
-\code{c("Asia", "Europe", "Africa", "Oceania", "North America", "South America")}}
+"Antarctica", "Asia", "Europe", "Africa", "Oceania", "North America", "South America"}
 
 \item{country}{vector of ISO 3166-1 alpha-3 country codes to filter the data to
 (see \link{geo_lookup} for concordance of country codes to names)}
@@ -83,7 +83,7 @@ take precedence and what USA county data is included will depend on these filter
 }
 \examples{
 
-# Pulling HIT-COVID database
+#Pulling HIT-COVID database
 hit_data <- hit_pull()
 
 #Filtering to Africa
@@ -102,10 +102,10 @@ nj <- hit_filter(hit_data, admin1 = "USA.31_1", include_national = FALSE)
 national <- hit_filter(hit_data, include_admin1 = FALSE)
 
 #Filtering to just USA county data
-usa_county <- hit_filter(hit_data, usa_county_data = TRUE)
+usa_county <- hit_filter(hit_data, usa_county_data = "restrict_to")
 
-#Removing USA county data
-no_county <- hit_filter(hit_data, usa_county_data = FALSE)
+#Adding USA county data (default is to exclude)
+no_county <- hit_filter(hit_data, usa_county_data = "include")
 
 }
 \seealso{

@@ -25,7 +25,7 @@ Multiple paragraphs of details as necessary to explain arguments and functioning
 (comes after arguments in output)
 }
 \examples{
-Add examples of usage showing what different options do
+# Add examples of usage showing what different options do
 
 }
 \references{

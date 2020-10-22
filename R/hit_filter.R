@@ -91,7 +91,7 @@ hit_pull <- function(add_first_case = TRUE, source = c("WHO", "ECDC")){
 #' 
 #' @param hit_data the full HIT-COVID database pulled from GitHub, pulled using \link{hit_pull}
 #' @param continent vector of continent names to filter the data to; should be one of
-#' \code{c("Asia", "Europe", "Africa", "Oceania", "North America", "South America")}
+#' "Antarctica", "Asia", "Europe", "Africa", "Oceania", "North America", "South America"
 #' @param country vector of ISO 3166-1 alpha-3 country codes to filter the data to 
 #' (see \link{geo_lookup} for concordance of country codes to names)
 #' @param admin1 vector of the first administrative unit codes to filter the data to
@@ -114,7 +114,7 @@ hit_pull <- function(add_first_case = TRUE, source = c("WHO", "ECDC")){
 #' 
 #' @examples
 #' 
-#' # Pulling HIT-COVID database
+#' #Pulling HIT-COVID database
 #' hit_data <- hit_pull()
 #' 
 #' #Filtering to Africa
@@ -133,10 +133,10 @@ hit_pull <- function(add_first_case = TRUE, source = c("WHO", "ECDC")){
 #' national <- hit_filter(hit_data, include_admin1 = FALSE)
 #' 
 #' #Filtering to just USA county data
-#' usa_county <- hit_filter(hit_data, usa_county_data = TRUE)
+#' usa_county <- hit_filter(hit_data, usa_county_data = "restrict_to")
 #' 
-#' #Removing USA county data
-#' no_county <- hit_filter(hit_data, usa_county_data = FALSE)
+#' #Adding USA county data (default is to exclude)
+#' no_county <- hit_filter(hit_data, usa_county_data = "include")
 #' 
 #' @seealso \link{hit_pull} \link{list_interventions}
 #' 
@@ -159,7 +159,8 @@ hit_filter <- function(hit_data,
   
   #Determine if continent input is valid
   if(!is.null(continent)){
-    continentTest <- !continent %in% c("Asia", "Europe", "Africa", "Oceania", "North America", "South America")
+    continentTest <- !continent %in% c("Antarctica", "Asia", "Europe", "Africa", "Oceania",
+                                       "North America", "South America")
     if(sum(continentTest) > 0){
       warning("At least one continent provided is not valid")
     }
@@ -167,7 +168,7 @@ hit_filter <- function(hit_data,
   
   #Look for countries specified, return warning with any not found
   if(!is.null(country)){
-    wrong_country <- country[!country %in% geo_lookup$country]
+    wrong_country <- country[!country %in% hitRcovid::geo_lookup$country]
     if(length(wrong_country) >= 1){
       warning("The following country codes are not valid: ",
               paste0(wrong_country, collapse = ", "))
@@ -176,7 +177,7 @@ hit_filter <- function(hit_data,
   
   #Look for admin units specified, return warning with any not found
   if(!is.null(admin1)){
-    wrong_admin1 <- admin1[!admin1 %in% geo_lookup$admin1]
+    wrong_admin1 <- admin1[!admin1 %in% hitRcovid::geo_lookup$admin1]
     if(length(wrong_admin1) >= 1){
       warning("The following admin1 codes are not valid: ",
               paste0(wrong_admin1, collapse = ", "))
@@ -185,7 +186,7 @@ hit_filter <- function(hit_data,
   
   #Look for intervention specified, return warning with any not found
   if(!is.null(intervention_group)){
-    wrong_int <- intervention_group[!intervention_group %in% intervention_lookup$intervention_group]
+    wrong_int <- intervention_group[!intervention_group %in% hitRcovid::intervention_lookup$intervention_group]
     if(length(wrong_int >= 1)){
       warning("The following intervention codes are not valid: ",
               paste0(paste0(wrong_int, collapse = ", ")))
@@ -225,7 +226,7 @@ hit_filter <- function(hit_data,
   
   #Continent
   if(!is.null(continent)){
-    countries <- unique(geo_lookup[geo_lookup$continent %in% continent, "country"])
+    countries <- unique(hitRcovid::geo_lookup[hitRcovid::geo_lookup$continent %in% continent, "country"])
     data <- hit_data[hit_data$country %in% countries ,]
   }else{
     data <- hit_data
@@ -323,6 +324,6 @@ hit_filter <- function(hit_data,
 #' @export
 
 list_interventions <- function(){
-  print(unique(intervention_lookup$intervention_group))
+  print(unique(hitRcovid::intervention_lookup$intervention_group))
 }
 

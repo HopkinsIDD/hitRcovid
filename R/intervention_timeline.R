@@ -51,6 +51,29 @@
 #' 
 #' @examples 
 #' 
+#' #Pulling HIT-COVID database
+#' hit <- hit_pull()
+#' 
+#' #Plotting all national and admin1 data in the database, faceting by continent
+#' intervention_timeline(hit, facet_by = "continent")
+#' 
+#' #Excluding Antarctica and only plotting national data
+#' intervention_timeline(hit, continent = c("Asia", "Europe", "Africa", "Oceania",
+#' "North America", "South America"), facet_by = "continent", include_admin1 = FALSE)
+#' 
+#' #Plotting all data from India and New Zealand
+#' intervention_timeline(hit, country = c("IND", "NZL"), facet_by = "country")
+#' 
+#' #Plotting all data from the USA
+#' intervention_timeline(hit, country = "USA")
+#' 
+#' #Plotting just state-level data from the USA
+#' intervention_timeline(hit, country = "USA", include_national = FALSE)
+#' 
+#' #Removing vertical lines
+#' intervention_timeline(hit, country = "USA",
+#' first_case_line = FALSE, first_death_line = FALSE)
+#' 
 #' 
 #' @seealso \link{hit_filter}, \link{get_first_case}, \link{get_national_data}
 #'
@@ -59,6 +82,8 @@
 #' Paul Campbell and Sebastian Funk (2020). covidregionaldata: Subnational Data for the
 #' Covid-19 Outbreak. R package version 0.6.0.
 #' https://CRAN.R-project.org/package=covidregionaldata
+#' 
+#' @importFrom rlang .data
 #' 
 #' @export
 
@@ -131,7 +156,7 @@ intervention_timeline <- function(hit_data,
   data$date_of_update <- as.Date(as.character(data$date_of_update))
 
   #Merging in intervention names and type
-  data <- merge(data, intervention_lookup[, !names(intervention_lookup) %in% "unique_id"],
+  data <- merge(data, hitRcovid::intervention_lookup[, !names(hitRcovid::intervention_lookup) %in% "unique_id"],
                 by = c("intervention_group", "intervention_name"))
 
   #Making status_simp into a factor
@@ -177,10 +202,10 @@ intervention_timeline <- function(hit_data,
   #If facet_by = continent, add continent data (note this will duplicate data from countries in Eurasia)
   if(facet_by == "continent"){
     if(!is.null(continent)){
-      continent_data <- unique(geo_lookup[geo_lookup$continent %in% continent,
+      continent_data <- unique(hitRcovid::geo_lookup[hitRcovid::geo_lookup$continent %in% continent,
                                           c("continent", "country")]) 
     }else{
-      continent_data <- unique(geo_lookup[, c("continent", "country")])
+      continent_data <- unique(hitRcovid::geo_lookup[, c("continent", "country")])
     }
     data <- merge(data, continent_data)
   }
@@ -256,6 +281,9 @@ intervention_timeline <- function(hit_data,
   }else if(facet_by != "none" & intervention_facet == FALSE){
     p <- p + ggplot2::facet_grid(cols = ggplot2::vars(.data$facet_var),
                                  scales = "free_y", space="free")
+  }else if(facet_by == "none" & intervention_facet == TRUE){
+    p <- p + ggplot2::facet_grid(ggplot2::vars(.data$intervention_type),
+                                 scales = "free_y", space="free")
   }
 
   #Adding line for date of first case and death
@@ -293,7 +321,7 @@ intervention_timeline <- function(hit_data,
     ggplot2::scale_x_date(date_labels="%b", limits=as.Date(c("2019-12-25", end_date)))
 
   #Printing plot
-  print(p)
+  return(p)
   
   
   #### Noting missing values in plot --------------------------------------------------------------

@@ -43,7 +43,7 @@ intervention_timeline(hit1, country = "USA")
 hit <- hit_pull()
 
 intervention_timeline(hit, country = "USA")
-intervention_timeline(hit, country = "USA", include_admin1 = FALSE)
+intervention_timeline(hit, country = "USA", include_admin1 = FALSE, intervention_facet = FALSE)
 intervention_timeline(hit, country = "USA", include_national = FALSE)
 intervention_timeline(hit, country = "USA", first_case_line = FALSE)
 intervention_timeline(hit, country = "USA", first_death_line = FALSE)
@@ -70,7 +70,8 @@ intervention_timeline(hit, country = "USA", facet_by = "admin1")
 intervention_timeline(hit, continent = c("Africa", "North America", "Asia"),
                       facet_by = "garbage")
 
-intervention_timeline(hit, facet_by = "continent", include_admin1 = FALSE)
+intervention_timeline(hit, facet_by = "continent", include_admin1 = TRUE)
+
 intervention_timeline(hit, facet_by = "continent", include_admin1 = FALSE, verbose = FALSE)
 
 

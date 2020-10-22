@@ -21,6 +21,7 @@ use_package("ggplot2")
 use_package("maps")
 use_package("ISOcodes")
 use_package("covidregionaldata")
+use_package("rlang")
 
 #Create license
 use_gpl3_license()

@@ -26,12 +26,14 @@
 #' What the function returns (here a plot)
 #' 
 #' @examples 
-#' Add examples of usage showing what different options do
+#' # Add examples of usage showing what different options do
 #' 
 #' @seealso \link{hit_filter}
 #' 
 #' @references 
 #' Add any references if relevant
+#' 
+#' @importFrom rlang .data
 #' 
 #' @export
 
@@ -153,7 +155,7 @@ intervention_map <- function(hit_data,
   
   # draw country level intervention map with ggplot
    p <- ggplot2::ggplot(data = country_map, 
-         ggplot2::aes(x = long, y = lat, group= group, fill=recent_status)) +
+         ggplot2::aes(x = .data$long, y = .data$lat, group= .data$group, fill=.data$recent_status)) +
     ggplot2::scale_fill_manual(values = country_mapping_colors) +
     ggplot2::geom_polygon(colour='black')+
     ggplot2::theme(panel.background = ggplot2::element_rect(fill = "white")

@@ -87,6 +87,29 @@ to FALSE.
 }
 \examples{
 
+#Pulling HIT-COVID database
+hit <- hit_pull()
+
+#Plotting all national and admin1 data in the database, faceting by continent
+intervention_timeline(hit, facet_by = "continent")
+
+#Excluding Antarctica and only plotting national data
+intervention_timeline(hit, continent = c("Asia", "Europe", "Africa", "Oceania",
+"North America", "South America"), facet_by = "continent", include_admin1 = FALSE)
+
+#Plotting all data from India and New Zealand
+intervention_timeline(hit, country = c("IND", "NZL"), facet_by = "country")
+
+#Plotting all data from the USA
+intervention_timeline(hit, country = "USA")
+
+#Plotting just state-level data from the USA
+intervention_timeline(hit, country = "USA", include_national = FALSE)
+
+#Removing vertical lines
+intervention_timeline(hit, country = "USA",
+first_case_line = FALSE, first_death_line = FALSE)
+
 
 }
 \references{
