@@ -8,7 +8,7 @@ test_that("get_first_case returns a dataframe with the right columns",{
   firsts1 <- get_first_case()
   firsts2 <- get_first_case(source = "WHO")
   firsts3 <- get_first_case(source = "ECDC")
-  firsts3 <- get_first_case(source = "who")
+  firsts4 <- get_first_case(source = "who")
   
   cols <- c("country", "first_case", "first_death")
   

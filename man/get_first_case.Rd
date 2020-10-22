@@ -4,10 +4,10 @@
 \alias{get_first_case}
 \title{Get date of first case and first death}
 \usage{
-get_first_case(source = c("ECDC", "WHO"))
+get_first_case(source = c("WHO", "ECDC"))
 }
 \arguments{
-\item{source}{source of the case data that is used to determine the date of first case and first
+\item{source}{the source of the case data that is used to determine the date of first case and first
 death: one of "ECDC" or "WHO" (default is "WHO")}
 }
 \value{
