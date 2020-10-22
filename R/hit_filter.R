@@ -66,11 +66,11 @@ hit_pull <- function(add_first_case = TRUE, source = c("WHO", "ECDC")){
 #' If no filtering arguments are supplied the entire database is returned.
 #' There is the option to filter by continent, country, admin 1 unit, locality or intervention group.
 #' 
-#' All filtering arguments are optional. If none are provided, the entire database will be returned.
-#' Any or all of the arguments can be specified allowing filtering by location, intervention type
-#' or both. The locality field is used infrequently in this database and this filtering argument
-#' should only be used if it is known that the database has a certain locality (lower than the 
-#' admin1 level). The dataset is filtered in the following order:
+#' All filtering arguments are optional. If none are provided, the entire database of national and
+#' admin 1 unit data will be returned.Any or all of the arguments can be specified allowing 
+#' filtering by location, intervention type or both. The locality field is used infrequently in 
+#' this database and this filtering argument should only be used if it is known that the database 
+#' has a certain locality (lower than the admin1 level). The dataset is filtered in the following order:
 #' continent, country, admin1, locality, intervention group
 #' 
 #' If filtering to certain admin1 units, national data will be included by default as often these
@@ -79,15 +79,15 @@ hit_pull <- function(add_first_case = TRUE, source = c("WHO", "ECDC")){
 #' continents, all admin1 information for those countries will be included by default. If only 
 #' national data is desired, set \code{include_admin1} to FALSE. Because the locality field is 
 #' rarely used, the locality (lower than admin1) data is excluded by default unless a locality is
-#' specified for filtering or if \code{include_locality} is set to TRUE.
-#' 
-#' If filtering by continent, countries in "Eurasia" will be included when filtering to either
-#' "Europe" or "Asia".
+#' specified for filtering or if \code{include_locality} is set to TRUE. If filtering by continent,
+#' countries in "Eurasia" will be included when filtering to either "Europe" or "Asia".
 #' 
 #' As part of the larger effort, there was a special project to collect some USA county-level data.
-#' If interested in that project, set \code{usa_county_data} to TRUE. If you want to exclude the USA
-#' county-level data, set \code{usa_county_data} to FALSE, if you want to include the USA county-level data
-#' along with other records, keep \code{usa_county_data} as NULL
+#' If interested in only the data from that project, set \code{usa_county_data} to "restrict_to".
+#' If you want to exclude the USA county-level data, set \code{usa_county_data} to "exclude",
+#' if you want to include the USA county-level data along with other records, 
+#' set \code{usa_county_data} to "include". Note that continent, country, and admin1 filtering 
+#' take precedence and what USA county data is included will depend on these filtering arguments.
 #' 
 #' @param hit_data the full HIT-COVID database pulled from GitHub, pulled using \link{hit_pull}
 #' @param continent vector of continent names to filter the data to; should be one of
@@ -102,11 +102,8 @@ hit_pull <- function(add_first_case = TRUE, source = c("WHO", "ECDC")){
 #' @param include_locality logical indicating if locality data should be included (default is FALSE)
 #' @param intervention_group vector of intervention group to filter the data to 
 #' (see \link{intervention_lookup} column "intervention_group" for options)
-#' @param usa_county_data logical indicating if the data should be filtered to USA county-level data.
-#' If set to TRUE, only county-level data from \code{country = "USA"} will be provided.
-#' If FALSE, all USA county-level will be removed from the filtered dataset.
-#' If left as NULL (the default), USA county-level data will be included along with other records in
-#' the filtered dataset.
+#' @param usa_county_data character string indicating how to deal with USA county-level data: one
+#' of "include", "exclude" or "restrict_to" (default is "exclude").
 #' @param remove_columns a logical indicating if columns with only missing values should be removed 
 #' (default is TRUE)
 #' 
@@ -155,7 +152,7 @@ hit_filter <- function(hit_data,
                        include_national = TRUE,
                        include_admin1 = TRUE,
                        include_locality = FALSE,
-                       usa_county_data = NULL,
+                       usa_county_data = c("include", "exclude", "restrict_to"),
                        remove_columns = TRUE){
   
   ## Error handling -------------------------------------------------------------------------------
@@ -173,7 +170,7 @@ hit_filter <- function(hit_data,
     wrong_country <- country[!country %in% geo_lookup$country]
     if(length(wrong_country) >= 1){
       warning("The following country codes are not valid: ",
-              paste0(paste0(wrong_country, collapse = ", ")))
+              paste0(wrong_country, collapse = ", "))
     }
   }
   
@@ -182,7 +179,7 @@ hit_filter <- function(hit_data,
     wrong_admin1 <- admin1[!admin1 %in% geo_lookup$admin1]
     if(length(wrong_admin1) >= 1){
       warning("The following admin1 codes are not valid: ",
-              paste0(paste0(wrong_admin1, collapse = ", ")))
+              paste0(wrong_admin1, collapse = ", "))
     }
   }
   
@@ -195,6 +192,14 @@ hit_filter <- function(hit_data,
     }
   }
   
+  #Setting default usa_county_data to exclude and throwing an error if the input is not valid
+  if(all(usa_county_data == c("include", "exclude", "restrict_to"))){
+    usa_county_data <- "exclude"
+  }else if(length(usa_county_data) > 1){
+    stop("usa_county_data should be one of 'include', 'exclude', 'restrict_to'")
+  }else if(!usa_county_data %in% c("include", "exclude", "restrict_to")){
+    stop("usa_county_data should be one of 'include', 'exclude', 'restrict_to'")
+  }
   
   ## Filtering by parameters specified ------------------------------------------------------------
   
@@ -279,11 +284,11 @@ hit_filter <- function(hit_data,
   }
   
   #Addressing usa_county_data argument
-  if(is.null(usa_county_data)){
+  if(usa_county_data == "include"){
     data6 <- data5
-  }else if(usa_county_data == TRUE){
+  }else if(usa_county_data == "restrict_to"){
     data6 <- data5[!is.na(data5$usa_county), ]
-  }else if(usa_county_data == FALSE){
+  }else if(usa_county_data == "exclude"){
     data6 <- data5[is.na(data5$usa_county), ]
   }
   
@@ -291,7 +296,7 @@ hit_filter <- function(hit_data,
   ## Final formatting -----------------------------------------------------------------------------
   
   if(nrow(data6) == 0){
-    stop("The set of filters provided did not match any records in the database.")
+    warning("The set of filters provided did not match any records in the database.")
   }
   
   #Remove columns that are completely empty

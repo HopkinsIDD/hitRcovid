@@ -4,11 +4,14 @@
 \alias{hit_pull}
 \title{Pulls HIT-COVID database from GitHub}
 \usage{
-hit_pull(add_first_case = TRUE)
+hit_pull(add_first_case = TRUE, source = c("WHO", "ECDC"))
 }
 \arguments{
 \item{add_first_case}{a logical indicating if information about the first case and the first
 death for each country should be added to the dataset}
+
+\item{source}{the source of the case data that is used to determine the date of first case and
+first death if \code{add_first_case} is TRUE: one of "ECDC" or "WHO" (default is "WHO")}
 }
 \value{
 A dataframe with columns as described in the GitHub README
@@ -16,14 +19,28 @@ A dataframe with columns as described in the GitHub README
 }
 \description{
 This function pulls the HIT-COVID database from the GitHub repo:
-\url{https://github.com/HopkinsIDD/hit-covid}.
-}
-\details{
-ADD DETAILS OF FIRST CASE/FIRST DEATH INFO
+\url{https://github.com/HopkinsIDD/hit-covid}. If desired, it also uses the
+\code{covidregionaldata} package to add the date of the first case of COVID-19 and the date of
+the first death from COVID-19. The source is either the European Centre for Disease Control
+(ECDC) or the World Health Organization (WHO).
 }
 \examples{
 
+\donttest{
+#Pulling the HIT-COVID database and adding date of first case and death from WHO
+hit_data <- hit_pull(add_first_case = TRUE, source = "WHO")
+
+#Pulling the HIT-COVID databasea and not adding the date of first case and first death
+hit_data <- hit_pull(add_first_case = FALSE)
+}
+
+}
+\references{
+Sam Abbott, Katharine Sherratt, Jonnie Bevan, Hamish Gibbs, Joel Hellewell, James Munday,
+Paul Campbell and Sebastian Funk (2020). covidregionaldata: Subnational Data for the
+Covid-19 Outbreak. R package version 0.6.0.
+https://CRAN.R-project.org/package=covidregionaldata
 }
 \seealso{
-\link{hit_filter}
+\link{hit_filter}, \link{get_first_case}, \link{get_national_data}
 }
