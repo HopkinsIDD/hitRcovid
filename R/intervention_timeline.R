@@ -1,8 +1,47 @@
 
 
-## UNDER DEVELOPMENT ##
+#' Plots a time-line of the intervention data in HIT-COVID
+#' 
+#' 
+#' 
+#' 
+#' @param hit_data the full HIT-COVID database pulled from GitHub, pulled using \link{hit_pull}
+#' @param continent vector of continent names to filter the data to; should be one of
+#' \code{c("Asia", "Europe", "Africa", "Oceania", "North America", "South America")}
+#' @param country vector of ISO 3166-1 alpha-3 country codes to filter the data to 
+#' (see \link{geo_lookup} for concordance of country codes to names)
+#' @param admin1 vector of the first administrative unit codes to filter the data to
+#' (see \link{geo_lookup} for concordance of admin 1 codes to names). 
+#' @param locality vector of the names of localities to include (this is a free text field)
+#' @param include_national logical indicating if national-level data should be included (default is TRUE)
+#' @param include_admin1 logical indicating if admin1-level data should be included (default is TRUE)
+#' @param include_locality logical indicating if locality data should be included (default is FALSE)
+#' @param intervention_group vector of intervention group to filter the data to 
+#' (see \link{intervention_lookup} column "intervention_group" for options)
+#' @param usa_county_data character string indicating how to deal with USA county-level data: one
+#' of "include", "exclude" or "restrict_to" (default is "exclude").
+#' @param source the source of the case data that is used to determine the date of first case and
+#' first death if \code{add_first_case} is TRUE: one of "ECDC" or "WHO" (default is "WHO")
+#' 
+#' 
+#' @examples 
+#' 
+#' 
+#' @seealso \link{hit_filter}, \link{get_first_case}, \link{get_national_data}
+#'
+#' @references 
+#' Sam Abbott, Katharine Sherratt, Jonnie Bevan, Hamish Gibbs, Joel Hellewell, James Munday,
+#' Paul Campbell and Sebastian Funk (2020). covidregionaldata: Subnational Data for the
+#' Covid-19 Outbreak. R package version 0.6.0.
+#' https://CRAN.R-project.org/package=covidregionaldata
+#' 
+#' @export
+
 
 intervention_timeline <- function(hit_data,
+                                  facet_by = c("none", "continent", "country", "admin1"),
+                                  first_case_line = TRUE,
+                                  first_death_line = TRUE,
                                   continent = NULL,
                                   country = NULL,
                                   admin1 = NULL,
@@ -11,13 +50,9 @@ intervention_timeline <- function(hit_data,
                                   include_national = TRUE,
                                   include_admin1 = TRUE,
                                   include_locality = FALSE,
-                                  usa_county_data = FALSE,
-                                  facet_by = c("none", "continent", "country", "admin1"),
-                                  first_case_line = TRUE,
-                                  first_death_line = TRUE,
+                                  usa_county_data = c("include", "exclude", "restrict_to"),
                                   source = c("WHO", "ECDC"),
                                   verbose = TRUE){
-  
   
   ## Filtering data -------------------------------------------------------------------------------
   
@@ -33,15 +68,6 @@ intervention_timeline <- function(hit_data,
   
   #Using hit_filter to filter the dataset as specified
   data <- hit_filter(hit_data,
-                     continent = continent,
-                     country = country,
-                     admin1 = admin1,
-                     locality = locality,
-                     intervention_group = intervention_group,
-                     include_national = include_national,
-                     include_admin1 = include_admin1,
-                     include_locality = include_locality,
-                     usa_county_data = usa_county_data,
                      remove_columns = FALSE)
   
   
@@ -195,12 +221,14 @@ intervention_timeline <- function(hit_data,
 
   #Adding line for date of first case and death
   if(first_case_line == TRUE){
-    p <- p + ggplot2::geom_vline(data = firsts, ggplot2::aes(xintercept = first_case),
-                                   lty = 2, size = 1, na.rm = TRUE)
+    p <- p + ggplot2::geom_vline(data = firsts,
+                                 ggplot2::aes(xintercept = first_case, lty = "dashed",),
+                                   size = 1, na.rm = TRUE)
   }
   if(first_death_line == TRUE){
-    p <- p + ggplot2::geom_vline(data = firsts, ggplot2::aes(xintercept = first_death),
-                                 lty = 3, size = 1, na.rm = TRUE)
+    p <- p + ggplot2::geom_vline(data = firsts,
+                                 ggplot2::aes(xintercept = first_death, lty = "dotted"),
+                                  size = 1, na.rm = TRUE)
   }
 
   #Formatting legend, labels, axes, and colors
@@ -217,6 +245,11 @@ intervention_timeline <- function(hit_data,
                   shape = "Geographic Level") +
 
     ggplot2::scale_color_manual(name="Status", values = c("red","darkorange","black")) +
+    
+    ggplot2::scale_linetype_identity(name = "",
+                                     breaks = c("dashed", "dotted"), 
+                                     labels = c("First case", "First death"),
+                                     guide = "legend") +
 
     ggplot2::scale_x_date(date_labels="%b", limits=as.Date(c("2019-12-25", end_date)))
 
@@ -227,15 +260,17 @@ intervention_timeline <- function(hit_data,
   #### Noting missing values in plot --------------------------------------------------------------
   if(verbose == TRUE){
     
+    note_list <- NULL
+    
     #Number of points outside the limits
     limits <- as.Date(c("2019-12-25", end_date))
     n_early <- sum(data$date_of_update < limits[1])
     if(n_early > 0){
-      n1 <- (paste0(n_early, " point(s) were excluded because they are before ", limits[1], "\n"))
+      note_list[[1]] <- (paste0(n_early, " point(s) were excluded because they are before ", limits[1], "\n"))
     }
     n_late <- sum(data$date_of_update > limits[2])
     if(n_late > 0){
-      n2 <- (paste0(n_late, " point(s) were excluded because they are after ", limits[2], "\n"))
+      note_list[[2]] <- (paste0(n_late, " point(s) were excluded because they are after ", limits[2], "\n"))
     }
     
     #Facets missing first case
@@ -245,27 +280,20 @@ intervention_timeline <- function(hit_data,
       miss_first_death <- unique(firsts[is.na(firsts$first_death), "facet_var"]) 
       
       if(first_case_line == TRUE & length(miss_first_case) > 0){
-        n3 <- paste0(paste0(miss_first_case, collapse = ", "),
+        note_list[[3]] <- paste0(paste0(miss_first_case, collapse = ", "),
                      " is/are missing data on the date of the first case\n")
       }
       if(first_death_line == TRUE & length(miss_first_death) > 0){
-        n4 <- paste0(paste0(miss_first_case, collapse = ", "),
+        note_list[[4]] <- paste0(paste0(miss_first_case, collapse = ", "),
                      " is/are missing data on the date of the first death\n")
       }
     }
 
     #Printing notes
-    if(exists("n1", inherits = FALSE)){cat(n1)}
-    if(exists("n2", inherits = FALSE)){cat(n2)}
-    if(exists("n3", inherits = FALSE)){cat(n3)}
-    if(exists("n4", inherits = FALSE)){cat(n4)}
+    for(i in 1:length(note_list)){cat(note_list[[i]])}
     
     #Test if there are any notes
-    test <- c(exists("n1", inherits = FALSE),
-              exists("n2", inherits = FALSE),
-              exists("n3", inherits = FALSE),
-              exists("n4", inherits = FALSE))
-    if(sum(test) > 0){
+    if(!is.null(note_list)){
       cat("\nTo remove this note use verbose = FALSE\n")  
     }
     
