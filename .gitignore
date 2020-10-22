@@ -2,3 +2,7 @@
 .Rhistory
 .RData
 inst/doc
+# TODO: Uncomment below to add docs to gitignore
+# once we support auto-generating the site
+# (see .github/workflows/pkgdown.yaml)
+#docs
