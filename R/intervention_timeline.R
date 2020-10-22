@@ -2,10 +2,35 @@
 
 #' Plots a time-line of the intervention data in HIT-COVID
 #' 
+#' This function creates a scatter plot of all of the intervention updates in the HIT-COVID 
+#' database over time filtered to locations or intervention types as desired. It runs \link{hit_filter}
+#' and has many of the same arguments allowing great flexibility in what locations to include with
+#' the option to facet the plot by different location levels. If desired, it also draws vertical lines 
+#' indicating the date of first case and first death in each facet provided.
 #' 
+#' The dataset must first be loaded with \link{hit_pull} and fed into this function.
+#' See \link{hit_filter} for details about each of the different filtering arguments. If desired the
+#' plot can have facets for different location levels - continent, country, admin1 using the
+#' \code{facet-by} argument. The default plot will also facet by broad intervention categories.
+#' This behavior can be turned off by setting \code{intervention_facet} to FALSE.
+#' 
+#' Additionally, by default, vertical lines will be drawn indicating the date of the first case and
+#' first death using data from the \code{source} specified either within this function or in the
+#' original pull of the dataset (if no source is specified the default is the WHO). This behavior
+#' can be turned off by setting one or both of \code{first_case_line} and \code{first_death_line} 
+#' to FALSE.
 #' 
 #' 
 #' @param hit_data the full HIT-COVID database pulled from GitHub, pulled using \link{hit_pull}
+#' @param facet_by the location level for the facet columns (one of "continent", "country", "admin1").
+#' If no facets are desired specify \code{facet_by = "none"} which is the default.
+#' @param first_case_line a logical indicating if a vertical line at the date of the first case 
+#' should be drawn (default is TRUE).
+#' @param first_death_line a logical indicating if a vertical line at the date of the first death
+#' should be drawn (defulat is TRUE).
+#' @param source the source of the case data that is used to determine the date of first case and
+#' first death if \code{hit_data} does not already include that information and either
+#' \code{first_case_line} or \code{first_death_line} are set to TRUE (default is "WHO").
 #' @param continent vector of continent names to filter the data to; should be one of
 #' \code{c("Asia", "Europe", "Africa", "Oceania", "North America", "South America")}
 #' @param country vector of ISO 3166-1 alpha-3 country codes to filter the data to 
@@ -20,8 +45,8 @@
 #' (see \link{intervention_lookup} column "intervention_group" for options)
 #' @param usa_county_data character string indicating how to deal with USA county-level data: one
 #' of "include", "exclude" or "restrict_to" (default is "exclude").
-#' @param source the source of the case data that is used to determine the date of first case and
-#' first death if \code{add_first_case} is TRUE: one of "ECDC" or "WHO" (default is "WHO")
+#' @param verbose a logical indicating if notes about excluded points and lines should be printed 
+#' (default is TRUE)
 #' 
 #' 
 #' @examples 
@@ -40,8 +65,10 @@
 
 intervention_timeline <- function(hit_data,
                                   facet_by = c("none", "continent", "country", "admin1"),
+                                  intervention_facet = TRUE,
                                   first_case_line = TRUE,
                                   first_death_line = TRUE,
+                                  source = c("WHO", "ECDC"),
                                   continent = NULL,
                                   country = NULL,
                                   admin1 = NULL,
@@ -51,7 +78,6 @@ intervention_timeline <- function(hit_data,
                                   include_admin1 = TRUE,
                                   include_locality = FALSE,
                                   usa_county_data = c("include", "exclude", "restrict_to"),
-                                  source = c("WHO", "ECDC"),
                                   verbose = TRUE){
   
   ## Filtering data -------------------------------------------------------------------------------
@@ -68,6 +94,15 @@ intervention_timeline <- function(hit_data,
   
   #Using hit_filter to filter the dataset as specified
   data <- hit_filter(hit_data,
+                     continent = continent,
+                     country = country,
+                     admin1 = admin1,
+                     locality = locality,
+                     intervention_group = intervention_group,
+                     include_national = include_national,
+                     include_admin1 = include_admin1,
+                     include_locality = include_locality,
+                     usa_county_data = usa_county_data,
                      remove_columns = FALSE)
   
   
@@ -201,33 +236,37 @@ intervention_timeline <- function(hit_data,
 
   #Create ggplot
   p <- ggplot2::ggplot(data = data,
-                       ggplot2::aes(x = date_of_update,
-                                    y = intervention_group_name))
+                       ggplot2::aes(x = .data$date_of_update,
+                                    y = .data$intervention_group_name))
 
   #Drawing points including national if specified
   if(include_national == TRUE & include_admin1 == TRUE){
-    p <- p + ggplot2::geom_jitter(ggplot2::aes(col = status_simp, shape = level),
+    p <- p + ggplot2::geom_jitter(ggplot2::aes(col = .data$status_simp, shape = .data$level),
                                   alpha=0.3, size=2, width=0, height=0.2, na.rm = TRUE)
   }else{
-    p <- p + ggplot2::geom_jitter(ggplot2::aes(col = status_simp),
+    p <- p + ggplot2::geom_jitter(ggplot2::aes(col = .data$status_simp),
                     alpha=0.3, size=2, width=0, height=0.2, na.rm = TRUE)
   }
 
   #Faceting by provided level
-  if(facet_by != "none"){
-    p <- p + ggplot2::facet_grid(ggplot2::vars(intervention_type),
-                                 ggplot2::vars(facet_var), scales = "free_y", space="free")
+  if(facet_by != "none" & intervention_facet == TRUE){
+    p <- p + ggplot2::facet_grid(ggplot2::vars(.data$intervention_type),
+                                 ggplot2::vars(.data$facet_var), 
+                                 scales = "free_y", space="free")
+  }else if(facet_by != "none" & intervention_facet == FALSE){
+    p <- p + ggplot2::facet_grid(cols = ggplot2::vars(.data$facet_var),
+                                 scales = "free_y", space="free")
   }
 
   #Adding line for date of first case and death
   if(first_case_line == TRUE){
     p <- p + ggplot2::geom_vline(data = firsts,
-                                 ggplot2::aes(xintercept = first_case, lty = "dashed",),
+                                 ggplot2::aes(xintercept = .data$first_case, lty = "dashed",),
                                    size = 1, na.rm = TRUE)
   }
   if(first_death_line == TRUE){
     p <- p + ggplot2::geom_vline(data = firsts,
-                                 ggplot2::aes(xintercept = first_death, lty = "dotted"),
+                                 ggplot2::aes(xintercept = .data$first_death, lty = "dotted"),
                                   size = 1, na.rm = TRUE)
   }
 

@@ -101,7 +101,7 @@ hit_pull <- function(add_first_case = TRUE, source = c("WHO", "ECDC")){
 #' @param include_admin1 logical indicating if admin1-level data should be included (default is TRUE)
 #' @param include_locality logical indicating if locality data should be included (default is FALSE)
 #' @param intervention_group vector of intervention group to filter the data to 
-#' (see \link{intervention_lookup} column "intervention_group" for options)
+#' (see \link{intervention_lookup} column "intervention_group" or run \link{list_interventions} for options)
 #' @param usa_county_data character string indicating how to deal with USA county-level data: one
 #' of "include", "exclude" or "restrict_to" (default is "exclude").
 #' @param remove_columns a logical indicating if columns with only missing values should be removed 
@@ -138,7 +138,7 @@ hit_pull <- function(add_first_case = TRUE, source = c("WHO", "ECDC")){
 #' #Removing USA county data
 #' no_county <- hit_filter(hit_data, usa_county_data = FALSE)
 #' 
-#' @seealso \link{hit_pull}
+#' @seealso \link{hit_pull} \link{list_interventions}
 #' 
 #' @export
 
@@ -312,4 +312,17 @@ hit_filter <- function(hit_data,
 }
 
 
+
+#' Lists the intervention_group codes
+#' 
+#' Prints the valid values of the \code{intervention_group} argument used in \link{hit_filter} 
+#' and therefore also in \link{intervention_timeline} and \link{intervention_map}.
+#'
+#' @seealso \link{hit_filter}, \link{intervention_timeline}, \link{intervention_map}
+#' 
+#' @export
+
+list_interventions <- function(){
+  print(unique(intervention_lookup$intervention_group))
+}
 

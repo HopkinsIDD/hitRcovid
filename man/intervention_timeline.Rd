@@ -7,32 +7,86 @@
 intervention_timeline(
   hit_data,
   facet_by = c("none", "continent", "country", "admin1"),
+  intervention_facet = TRUE,
   first_case_line = TRUE,
   first_death_line = TRUE,
   source = c("WHO", "ECDC"),
-  verbose = TRUE,
-  ...
+  continent = NULL,
+  country = NULL,
+  admin1 = NULL,
+  locality = NULL,
+  intervention_group = NULL,
+  include_national = TRUE,
+  include_admin1 = TRUE,
+  include_locality = FALSE,
+  usa_county_data = c("include", "exclude", "restrict_to"),
+  verbose = TRUE
 )
 }
-\value{
-A plot
+\arguments{
+\item{hit_data}{the full HIT-COVID database pulled from GitHub, pulled using \link{hit_pull}}
+
+\item{facet_by}{the location level for the facet columns (one of "continent", "country", "admin1").
+If no facets are desired specify \code{facet_by = "none"} which is the default.}
+
+\item{first_case_line}{a logical indicating if a vertical line at the date of the first case
+should be drawn (default is TRUE).}
+
+\item{first_death_line}{a logical indicating if a vertical line at the date of the first death
+should be drawn (defulat is TRUE).}
+
+\item{source}{the source of the case data that is used to determine the date of first case and
+first death if \code{hit_data} does not already include that information and either
+\code{first_case_line} or \code{first_death_line} are set to TRUE (default is "WHO").}
+
+\item{continent}{vector of continent names to filter the data to; should be one of
+\code{c("Asia", "Europe", "Africa", "Oceania", "North America", "South America")}}
+
+\item{country}{vector of ISO 3166-1 alpha-3 country codes to filter the data to
+(see \link{geo_lookup} for concordance of country codes to names)}
+
+\item{admin1}{vector of the first administrative unit codes to filter the data to
+(see \link{geo_lookup} for concordance of admin 1 codes to names).}
+
+\item{locality}{vector of the names of localities to include (this is a free text field)}
+
+\item{intervention_group}{vector of intervention group to filter the data to
+(see \link{intervention_lookup} column "intervention_group" for options)}
+
+\item{include_national}{logical indicating if national-level data should be included (default is TRUE)}
+
+\item{include_admin1}{logical indicating if admin1-level data should be included (default is TRUE)}
+
+\item{include_locality}{logical indicating if locality data should be included (default is FALSE)}
+
+\item{usa_county_data}{character string indicating how to deal with USA county-level data: one
+of "include", "exclude" or "restrict_to" (default is "exclude").}
+
+\item{verbose}{a logical indicating if notes about excluded points and lines should be printed
+(default is TRUE)}
 }
 \description{
-This function pulls the HIT-COVID database from the GitHub repo:
-\url{https://github.com/HopkinsIDD/hit-covid}. If desired, it also uses the
-\code{covidregionaldata} package to add the date of the first case of COVID-19 and the date of
-the first death from COVID-19. The source is either the European Centre for Disease Control
-(ECDC) or the World Health Organization (WHO).
+This function creates a scatter plot of all of the intervention updates in the HIT-COVID
+database over time filtered to locations or intervention types as desired. It runs \link{hit_filter}
+and has many of the same arguments allowing great flexibility in what locations to include with
+the option to facet the plot by different location levels. If desired, it also draws vertical lines
+indicating the date of first case and first death in each facet provided.
+}
+\details{
+The dataset must first be loaded with \link{hit_pull} and fed into this function.
+See \link{hit_filter} for details about each of the different filtering arguments. If desired the
+plot can have facets for different location levels - continent, country, admin1 using the
+\code{facet-by} argument. The default plot will also facet by broad intervention categories.
+This behavior can be turned off by setting \code{intervention_facet} to FALSE.
+
+Additionally, by default, vertical lines will be drawn indicating the date of the first case and
+first death using data from the \code{source} specified either within this function or in the
+original pull of the dataset (if no source is specified the default is the WHO). This behavior
+can be turned off by setting one or both of \code{first_case_line} and \code{first_death_line}
+to FALSE.
 }
 \examples{
 
-\donttest{
-#Pulling the HIT-COVID database and adding date of first case and death from WHO
-hit_data <- hit_pull(add_first_case = TRUE, source = "WHO")
-
-#Pulling the HIT-COVID databasea and not adding the date of first case and first death
-hit_data <- hit_pull(add_first_case = FALSE)
-}
 
 }
 \references{

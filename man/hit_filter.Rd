@@ -33,7 +33,7 @@ hit_filter(
 \item{locality}{vector of the names of localities to include (this is a free text field)}
 
 \item{intervention_group}{vector of intervention group to filter the data to
-(see \link{intervention_lookup} column "intervention_group" for options)}
+(see \link{intervention_lookup} column "intervention_group" or run \link{list_interventions} for options)}
 
 \item{include_national}{logical indicating if national-level data should be included (default is TRUE)}
 
@@ -58,11 +58,11 @@ If no filtering arguments are supplied the entire database is returned.
 There is the option to filter by continent, country, admin 1 unit, locality or intervention group.
 }
 \details{
-All filtering arguments are optional. If none are provided, the entire database will be returned.
-Any or all of the arguments can be specified allowing filtering by location, intervention type
-or both. The locality field is used infrequently in this database and this filtering argument
-should only be used if it is known that the database has a certain locality (lower than the
-admin1 level). The dataset is filtered in the following order:
+All filtering arguments are optional. If none are provided, the entire database of national and
+admin 1 unit data will be returned.Any or all of the arguments can be specified allowing
+filtering by location, intervention type or both. The locality field is used infrequently in
+this database and this filtering argument should only be used if it is known that the database
+has a certain locality (lower than the admin1 level). The dataset is filtered in the following order:
 continent, country, admin1, locality, intervention group
 
 If filtering to certain admin1 units, national data will be included by default as often these
@@ -109,5 +109,5 @@ no_county <- hit_filter(hit_data, usa_county_data = FALSE)
 
 }
 \seealso{
-\link{hit_pull}
+\link{hit_pull} \link{list_interventions}
 }

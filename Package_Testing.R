@@ -1,7 +1,7 @@
 
 
 ## Set directory to hitRcovid
-#setwd("~/Boston University/COVID_Interventions/hitRcovid")
+setwd("~/Boston University/COVID_Interventions/hitRcovid")
 
 library(devtools)
 library(roxygen2)
@@ -17,6 +17,7 @@ document()
 ?hit_pull
 ?hit_filter
 ?intervention_map
+?list_interventions
 
 #Running tests
 #test()
@@ -50,7 +51,7 @@ intervention_timeline(hit, country = "USA", first_case_line = FALSE, first_death
 
 intervention_timeline(hit, country = c("IND", "USA"), facet_by = "country")
 
-intervention_timeline(hit, continent = c("Africa", "North America", "Asia"),
+intervention_timeline(hit, continent = c("Africa", "North America", "Europe"),
                       facet_by = "continent")
 
 intervention_timeline(hit, country = c("IND", "USA"),
