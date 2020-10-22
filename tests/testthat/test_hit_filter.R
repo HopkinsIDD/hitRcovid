@@ -36,8 +36,9 @@ test_that("hit_filter returns a dataframe",{
                                         intervention_group = int_test)))
   expect_true(is.data.frame(hit_filter(hit, admin1 = NA)))
   expect_true(is.data.frame(hit_filter(hit, locality = local_test)))
-  expect_true(is.data.frame(hit_filter(hit, usa_county_data = TRUE)))
-  expect_true(is.data.frame(hit_filter(hit, usa_county_data = FALSE)))
+  expect_true(is.data.frame(hit_filter(hit, usa_county_data = "include")))
+  expect_true(is.data.frame(hit_filter(hit, usa_county_data = "exclude")))
+  expect_true(is.data.frame(hit_filter(hit, usa_county_data = "restrict_to")))
 
 })
 
@@ -69,20 +70,25 @@ test_that("Descriptive warning messages returned from hit_filter",{
                             include_national = FALSE),
                  "The following interventions are not represented in the database with the provided countries, admin1 units, and localities: closed_border")
   
-  expect_error(hit_filter(hit, admin1 = "USA.22_1", usa_county_data = TRUE),
+  expect_warning(hit_filter(hit, admin1 = "USA.22_1", usa_county_data = "restrict_to"),
                  "The set of filters provided did not match any records in the database.")
+  
+  expect_error(hit_filter(hit, usa_county_data = "garbage"),
+               "usa_county_data should be one of 'include', 'exclude', 'restrict_to'")
   
 })
 
 test_that("include_usa_counties works correctly",{
   
-  a <- hit_filter(hit, country = "USA", usa_county_data = TRUE)
-  b <- hit_filter(hit, country = "USA", usa_county_data = FALSE)
-  c <- hit_filter(hit, country = c("USA", "CAN"), usa_county_data = TRUE)
+  a <- hit_filter(hit, country = "USA", usa_county_data = "restrict_to")
+  b <- hit_filter(hit, country = "USA", usa_county_data = "exclude")
+  c <- hit_filter(hit, country = c("USA", "CAN"), usa_county_data = "restrict_to")
+  d <- hit_filter(hit, country = "USA", usa_county_data = "include")
   
   expect_true(sum(!is.na(a$usa_county)) == nrow(a))
   expect_false("usa_county" %in% names(b))
   expect_true(nrow(a) == nrow(c))
+  expect_true(nrow(d) > nrow(b))
   
 })
 
