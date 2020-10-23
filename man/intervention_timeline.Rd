@@ -40,7 +40,7 @@ first death if \code{hit_data} does not already include that information and eit
 \code{first_case_line} or \code{first_death_line} are set to TRUE (default is "WHO").}
 
 \item{continent}{vector of continent names to filter the data to; should be one of
-"Antarctica", "Asia", "Europe", "Africa", "Oceania", "North America", "South America"}
+\code{c("Asia", "Europe", "Africa", "Oceania", "North America", "South America")}}
 
 \item{country}{vector of ISO 3166-1 alpha-3 country codes to filter the data to
 (see \link{geo_lookup} for concordance of country codes to names)}

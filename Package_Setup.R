@@ -11,22 +11,10 @@ library(dplyr)
 #build()
 #install()
 
-#Create a vingnette
-usethis::use_vignette("my-vignette")
-
-#Create a directory of tests
-usethis::use_testthat()
-
-#Create license
-use_gpl3_license()
-
 load_all()
 document()
 test()
 check()
-
-#Building website
-pkgdown::build_site()
 
 #Add package dependence
 use_package("ggplot2")
@@ -35,10 +23,19 @@ use_package("ISOcodes")
 use_package("covidregionaldata")
 use_package("rlang")
 
+#Create license
+use_gpl3_license()
+
 #Add to ignore file
 use_build_ignore("Package_Setup.R")
 use_build_ignore("Paper_Figures.R")
 use_build_ignore("Paper_Testing.R")
+
+#Create a vingnette
+usethis::use_vignette("my-vignette")
+
+#Create a directory of tests
+usethis::use_testthat()
 
 geo_lookup1 <- read.csv("../covid19-interventions/hit-covid-timeline/geo_lookup.csv")
 continent <- read.csv("../covid19-interventions/hit-covid-timeline/Country_Continent.csv")
