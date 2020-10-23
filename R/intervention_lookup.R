@@ -1,5 +1,5 @@
 
-#' Intervention Look-up Table
+#' Intervention look-up table
 #' 
 #' A dataset with the various codes and names for the intervention groups and specific
 #' interventions used in the HIT-COVID database. Can be used to determine interventions

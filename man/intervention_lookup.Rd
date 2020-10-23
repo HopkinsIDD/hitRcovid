@@ -3,7 +3,7 @@
 \docType{data}
 \name{intervention_lookup}
 \alias{intervention_lookup}
-\title{Intervention Look-up Table}
+\title{Intervention look-up table}
 \format{
 A data frame with 41 rows and 7 variables:
 \describe{

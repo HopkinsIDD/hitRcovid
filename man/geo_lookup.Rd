@@ -3,7 +3,7 @@
 \docType{data}
 \name{geo_lookup}
 \alias{geo_lookup}
-\title{Country and Admin1 Code Look-up Table}
+\title{Country and admin1 code look-up table}
 \format{
 A data frame with 3611 rows and 4 variables:
 \describe{

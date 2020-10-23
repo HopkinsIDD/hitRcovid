@@ -1,5 +1,5 @@
 
-#' Country and Admin1 Code Look-up Table
+#' Country and admin1 code look-up table
 #' 
 #' A dataset with the country codes and admin1 codes with their corresponding names.
 #' It can be used to identify codes to use when filtering the HIT-COVID database.

@@ -13,7 +13,9 @@
 
 ## SVL - documentation template
 
-#' Sentence title
+## SVL - replace "UNDER DEVELOPMENT" with sentence title
+
+#' UNDER DEVELOPMENT
 #' 
 #' Paragraph description (comes before arguments in output)
 #' 

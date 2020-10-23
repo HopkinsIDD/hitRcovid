@@ -2,7 +2,7 @@
 % Please edit documentation in R/intervention_map.R
 \name{intervention_map}
 \alias{intervention_map}
-\title{Sentence title}
+\title{UNDER DEVELOPMENT}
 \usage{
 intervention_map(
   hit_data,
