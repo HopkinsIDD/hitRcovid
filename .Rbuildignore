@@ -4,3 +4,6 @@
 ^LICENSE\.md$
 ^Paper_Figures\.R$
 ^Paper_Testing\.R$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
