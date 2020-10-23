@@ -95,10 +95,6 @@ faceting by continent
 intervention_timeline(hit, continent = c("Asia", "Europe", "Africa", "North America"),
  facet_by = "continent")
 
-#Excluding Antarctica and only plotting national data
-intervention_timeline(hit, continent = c("Asia", "Europe", "Africa", "Oceania",
-"North America", "South America"), facet_by = "continent", include_admin1 = FALSE)
-
 #Plotting all data from India and New Zealand
 intervention_timeline(hit, country = c("IND", "NZL"), facet_by = "country")
 
