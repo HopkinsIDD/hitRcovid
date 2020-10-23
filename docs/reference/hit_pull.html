@@ -172,11 +172,11 @@ https://CRAN.R-project.org/package=covidregionaldata</p>
     <pre class="examples"><div class='input'>
 <span class='co'># \donttest{</span>
 <span class='co'>#Pulling the HIT-COVID database and adding date of first case and death from WHO</span>
-<span class='no'>hit_data</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_pull</span>(<span class='kw'>add_first_case</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>source</span> <span class='kw'>=</span> <span class='st'>"WHO"</span>)
-
+<span class='no'>hit_data</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_pull</span>(<span class='kw'>add_first_case</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>source</span> <span class='kw'>=</span> <span class='st'>"WHO"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in hit_pull(add_first_case = TRUE, source = "WHO"): could not find function "hit_pull"</span></div><div class='input'>
 <span class='co'>#Pulling the HIT-COVID databasea and not adding the date of first case and first death</span>
-<span class='no'>hit_data</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_pull</span>(<span class='kw'>add_first_case</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='co'># }</span></div></pre>
+<span class='no'>hit_data</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_pull</span>(<span class='kw'>add_first_case</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in hit_pull(add_first_case = FALSE): could not find function "hit_pull"</span></div><div class='input'># }
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
