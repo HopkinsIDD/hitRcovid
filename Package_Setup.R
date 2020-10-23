@@ -18,7 +18,7 @@ library(dplyr)
 #usethis::use_testthat()
 
 #Create license
-use_gpl3_license()
+#use_gpl3_license()
 
 
 #Create package datasets
