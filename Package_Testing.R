@@ -6,12 +6,16 @@ setwd("~/Boston University/COVID_Interventions/hitRcovid")
 library(devtools)
 library(roxygen2)
 library(dplyr)
+library(pkgdown)
 
 #Loading package
 load_all()
 
 #Updating documentation
 document()
+
+#Building site
+build_site()
 
 #Looking at documentation
 ?hit_pull

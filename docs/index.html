@@ -85,13 +85,14 @@
 <h3 class="hasAnchor">
 <a href="#under-development" class="anchor"></a><em>Under development</em>
 </h3>
+<p>For documentation and a tutorial (to come) see: <a href="https://hopkinsidd.github.io/hitRcovid/" class="uri">https://hopkinsidd.github.io/hitRcovid/</a></p>
 </div>
 <div id="database-background" class="section level2">
 <h2 class="hasAnchor">
 <a href="#database-background" class="anchor"></a>Database background</h2>
 <p>The Health Intervention Tracking for COVID-19 (HIT-COVID) project tracks the implementation and relaxation of public health and social measures (PHSMs) taken by governments to slow transmission of SARS-COV-2 globally. Hundreds of volunteer data contributors were trained, provided with standardized field definitions and access to an online forum for asking questions and sharing ideas. Each change in policy and corresponding date is documented at the first-level administrative unit (e.g., states, districts) and nationally for all countries with more detailed geographic resolution in some locations (e.g., counties in the US).</p>
 <p>Data are entered into a structured questionnaire with a source document(s) required for each record. Source documents from official government sources are preferred, but other sources are permitted when official sources are unavailable. For each intervention, HIT-COVID captures a suite of additional data including whether interventions are required or recommended and the particular subpopulation to which policies apply. To ensure data quality, contributors are asked to complete weekly self-audit reports, have the ability to submit corrections on past entries, and the management team performs geographic or intervention-specific audits as issues arise.</p>
-<p>This package can be used to easily access, filter, and visualize the HIT-COVID database. The database including detailed documentation is available in the <a href="https://github.com/HopkinsIDD/hit-covid">hit-covid repository</a> and more details can be found on the <a href="https://akuko.io/post/covid-intervention-tracking">website</a>.</p>
+<p>This package can be used to easily access, filter, and visualize the HIT-COVID database. The full database including detailed documentation is available in the <a href="https://github.com/HopkinsIDD/hit-covid">hit-covid repository</a> and more details can be found on the <a href="https://akuko.io/post/covid-intervention-tracking">website</a>. The creation of the database is also described in detail in <a href="https://www.nature.com/articles/s41597-020-00610-2">this paper</a>.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -102,6 +103,30 @@
 <div id="basic-usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#basic-usage" class="anchor"></a>Basic Usage</h2>
+<p>Before using any of the filtering or visualization functions you first need to pull the HIT-COVID database using <a href="https://hopkinsidd.github.io/hitRcovid/reference/hit_pull.html">hit_pull()</a>. The default behavior of this function will use the <a href="https://github.com/epiforecasts/covidregionaldata">covidregionaldata</a> package to include the date of the first case of COVID-19 and the first death from COVID-19 for each country.</p>
+<p><code>hit_data &lt;- hit_pull()</code></p>
+<p>You can then filter the database by location and/or intervention type using <a href="https://hopkinsidd.github.io/hitRcovid/reference/hit_filter.html">hit_filter()</a> function. The documentation provides details on all of the options available for this function. Here is an example looking at the mask policies across Asia:</p>
+<p><code>asia_masks &lt;- hit_filter(hit_data, continent = "Asia", intervention_group = "mask")</code></p>
+</div>
+<div id="visualizations" class="section level2">
+<h2 class="hasAnchor">
+<a href="#visualizations" class="anchor"></a>Visualizations</h2>
+<div id="timeline-of-intervention-updates" class="section level3">
+<h3 class="hasAnchor">
+<a href="#timeline-of-intervention-updates" class="anchor"></a>Timeline of intervention updates</h3>
+<p>The package contains a plotting function, <a href="https://hopkinsidd.github.io/hitRcovid/reference/intervention_timeline.html">intervention_timeline()</a>, to display a timeline of all of the intervention updates in the database using <a href="https://hopkinsidd.github.io/hitRcovid/reference/hit_filter.html">hit_filter()</a> to focus on the locations and/or intervention types specified. The documentation provides details about all of the filtering and visualization options. Here is an example of a plot of the interventions from India and New Zealand:</p>
+<p><code><a href="reference/intervention_timeline.html">intervention_timeline(hit, country = c("IND", "NZL"), facet_by = "country")</a></code></p>
+</div>
+<div id="world-map-of-status-of-an-intervention" class="section level3">
+<h3 class="hasAnchor">
+<a href="#world-map-of-status-of-an-intervention" class="anchor"></a>World map of status of an intervention</h3>
+<p>TO COME</p>
+</div>
+<div id="epi-curve-with-intervention-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#epi-curve-with-intervention-data" class="anchor"></a>Epi-curve with intervention data</h3>
+<p>TO COME</p>
+</div>
 </div>
 <div id="mangement-team" class="section level2">
 <h2 class="hasAnchor">
@@ -112,6 +137,7 @@
 <li>Sarah V. Leavitt, Boston University School of Public Health</li>
 <li>Lawson Ung, Harvard Medical School</li>
 <li>Forrest K. Jones, Johns Hopkins Bloomberg School of Public Health</li>
+<li>Hanmeng Xu, Johns Hopkins Bloomberg School of Public Health</li>
 <li>Elizabeth C. Lee, Johns Hopkins Bloomberg School of Public Health</li>
 <li>Alain Labrique, Johns Hopkins Bloomberg School of Public Health</li>
 <li>David Peters, Johns Hopkins Bloomberg School of Public Health</li>
