@@ -11,32 +11,17 @@ library(dplyr)
 #build()
 #install()
 
-load_all()
-document()
-test()
-check()
+#Create a vingnette
+#usethis::use_vignette("my-vignette")
 
-#Add package dependence
-use_package("ggplot2")
-use_package("maps")
-use_package("ISOcodes")
-use_package("covidregionaldata")
-use_package("rlang")
+#Create a directory of tests
+#usethis::use_testthat()
 
 #Create license
 use_gpl3_license()
 
-#Add to ignore file
-use_build_ignore("Package_Setup.R")
-use_build_ignore("Paper_Figures.R")
-use_build_ignore("Paper_Testing.R")
 
-#Create a vingnette
-usethis::use_vignette("my-vignette")
-
-#Create a directory of tests
-usethis::use_testthat()
-
+#Create package datasets
 geo_lookup1 <- read.csv("../covid19-interventions/hit-covid-timeline/geo_lookup.csv")
 continent <- read.csv("../covid19-interventions/hit-covid-timeline/Country_Continent.csv")
 
@@ -61,4 +46,22 @@ intervention_lookup <- intervention_lookup %>%
   arrange(intervention_type, intervention_group)
 
 #use_data(intervention_lookup, overwrite = TRUE)
+
+load_all()
+document()
+test()
+check()
+pkgdown::build_site()
+
+#Add package dependence
+use_package("ggplot2")
+use_package("maps")
+use_package("ISOcodes")
+use_package("covidregionaldata")
+use_package("rlang")
+
+#Add to ignore file
+use_build_ignore("Package_Setup.R")
+use_build_ignore("Paper_Figures.R")
+use_build_ignore("Package_Testing.R")
 

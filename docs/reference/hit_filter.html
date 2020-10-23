@@ -236,22 +236,28 @@ take precedence and what USA county data is included will depend on these filter
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>#Pulling HIT-COVID database</span>
-<span class='no'>hit_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hit_pull.html'>hit_pull</a></span>()</div><div class='output co'>#&gt; <span class='error'>Error in hit_pull(): could not find function "hit_pull"</span></div><div class='input'>
+<span class='no'>hit_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hit_pull.html'>hit_pull</a></span>()
+
 <span class='co'>#Filtering to Africa</span>
-<span class='no'>africa</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_filter</span>(<span class='no'>hit_data</span>, <span class='kw'>continent</span> <span class='kw'>=</span> <span class='st'>"Africa"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in hit_filter(hit_data, continent = "Africa"): could not find function "hit_filter"</span></div><div class='input'>
+<span class='no'>africa</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_filter</span>(<span class='no'>hit_data</span>, <span class='kw'>continent</span> <span class='kw'>=</span> <span class='st'>"Africa"</span>)
+
 <span class='co'>#Filtering to border closures in china</span>
-<span class='no'>china</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_filter</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"CHN"</span>, <span class='kw'>intervention_group</span> <span class='kw'>=</span> <span class='st'>"closed_border"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in hit_filter(hit_data, country = "CHN", intervention_group = "closed_border"): could not find function "hit_filter"</span></div><div class='input'>
+<span class='no'>china</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_filter</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"CHN"</span>, <span class='kw'>intervention_group</span> <span class='kw'>=</span> <span class='st'>"closed_border"</span>)
+
 <span class='co'>#Filtering to New Jersey state and national data</span>
-<span class='no'>nj</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_filter</span>(<span class='no'>hit_data</span>, <span class='kw'>admin1</span> <span class='kw'>=</span> <span class='st'>"USA.31_1"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in hit_filter(hit_data, admin1 = "USA.31_1"): could not find function "hit_filter"</span></div><div class='input'>
+<span class='no'>nj</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_filter</span>(<span class='no'>hit_data</span>, <span class='kw'>admin1</span> <span class='kw'>=</span> <span class='st'>"USA.31_1"</span>)
+
 <span class='co'>#Filtering to just New Jersey state-level data</span>
-<span class='no'>nj</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_filter</span>(<span class='no'>hit_data</span>, <span class='kw'>admin1</span> <span class='kw'>=</span> <span class='st'>"USA.31_1"</span>, <span class='kw'>include_national</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in hit_filter(hit_data, admin1 = "USA.31_1", include_national = FALSE): could not find function "hit_filter"</span></div><div class='input'>
+<span class='no'>nj</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_filter</span>(<span class='no'>hit_data</span>, <span class='kw'>admin1</span> <span class='kw'>=</span> <span class='st'>"USA.31_1"</span>, <span class='kw'>include_national</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
 <span class='co'>#Filtering to all national data</span>
-<span class='no'>national</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_filter</span>(<span class='no'>hit_data</span>, <span class='kw'>include_admin1</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in hit_filter(hit_data, include_admin1 = FALSE): could not find function "hit_filter"</span></div><div class='input'>
+<span class='no'>national</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_filter</span>(<span class='no'>hit_data</span>, <span class='kw'>include_admin1</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
 <span class='co'>#Filtering to just USA county data</span>
-<span class='no'>usa_county</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_filter</span>(<span class='no'>hit_data</span>, <span class='kw'>usa_county_data</span> <span class='kw'>=</span> <span class='st'>"restrict_to"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in hit_filter(hit_data, usa_county_data = "restrict_to"): could not find function "hit_filter"</span></div><div class='input'>
+<span class='no'>usa_county</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_filter</span>(<span class='no'>hit_data</span>, <span class='kw'>usa_county_data</span> <span class='kw'>=</span> <span class='st'>"restrict_to"</span>)
+
 <span class='co'>#Adding USA county data (default is to exclude)</span>
-<span class='no'>no_county</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_filter</span>(<span class='no'>hit_data</span>, <span class='kw'>usa_county_data</span> <span class='kw'>=</span> <span class='st'>"include"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in hit_filter(hit_data, usa_county_data = "include"): could not find function "hit_filter"</span></div><div class='input'>
-</div></pre>
+<span class='no'>no_county</span> <span class='kw'>&lt;-</span> <span class='fu'>hit_filter</span>(<span class='no'>hit_data</span>, <span class='kw'>usa_county_data</span> <span class='kw'>=</span> <span class='st'>"include"</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
