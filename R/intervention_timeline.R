@@ -54,8 +54,10 @@
 #' #Pulling HIT-COVID database
 #' hit <- hit_pull()
 #' 
-#' #Plotting all national and admin1 data in the database, faceting by continent
-#' intervention_timeline(hit, facet_by = "continent")
+#' #Plotting all national and admin1 data in the database, in North America, Asia, Europe and Africa
+#' faceting by continent
+#' intervention_timeline(hit, continent = c("Asia", "Europe", "Africa", "North America"),
+#'  facet_by = "continent")
 #' 
 #' #Excluding Antarctica and only plotting national data
 #' intervention_timeline(hit, continent = c("Asia", "Europe", "Africa", "Oceania",
@@ -71,7 +73,7 @@
 #' intervention_timeline(hit, country = "USA", include_national = FALSE)
 #' 
 #' #Removing vertical lines
-#' intervention_timeline(hit, country = "USA",
+#' intervention_timeline(hit, country = "USA", include_national = FALSE
 #' first_case_line = FALSE, first_death_line = FALSE)
 #' 
 #' 
