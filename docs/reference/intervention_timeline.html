@@ -137,24 +137,24 @@ the option to facet the plot by different location levels. If desired, it also d
 indicating the date of first case and first death in each facet provided.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>intervention_timeline</span><span class='op'>(</span>
-  <span class='va'>hit_data</span>,
-  facet_by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"none"</span>, <span class='st'>"continent"</span>, <span class='st'>"country"</span>, <span class='st'>"admin1"</span><span class='op'>)</span>,
-  intervention_facet <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  first_case_line <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  first_death_line <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  source <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"WHO"</span>, <span class='st'>"ECDC"</span><span class='op'>)</span>,
-  continent <span class='op'>=</span> <span class='cn'>NULL</span>,
-  country <span class='op'>=</span> <span class='cn'>NULL</span>,
-  admin1 <span class='op'>=</span> <span class='cn'>NULL</span>,
-  locality <span class='op'>=</span> <span class='cn'>NULL</span>,
-  intervention_group <span class='op'>=</span> <span class='cn'>NULL</span>,
-  include_national <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  include_admin1 <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  include_locality <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  usa_county_data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"include"</span>, <span class='st'>"exclude"</span>, <span class='st'>"restrict_to"</span><span class='op'>)</span>,
-  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>intervention_timeline</span>(
+  <span class='no'>hit_data</span>,
+  <span class='kw'>facet_by</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"continent"</span>, <span class='st'>"country"</span>, <span class='st'>"admin1"</span>),
+  <span class='kw'>intervention_facet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>first_case_line</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>first_death_line</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>source</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"WHO"</span>, <span class='st'>"ECDC"</span>),
+  <span class='kw'>continent</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>country</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>admin1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>locality</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>intervention_group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>include_national</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>include_admin1</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>include_locality</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>usa_county_data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"include"</span>, <span class='st'>"exclude"</span>, <span class='st'>"restrict_to"</span>),
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -257,28 +257,21 @@ https://CRAN.R-project.org/package=covidregionaldata</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>#Pulling HIT-COVID database</span>
-<span class='va'>hit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='hit_pull.html'>hit_pull</a></span><span class='op'>(</span><span class='op'>)</span>
-
+<span class='no'>hit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hit_pull.html'>hit_pull</a></span>()</div><div class='output co'>#&gt; <span class='error'>Error in hit_pull(): could not find function "hit_pull"</span></div><div class='input'>
 <span class='co'>#Plotting all national and admin1 data in the database, faceting by continent</span>
-<span class='fu'>intervention_timeline</span><span class='op'>(</span><span class='va'>hit</span>, facet_by <span class='op'>=</span> <span class='st'>"continent"</span><span class='op'>)</span>
-</div><div class='img'><img src='intervention_timeline-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>intervention_timeline</span>(<span class='no'>hit</span>, <span class='kw'>facet_by</span> <span class='kw'>=</span> <span class='st'>"continent"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in intervention_timeline(hit, facet_by = "continent"): could not find function "intervention_timeline"</span></div><div class='input'>
 <span class='co'>#Excluding Antarctica and only plotting national data</span>
-<span class='fu'>intervention_timeline</span><span class='op'>(</span><span class='va'>hit</span>, continent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Asia"</span>, <span class='st'>"Europe"</span>, <span class='st'>"Africa"</span>, <span class='st'>"Oceania"</span>,
-<span class='st'>"North America"</span>, <span class='st'>"South America"</span><span class='op'>)</span>, facet_by <span class='op'>=</span> <span class='st'>"continent"</span>, include_admin1 <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='img'><img src='intervention_timeline-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>intervention_timeline</span>(<span class='no'>hit</span>, <span class='kw'>continent</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Asia"</span>, <span class='st'>"Europe"</span>, <span class='st'>"Africa"</span>, <span class='st'>"Oceania"</span>,
+<span class='st'>"North America"</span>, <span class='st'>"South America"</span>), <span class='kw'>facet_by</span> <span class='kw'>=</span> <span class='st'>"continent"</span>, <span class='kw'>include_admin1</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in intervention_timeline(hit, continent = c("Asia", "Europe", "Africa",     "Oceania", "North America", "South America"), facet_by = "continent",     include_admin1 = FALSE): could not find function "intervention_timeline"</span></div><div class='input'>
 <span class='co'>#Plotting all data from India and New Zealand</span>
-<span class='fu'>intervention_timeline</span><span class='op'>(</span><span class='va'>hit</span>, country <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"IND"</span>, <span class='st'>"NZL"</span><span class='op'>)</span>, facet_by <span class='op'>=</span> <span class='st'>"country"</span><span class='op'>)</span>
-</div><div class='img'><img src='intervention_timeline-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>intervention_timeline</span>(<span class='no'>hit</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"IND"</span>, <span class='st'>"NZL"</span>), <span class='kw'>facet_by</span> <span class='kw'>=</span> <span class='st'>"country"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in intervention_timeline(hit, country = c("IND", "NZL"), facet_by = "country"): could not find function "intervention_timeline"</span></div><div class='input'>
 <span class='co'>#Plotting all data from the USA</span>
-<span class='fu'>intervention_timeline</span><span class='op'>(</span><span class='va'>hit</span>, country <span class='op'>=</span> <span class='st'>"USA"</span><span class='op'>)</span>
-</div><div class='img'><img src='intervention_timeline-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>intervention_timeline</span>(<span class='no'>hit</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"USA"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in intervention_timeline(hit, country = "USA"): could not find function "intervention_timeline"</span></div><div class='input'>
 <span class='co'>#Plotting just state-level data from the USA</span>
-<span class='fu'>intervention_timeline</span><span class='op'>(</span><span class='va'>hit</span>, country <span class='op'>=</span> <span class='st'>"USA"</span>, include_national <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='img'><img src='intervention_timeline-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>intervention_timeline</span>(<span class='no'>hit</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"USA"</span>, <span class='kw'>include_national</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in intervention_timeline(hit, country = "USA", include_national = FALSE): could not find function "intervention_timeline"</span></div><div class='input'>
 <span class='co'>#Removing vertical lines</span>
-<span class='fu'>intervention_timeline</span><span class='op'>(</span><span class='va'>hit</span>, country <span class='op'>=</span> <span class='st'>"USA"</span>,
-first_case_line <span class='op'>=</span> <span class='cn'>FALSE</span>, first_death_line <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='img'><img src='intervention_timeline-6.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>intervention_timeline</span>(<span class='no'>hit</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"USA"</span>,
+<span class='kw'>first_case_line</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>first_death_line</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in intervention_timeline(hit, country = "USA", first_case_line = FALSE,     first_death_line = FALSE): could not find function "intervention_timeline"</span></div><div class='input'>
 
 </div></pre>
   </div>
@@ -296,7 +289,7 @@ first_case_line <span class='op'>=</span> <span class='cn'>FALSE</span>, first_d
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
