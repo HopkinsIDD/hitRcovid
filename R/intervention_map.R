@@ -164,10 +164,10 @@ intervention_map <- function(hit_data,
    
   # map data of both level ---------------------------------------------------------
   p <- ggplot2::ggplot() +
-     ggplot2::geom_polygon(data = country_map, aes(x = .data$long, y = .data$lat, group = .data$group, fill = .data$recent_status), 
+     ggplot2::geom_polygon(data = country_map, ggplot2::aes(x = .data$long, y = .data$lat, group = .data$group, fill = .data$recent_status), 
                   color = "black", size = 0.2, alpha = 0.7) +
      ggplot2::scale_fill_manual(values = country_mapping_colors) +
-     ggplot2::geom_point(data = admin_map, aes(x = .data$long, y = .data$lat, col = .data$recent_status),
+     ggplot2::geom_point(data = admin_map, ggplot2::aes(x = .data$long, y = .data$lat, col = .data$recent_status),
                 alpha = 0.5) +
      ggplot2::scale_color_manual(values = admin_mapping_colors) +
      ggplot2::theme(panel.background = ggplot2::element_rect(fill = "white")
@@ -175,7 +175,7 @@ intervention_map <- function(hit_data,
                     ,panel.grid = ggplot2::element_blank()
                     ,axis.text = ggplot2::element_blank()
                     ,axis.title = ggplot2::element_blank()
-                    ,axis.ticks = element_blank())+
+                    ,axis.ticks = ggplot2::element_blank())+
      ggplot2::labs(fill = "Intervention intensity")+
      ggplot2::guides(color = FALSE) +
      ggplot2::theme(legend.title.align = 0.5)+
