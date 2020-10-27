@@ -24,6 +24,9 @@
 #' @param hit_data the full HIT-COVID database pulled from GitHub, pulled using \link{hit_pull}
 #' @param facet_by the location level for the facet columns (one of "continent", "country", "admin1").
 #' If no facets are desired specify \code{facet_by = "none"} which is the default.
+#' @param intervention_facet a logical indicating if the different intervention groups should be
+#' faceted by their broad type ("Restrictions of travel and movement", "Social and physical distancing
+#' measures", "Surveillance and response measures", and "Other measures")
 #' @param first_case_line a logical indicating if a vertical line at the date of the first case 
 #' should be drawn (default is TRUE).
 #' @param first_death_line a logical indicating if a vertical line at the date of the first death
@@ -52,28 +55,28 @@
 #' @examples 
 #' 
 #' #Pulling HIT-COVID database
-#' hit <- hit_pull()
+#' hit_data <- hit_pull()
 #' 
 #' #Plotting all national and admin1 data in the database, in North America, Asia, Europe and Africa
 #' #faceting by continent
-#' intervention_timeline(hit, continent = c("Asia", "Europe", "Africa", "North America"),
+#' intervention_timeline(hit_data, continent = c("Asia", "Europe", "Africa", "North America"),
 #' facet_by = "continent")
 #' 
 #' #Plotting all data from India and New Zealand
-#' intervention_timeline(hit, country = c("IND", "NZL"), facet_by = "country")
+#' intervention_timeline(hit_data, country = c("IND", "NZL"), facet_by = "country")
 #' 
 #' #Plotting all data from the USA
-#' intervention_timeline(hit, country = "USA")
+#' intervention_timeline(hit_data, country = "USA")
 #' 
 #' #Plotting just state-level data from the USA
-#' intervention_timeline(hit, country = "USA", include_national = FALSE)
+#' intervention_timeline(hit_data, country = "USA", include_national = FALSE)
 #' 
 #' #Removing vertical lines
-#' intervention_timeline(hit, country = "USA",
+#' intervention_timeline(hit_data, country = "USA",
 #' first_case_line = FALSE, first_death_line = FALSE)
 #' 
 #' 
-#' @seealso \link{hit_filter}, \link{get_first_case}, \link{get_national_data}
+#' @seealso \link{hit_filter}, \link{get_first_case}, \link[covidregionaldata]{get_national_data}
 #'
 #' @references 
 #' Sam Abbott, Katharine Sherratt, Jonnie Bevan, Hamish Gibbs, Joel Hellewell, James Munday,

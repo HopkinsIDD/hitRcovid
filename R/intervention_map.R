@@ -53,7 +53,7 @@ intervention_map <- function(hit_data,
   
   
   # Determine if the intervention_group entered is valid, if not, return warning
-  if(!intervention_group %in% intervention_lookup$intervention_group){
+  if(!intervention_group %in% hitRcovid::intervention_lookup$intervention_group){
     stop("The intervention code entered here is not valid.")
   }
   
@@ -102,17 +102,17 @@ intervention_map <- function(hit_data,
                                              "Strongly Implemented"))
   
   # Get latest & strongest implementation status at country or admin1 level
-  recent_data <- dplyr::filter(hit_data, date_of_update <= time_point)
-  recent_data <- dplyr::group_by(recent_data, country, country_name, admin1)
-  recent_data <- dplyr::filter(recent_data, date_of_update == max(date_of_update))
-  recent_data <- dplyr::group_by(recent_data, country, country_name, admin1, date_of_update)
-  recent_data <- dplyr::summarise(recent_data, recent_status = max(status_simp))
+  recent_data <- dplyr::filter(hit_data, .data$date_of_update <= time_point)
+  recent_data <- dplyr::group_by(recent_data, .data$country, .data$country_name, .data$admin1)
+  recent_data <- dplyr::filter(recent_data, .data$date_of_update == max(.data$date_of_update))
+  recent_data <- dplyr::group_by(recent_data, .data$country, .data$country_name, .data$admin1, .data$date_of_update)
+  recent_data <- dplyr::summarise(recent_data, recent_status = max(.data$status_simp))
   
   # country level data prep -----------------------------------------------------
   # load the world map (remove Antarctica) and merge with country level data
   world <- ggplot2::map_data("world")
   world <- world[which(!world$region=='Antarctica'),]  
-  country_map <- dplyr::filter(recent_data, is.na(admin1))
+  country_map <- recent_data[is.na(recent_data$admin1),]
   country_map <- dplyr::left_join(world, country_map, world, by = c("region" = "country_name"))
   
   # HX: 
@@ -123,16 +123,18 @@ intervention_map <- function(hit_data,
 
   # admin level data prep -------------------------------------------------------
   admin_location <- hitRcovid::admin_location
-  admin_location <- dplyr::select(dplyr::left_join(hitRcovid::geo_lookup, admin_location,
-                                              by = c("admin1_name" = "admin_name", "country" = "ISO")),
-                            country, country_name, admin1_name, long, lat, admin1, continent)
+  admin_location <- dplyr::left_join(hitRcovid::geo_lookup, admin_location,
+                                     by = c("admin1_name" = "admin_name", "country" = "ISO"))
+  admin_location <- admin_location[, c("country", "country_name", "admin1_name", "long", "lat",
+                                       "admin1", "continent")]
 
    # merge and delete duplicate (some country are counted in >1 continents in geo_lookup)
-  admin_map <- dplyr::filter(recent_data, !is.na(admin1))
+  admin_map <- recent_data[!is.na(recent_data$admin1),]
   admin_map <- dplyr::left_join(admin_map, admin_location, by = c("admin1", "country"))
   admin_map <- dplyr::summarise(dplyr::group_by(admin_map, 
-                         country, country_name.x, admin1, admin1_name, date_of_update, recent_status, long, lat),
-                         continent = max(continent))
+                         .data$country, .data$country_name.x, .data$admin1, .data$admin1_name, 
+                         .data$date_of_update, .data$recent_status, .data$long, .data$lat),
+                         continent = max(.data$continent))
    
   # HX: some coordinates (lat and long) of admin1 are missing from gadm_map database,
   #     currently just delete them when mapping, to avoid warning message
@@ -161,7 +163,8 @@ intervention_map <- function(hit_data,
    
   # map data of both level ---------------------------------------------------------
   p <- ggplot2::ggplot() +
-     ggplot2::geom_polygon(data = country_map, ggplot2::aes(x = .data$long, y = .data$lat, group = .data$group, fill = .data$recent_status), 
+     ggplot2::geom_polygon(data = country_map, ggplot2::aes(x = .data$long, y = .data$lat,
+                                                            group = .data$group, fill = .data$recent_status), 
                   color = "black", size = 0.2, alpha = 0.7) +
      ggplot2::scale_fill_manual(values = country_mapping_colors) +
      ggplot2::geom_point(data = admin_map, ggplot2::aes(x = .data$long, y = .data$lat, col = .data$recent_status),

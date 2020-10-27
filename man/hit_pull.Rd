@@ -42,5 +42,5 @@ Covid-19 Outbreak. R package version 0.6.0.
 https://CRAN.R-project.org/package=covidregionaldata
 }
 \seealso{
-\link{hit_filter}, \link{get_first_case}, \link{get_national_data}
+\link{hit_filter}, \link{get_first_case}, \link[covidregionaldata]{get_national_data}
 }

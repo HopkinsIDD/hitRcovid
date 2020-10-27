@@ -169,6 +169,12 @@ indicating the date of first case and first death in each facet provided.</p>
 If no facets are desired specify <code>facet_by = "none"</code> which is the default.</p></td>
     </tr>
     <tr>
+      <th>intervention_facet</th>
+      <td><p>a logical indicating if the different intervention groups should be
+faceted by their broad type ("Restrictions of travel and movement", "Social and physical distancing
+measures", "Surveillance and response measures", and "Other measures")</p></td>
+    </tr>
+    <tr>
       <th>first_case_line</th>
       <td><p>a logical indicating if a vertical line at the date of the first case
 should be drawn (default is TRUE).</p></td>
@@ -252,25 +258,25 @@ Covid-19 Outbreak. R package version 0.6.0.
 https://CRAN.R-project.org/package=covidregionaldata</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='hit_filter.html'>hit_filter</a>, <a href='get_first_case.html'>get_first_case</a>, get_national_data</p></div>
+    <div class='dont-index'><p><a href='hit_filter.html'>hit_filter</a>, <a href='get_first_case.html'>get_first_case</a>, <a href='epiforecasts.io/covidregionaldata//reference/get_national_data.html'>get_national_data</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>#Pulling HIT-COVID database</span>
-<span class='no'>hit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hit_pull.html'>hit_pull</a></span>()
+<span class='no'>hit_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hit_pull.html'>hit_pull</a></span>()
 
 <span class='co'>#Plotting all national and admin1 data in the database, in North America, Asia, Europe and Africa</span>
 <span class='co'>#faceting by continent</span>
-<span class='fu'>intervention_timeline</span>(<span class='no'>hit</span>, <span class='kw'>continent</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Asia"</span>, <span class='st'>"Europe"</span>, <span class='st'>"Africa"</span>, <span class='st'>"North America"</span>),
- <span class='kw'>facet_by</span> <span class='kw'>=</span> <span class='st'>"continent"</span>)</div><div class='img'><img src='intervention_timeline-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>intervention_timeline</span>(<span class='no'>hit_data</span>, <span class='kw'>continent</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Asia"</span>, <span class='st'>"Europe"</span>, <span class='st'>"Africa"</span>, <span class='st'>"North America"</span>),
+<span class='kw'>facet_by</span> <span class='kw'>=</span> <span class='st'>"continent"</span>)</div><div class='img'><img src='intervention_timeline-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>#Plotting all data from India and New Zealand</span>
-<span class='fu'>intervention_timeline</span>(<span class='no'>hit</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"IND"</span>, <span class='st'>"NZL"</span>), <span class='kw'>facet_by</span> <span class='kw'>=</span> <span class='st'>"country"</span>)</div><div class='img'><img src='intervention_timeline-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>intervention_timeline</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"IND"</span>, <span class='st'>"NZL"</span>), <span class='kw'>facet_by</span> <span class='kw'>=</span> <span class='st'>"country"</span>)</div><div class='img'><img src='intervention_timeline-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>#Plotting all data from the USA</span>
-<span class='fu'>intervention_timeline</span>(<span class='no'>hit</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"USA"</span>)</div><div class='img'><img src='intervention_timeline-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>intervention_timeline</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"USA"</span>)</div><div class='img'><img src='intervention_timeline-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>#Plotting just state-level data from the USA</span>
-<span class='fu'>intervention_timeline</span>(<span class='no'>hit</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"USA"</span>, <span class='kw'>include_national</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='intervention_timeline-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>intervention_timeline</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"USA"</span>, <span class='kw'>include_national</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='intervention_timeline-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>#Removing vertical lines</span>
-<span class='fu'>intervention_timeline</span>(<span class='no'>hit</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"USA"</span>,
+<span class='fu'>intervention_timeline</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"USA"</span>,
 <span class='kw'>first_case_line</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>first_death_line</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='intervention_timeline-5.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div></pre>
@@ -285,7 +291,7 @@ https://CRAN.R-project.org/package=covidregionaldata</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Sarah Leavitt, Andrew Azman, Qulu Zheng, Hanmeng Xu, Forrest Jones.</p>
+  <p>Developed by Sarah Leavitt, Hanmeng Xu, Qulu Zheng, Forrest Jones, Andrew Azman.</p>
 </div>
 
 <div class="pkgdown">

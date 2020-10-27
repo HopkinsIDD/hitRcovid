@@ -5,14 +5,14 @@ Authors@R: c(
     person(given = "Sarah", family = "Leavitt",
            role = c("aut"), email = "sv1205@bu.edu",
            comment = c(ORCID = "0000-0003-1542-4239")),
-    person(given = "Andrew", family = "Azman",
-           role = c("cre", "cph"), email = "azman@jhu.edu"),
+    person(given = "Hanmeng", family = "Xu",
+           role = c("aut"), email = "hxu70@jh.edu"),
     person(given = "Qulu", family = "Zheng",
            role = c("aut"), email = "qzhehn14@jhmi.edu"), 
-    person(given = "Hanmeng", family = "Xu",
-           role = c("aut"), email = "hxu70@jh.edu"), 
     person(given = "Forrest", family = "Jones",
-           role = c("aut"), email = "forrestjones@jhu.edu")
+           role = c("aut"), email = "forrestjones@jhu.edu"),
+    person(given = "Andrew", family = "Azman",
+           role = c("cre", "cph"), email = "azman@jhu.edu")
            )
 Maintainer: Andrew Azman <azman@jhu.edu>
 Description: Loads the HIT-COVID database and contains functions to filter and visualize the intervention data and pair it with epidemiological information. The Health Intervention Tracking for COVID-19 (HIT-COVID) project tracks the implementation and relaxation of public health and social measures (PHSMs) taken by governments to slow transmission of SARS-COV-2 globally. Each change in policy and corresponding date is documented at the first-level  administrative unit (e.g., states, districts) and nationally for all countries with more detailed  geographic resolution in some locations (e.g., counties in the US). For a detailed description of the methods see Zheng et al. (2020) <doi:10.1038/s41597-020-00610-2>.
@@ -34,4 +34,6 @@ Imports:
     ggplot2,
     ISOcodes,
     covidregionaldata,
-    rlang
+    rlang,
+    maps,
+    dplyr

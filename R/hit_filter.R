@@ -26,7 +26,7 @@
 #' hit_data <- hit_pull(add_first_case = FALSE)
 #' }
 #' 
-#' @seealso \link{hit_filter}, \link{get_first_case}, \link{get_national_data}
+#' @seealso \link{hit_filter}, \link{get_first_case}, \link[covidregionaldata]{get_national_data}
 #'
 #' @references 
 #' Sam Abbott, Katharine Sherratt, Jonnie Bevan, Hamish Gibbs, Joel Hellewell, James Munday,
