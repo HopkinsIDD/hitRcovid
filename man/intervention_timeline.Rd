@@ -93,7 +93,7 @@ hit <- hit_pull()
 #Plotting all national and admin1 data in the database, in North America, Asia, Europe and Africa
 #faceting by continent
 intervention_timeline(hit, continent = c("Asia", "Europe", "Africa", "North America"),
- facet_by = "continent")
+facet_by = "continent")
 
 #Plotting all data from India and New Zealand
 intervention_timeline(hit, country = c("IND", "NZL"), facet_by = "country")

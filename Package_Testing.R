@@ -38,6 +38,9 @@ intervention_map(hit_data, intervention_group = "quar_", time_point = "3/24/2020
 # wrong date
 intervention_map(intervention_group = "quar_iso", time_point = "3/24/2050")
 
+intervention_map(hit_data, intervention_group = "school_closed", time_point = "3/24/2020")
+
+
 
 #Testing timeline function
 

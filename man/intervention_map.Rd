@@ -2,7 +2,7 @@
 % Please edit documentation in R/intervention_map.R
 \name{intervention_map}
 \alias{intervention_map}
-\title{Sentence title}
+\title{Mapping of interventions}
 \usage{
 intervention_map(
   hit_data,
@@ -12,24 +12,46 @@ intervention_map(
 )
 }
 \arguments{
-\item{argument_name}{description of the argument}
+\item{hit_data}{the full HIT-COVID database pulled from GitHub, pulled using \link{hit_pull}}
+
+\item{time_point}{character string indicating the desired mapping date (default is Sys.Date())}
+
+\item{intervention_group}{vector of intervention group to filter the data to
+(see \link{intervention_lookup} column "intervention_group" or run \link{list_interventions} for options)}
+
+\item{date.format}{character string indicating the desired format of date. (default is "\%m/\%d/\%Y")}
 }
 \value{
-What the function returns (here a plot)
+A world map depicting interventions of countries and administrative divisions by a specific date.
 }
 \description{
-Paragraph description (comes before arguments in output)
+This function maps the interventions at both national and administrative level at a specific time.
+The HIT-COVID dataset is loaded with \link{hit_pull}, and data of one specific intervention
+is pulled using \link{hit_filter}.
 }
 \details{
-Multiple paragraphs of details as necessary to explain arguments and functioning in more detail
-(comes after arguments in output)
+The function aims to draw a world map depicting the latest interventions before this \code{time_point}.
+If no value is entered for \code{time_point}, it will return a map of most recent interventions.
+Both national level and administrative level data are mapped on the same plot.
+National level data are represented by the color of country territories, and administrative level data are
+represented by dots, both types of data are coded in red (Strongly implemented),
+yellow (partially implemented) or green (implementation suspended). The strongest implementation
+intensity is used for mapping if for one territory there are multiple entries in the same intervention group on the same day.
 }
 \examples{
-# Add examples of usage showing what different options do
+
+# Puling the HIT-COVID database
+hit_data <- hit_pull(add_first_case = FALSE)
+ 
+# Mapping of most recent interventions in "quarantine and isolation" domain
+intervention_map(hit_data, intervention_group = "quar_iso")
+
+# Mapping of latest "quarantine and isolation" interventions before 5/24/2020
+intervention_map(hit_data, intervention_group = "quar_iso", time_point = "5/24/2020")
 
 }
 \references{
-Add any references if relevant
+https://gadm.org/download_world.html
 }
 \seealso{
 \link{hit_filter}

@@ -59,9 +59,11 @@ use_package("maps")
 use_package("ISOcodes")
 use_package("covidregionaldata")
 use_package("rlang")
+use_package("dplyr")
 
 #Add to ignore file
 use_build_ignore("Package_Setup.R")
 use_build_ignore("Paper_Figures.R")
 use_build_ignore("Package_Testing.R")
+use_build_ignore(".github")
 

@@ -6,6 +6,7 @@
 #' This function maps the interventions at both national and administrative level at a specific time.
 #' The HIT-COVID dataset is loaded with \link{hit_pull}, and data of one specific intervention
 #' is pulled using \link{hit_filter}. 
+#' 
 #' The function aims to draw a world map depicting the latest interventions before this \code{time_point}.
 #' If no value is entered for \code{time_point}, it will return a map of most recent interventions.
 #' Both national level and administrative level data are mapped on the same plot. 
@@ -23,7 +24,11 @@
 #' @return 
 #' A world map depicting interventions of countries and administrative divisions by a specific date.
 #' 
-#' @examples 
+#' @examples
+#' 
+#' # Puling the HIT-COVID database
+#' hit_data <- hit_pull(add_first_case = FALSE)
+#'  
 #' # Mapping of most recent interventions in "quarantine and isolation" domain
 #' intervention_map(hit_data, intervention_group = "quar_iso")
 #' 
@@ -33,14 +38,11 @@
 #' @seealso \link{hit_filter}
 #' 
 #' @references 
-#' https://gadm.org/download_world.html 
-#' (to get the longitude and latitude of administrative divisions)
-#' HX: Also based on Sarah's gadm_map dataset.
+#' https://gadm.org/download_world.html
 #' 
 #' @importFrom rlang .data
 #' 
 #' @export
-
 
 intervention_map <- function(hit_data,
                     time_point = Sys.Date(), 
@@ -99,11 +101,6 @@ intervention_map <- function(hit_data,
                                              "Partially Implemented",
                                              "Strongly Implemented"))
   
-  # SVL - I think if we are plotting national data, we should just use national data (not admin1)
-  # Thoughts? If so you could add include_admin1 = FALSE to the hit_filter() statement
-  # HX: I pulled them all first in one dataframe to get "most recent strongest record" for both
-  #     and then subset separately to make country or admin map, hope this makes sense!
-  
   # Get latest & strongest implementation status at country or admin1 level
   recent_data <- dplyr::filter(hit_data, date_of_update <= time_point)
   recent_data <- dplyr::group_by(recent_data, country, country_name, admin1)
@@ -118,11 +115,11 @@ intervention_map <- function(hit_data,
   country_map <- dplyr::filter(recent_data, is.na(admin1))
   country_map <- dplyr::left_join(world, country_map, world, by = c("region" = "country_name"))
   
-  #' HX: 
-  #' I used the dataset "gadm_admin1.RData" in covid19-interventions package created by Sarah for the weekly update report,
-  #' and calculated one coordinate for each admin polygon, (as we want dots for admin not polygon) 
-  #' I stored this in a file (containing ISO, admin_name, long and lat, etc.), 
-  #' (and currently put this file in the same folder with geo_lookup)
+  # HX: 
+  # I used the dataset "gadm_admin1.RData" in covid19-interventions package created by Sarah for the weekly update report,
+  # and calculated one coordinate for each admin polygon, (as we want dots for admin not polygon) 
+  # I stored this in a file (containing ISO, admin_name, long and lat, etc.), 
+  # (and currently put this file in the same folder with geo_lookup)
 
   # admin level data prep -------------------------------------------------------
   admin_location <- hitRcovid::admin_location
