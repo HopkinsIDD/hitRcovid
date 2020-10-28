@@ -29,17 +29,26 @@ continent <- read.csv("../covid19-interventions/hit-covid-timeline/Country_Conti
 dup <- continent %>% filter(duplicated(Three_Letter_Country_Code) & Three_Letter_Country_Code != "")
 dupAll <- continent %>% filter(Three_Letter_Country_Code %in% dup$Three_Letter_Country_Code)
 
+#Adding continent info
 continent2 <- continent %>%
   select(country = Three_Letter_Country_Code, continent = Continent_Name) %>%
   filter(country != "")
+
+#Adding Alpha_2 code to link to other covidregionaldata and EpiNow2 packages
+#Filling in missing codes
+codes <- ISOcodes::ISO_3166_1 %>% select(country = Alpha_3, alpha_2 = Alpha_2)
+codes$country <- ifelse(codes$alpha_2 == "UK", "GBR", codes$country)
+codes$country <- ifelse(codes$alpha_2 == "EL", "GRC", codes$country)
+codes$country <- ifelse(codes$alpha_2 == "XK", "XKO", codes$country)
 
 geo_lookup <- geo_lookup1 %>%
   select(country = admin0, admin1 = GID_1, country_name = NAME_0, admin1_name = NAME_1) %>%
   mutate(admin1_name = iconv(admin1_name, "UTF-8", "ASCII//TRANSLIT"),
          country_name = iconv(country_name, "UTF-8", "ASCII//TRANSLIT")) %>%
-  left_join(continent2, by = "country")
+  left_join(continent2, by = "country") %>%
+  left_join(codes, by = "country")
 
-#use_data(geo_lookup, overwrite = TRUE)
+use_data(geo_lookup, overwrite = TRUE)
 
 intervention_lookup <- read.csv("data/intervention_lookup.csv")
 intervention_lookup <- intervention_lookup %>%

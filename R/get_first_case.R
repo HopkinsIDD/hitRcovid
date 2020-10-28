@@ -71,16 +71,10 @@ get_first_case <- function(source = c("WHO", "ECDC")){
   firsts <- merge(first_case, first_death, by = "iso_code", all = TRUE)
   
   #Adding Alpha_3 code to link to the HIT-COVID database
-  firsts <- merge(firsts, ISOcodes::ISO_3166_1[, c("Alpha_2", "Alpha_3")],
-                   by.x = "iso_code", by.y = "Alpha_2", all.x = TRUE)
+  firsts <- merge(firsts, hitRcovid::geo_lookup[, c("country", "alpha_2")],
+                   by.x = "iso_code", by.y = "alpha_2", all.x = TRUE)
   
-  #Filling in missing codes
-  firsts$Alpha_3 <- ifelse(firsts$iso_code == "UK", "GBR", firsts$Alpha_3)
-  firsts$Alpha_3 <- ifelse(firsts$iso_code == "EL", "GRC", firsts$Alpha_3)
-  firsts$Alpha_3 <- ifelse(firsts$iso_code == "XK", "XKO", firsts$Alpha_3)
-  
-  firsts <- firsts[, c("Alpha_3", "first_case", "first_death")]
-  names(firsts) <- c("country", "first_case", "first_death")
+  firsts <- firsts[, c("country", "first_case", "first_death")]
   
   return(firsts)
 }

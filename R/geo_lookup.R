@@ -11,6 +11,7 @@
 #' \item{country_name}{country name}
 #' \item{admin1_name}{level 1 administrative unit name}
 #' \item{continent}{continent name}
+#' \item{alpha_2}{ISO 3166-1 alpha-2 country code}
 #' }
 #' 
 #' @references
