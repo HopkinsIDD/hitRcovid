@@ -1,6 +1,4 @@
 
-## UNDER DEVELOPMENT ##
-
 #' Mapping of interventions 
 #' 
 #' This function maps the interventions at both national and administrative level at a specific time.
