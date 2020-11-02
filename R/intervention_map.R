@@ -113,12 +113,7 @@ intervention_map <- function(hit_data,
   country_map <- recent_data[is.na(recent_data$admin1),]
   country_map <- dplyr::left_join(world, country_map, world, by = c("region" = "country_name"))
   
-  # HX: 
-  # I used the dataset "gadm_admin1.RData" in covid19-interventions package created by Sarah for the weekly update report,
-  # and calculated one coordinate for each admin polygon, (as we want dots for admin not polygon) 
-  # I stored this in a file (containing ISO, admin_name, long and lat, etc.), 
-  # (and currently put this file in the same folder with geo_lookup)
-
+  
   # admin level data prep -------------------------------------------------------
   admin_location <- hitRcovid::admin_location
   admin_location <- dplyr::left_join(hitRcovid::geo_lookup, admin_location,
