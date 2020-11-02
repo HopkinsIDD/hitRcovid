@@ -30,6 +30,8 @@ You can then filter the database by location and/or intervention type using [hit
 
 `asia_masks <- hit_filter(hit_data, continent = "Asia", intervention_group = "mask")`
 
+The country and admin codes to be used for filtering can be found in the [geo_lookup](https://hopkinsidd.github.io/hitRcovid/reference/geo_lookup.html) dataframe provided in the package. The intervention group codes and names can be found in the [intervention_lookup](https://hopkinsidd.github.io/hitRcovid/reference/intervention_lookup.html) dataframe provided in the package or all options can be printed using the function [list_interventions()](https://hopkinsidd.github.io/hitRcovid/reference/list_interventions.html).
+
 
 ## Visualizations
 
@@ -42,7 +44,9 @@ The package contains a plotting function, [intervention_timeline()](https://hopk
 
 ### World map of status of an intervention
 
-TO COME
+The package contains a plotting function, [intervention_map()](https://hopkinsidd.github.io/hitRcovid/reference/intervention_map.html), to display a world map showing the current status of a one intervention group at a date specified. The documentation provides details about all of the filtering and visualization options. Here is an example of a map of the status of school closures on September 1, 2020:
+
+`intervention_map(hit_data, intervention_group = "school_closed", time_point = "9/01/2020")`
 
 ### Epi-curve with intervention data
 
