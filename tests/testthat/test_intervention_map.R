@@ -1,7 +1,7 @@
 context("intervention_map")
 library(hitRcovid)
 
-hit <- hit_pull()
+hit <- hit_pull(add_first_case = FALSE)
 
 test_that("intervention_map returns ggplot objects with no errors",{
   
