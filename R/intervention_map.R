@@ -159,7 +159,8 @@ intervention_map <- function(hit_data,
      ggplot2::geom_polygon(data = country_map, ggplot2::aes(x = .data$long, y = .data$lat,
                                                             group = .data$group, fill = .data$recent_status), 
                   color = "black", size = 0.2, alpha = 0.5) +
-     ggplot2::scale_fill_manual(values = country_mapping_colors) +
+     ggplot2::scale_fill_manual(values = country_mapping_colors, 
+                                guide = ggplot2::guide_legend(title.position = "top")) +
      ggplot2::geom_point(data = admin_map, ggplot2::aes(x = .data$long, y = .data$lat, col = .data$recent_status),
                 alpha = 0.6) +
      ggplot2::scale_color_manual(values = admin_mapping_colors) +
@@ -174,10 +175,10 @@ intervention_map <- function(hit_data,
      ggplot2::theme(legend.title.align = 0.5)+
      ggplot2::theme(legend.text = ggplot2::element_text(size=8),
                     legend.title = ggplot2::element_text(size=10)) +
-     ggplot2::coord_fixed(ratio = 1.3)
+     ggplot2::coord_fixed(ratio = 1.3) +
+     ggplot2::theme(legend.position = "bottom")
    
   print(p)
 }
-
 
 
