@@ -17,7 +17,7 @@
 #' @param time_point character string indicating the desired mapping date (default is Sys.Date())
 #' @param intervention_group vector of intervention group to filter the data to 
 #' (see \link{intervention_lookup} column "intervention_group" or run \link{list_interventions} for options)
-#' @param date.format character string indicating the desired format of date. (default is "%m/%d/%Y")
+#' @param date_format character string indicating the desired format of date. (default is "%m/%d/%Y")
 #' 
 #' @return 
 #' A world map depicting interventions of countries and administrative divisions by a specific date.
@@ -45,7 +45,7 @@
 intervention_map <- function(hit_data,
                     time_point = Sys.Date(), 
                     intervention_group = NULL, 
-                    date.format = "%m/%d/%Y") {
+                    date_format = "%m/%d/%Y") {
   
   # Error handling-----------------------------------------------------------------
   
@@ -56,10 +56,10 @@ intervention_map <- function(hit_data,
   }
   
   # Determine if the time_point entered is valid, if not, return warning
-  time_point <- as.Date(time_point, date.format)  
+  time_point <- as.Date(time_point, date_format)  
   if(is.na(time_point)) {
     stop('Time point entered here is not valid, please enter a valid date in right format.')
-  } else if(time_point < as.Date("1/1/2020", date.format) |
+  } else if(time_point < as.Date("1/1/2020", date_format) |
             time_point > Sys.Date()) {
     stop("Time point entered here is not valid, please enter valid date between 1/1/2020 and present.")
   } 
