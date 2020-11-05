@@ -1,126 +1,187 @@
-# 
-# setwd("~/Boston University/COVID_Interventions/hitRcovid")
-# library(dplyr)
-# library(ggplot2)
-# library(covidregionaldata)
-# library(zoo)
-# library(gridExtra)
-# library(vistime)
-# library(purrr)
-# 
-# epi_curve <- function(){
-#   #Cases only plot
-# case_counts <- covidregionaldata::get_regional_data(country = "USA")
-# case_counts <- case_counts %>%
-#   filter(cases_total > 0, iso_3166_2 == "US-NJ") %>%
-#   mutate(cases_smooth = zoo::rollmean(cases_new, 7, fill = NA))
-# 
-# first_date <- min(case_counts$date)
-# last_date <- max(case_counts$date)
-# 
-# 
-# #Summarizing intervention data
-# #Line 1: Household confinement
-# #Line 2: Retail stores
-# #Line 3: Leisure and entertainment
-# #Line 4: Restaurants
-# #Line 5: Primary schools
-# 
-# #Function to label groups of the same intervention status
-# sameStatus <- function(intdf){
-# 
-#   #Setting first row values
-#   intdf[1, "interval"] <- 1
-#   intdf[1, "start"] <- intdf[1, "date_of_update"]
-# 
-#   #Initializing values for loop
-#   currentInterval <- intdf[1,]
-#   interval <- 1
-#   start <- intdf[1, "date_of_update"]
-#   for (i in 2:nrow(intdf)){
-#     if (intdf[i, "status_simp"] != intdf[i, "lag_status"]){
-#       interval <- interval + 1
-#       start <- intdf[i, "date_of_update"]
-#       currentVisit <- intdf[i, ]
-#     }
-#     intdf[i, "interval"] <- interval
-#     intdf[i, "start"] <- start
-#   }
-#   return(intdf)
-# }
-# 
-# 
-# hit_data <- hit_pull(add_first_case = FALSE)
-# int_data <- hit_filter(hit_data, admin1 = "USA.31_1",
-#                        intervention_group = c("household_confined", "entertainment_closed",
-#                                               "store_closed", "restaurant_closed", "school_closed"))
-# 
-# #Creating intervention labels with line breaks
-# int_types <- cbind.data.frame("intervention_name" = c("Household confinement",
-#                                                       "Leisure and entertainment venue closures",
-#                                                       "Primary school closures" ,
-#                                                       "Restaurant closures (excluding takeout/delivery)",
-#                                                       "Retail store closures (excluding essentials)"),
-#                               "intervention_label" = c("Household confinement",
-#                                                        "Leisure and entertainment\nvenue closures",
-#                                                        "Primary school closures",
-#                                                        "Restaurant closures\n(excluding takeout/delivery)",
-#                                                        "Retail store closures\n(excluding essentials)"))
-# 
-# int_data <- int_data %>%
-#   filter(!intervention_name %in% c("Nursery school closures", "Secondary school closures",
-#                                    "Post-secondary school closures")) %>%
-#   select(intervention_group, intervention_name, status, status_simp, date_of_update) %>%
-#   arrange(intervention_group, date_of_update) %>%
-#   group_by(intervention_group) %>%
-#   mutate(lag_status = lag(status_simp)) %>%
-#   full_join(int_types, by = "intervention_name")
-# 
-# int_data2 <- int_data %>%
-#   split(int_data$intervention_name) %>%
-#   map_dfr(sameStatus) %>%
-#   group_by(intervention_name) %>%
-#   mutate(end = lead(start)) %>%
-#   mutate(end = ifelse(is.na(end), as.character(last_date), end)) %>%
-#   group_by(intervention_name, interval) %>%
-#   slice_max(end) %>%
-#   mutate(start = as.Date(start),
-#          end = as.Date(end),
-#          color = ifelse(status_simp == "Strongly Implemented", "red",
-#                         ifelse(status_simp == "Partially Implemented", "darkorange", "grey")),
-#          label = "")
-# 
-# 
-# #Plot of case counts
-# p1 <- ggplot(data = case_counts) +
-#   geom_bar(aes(x = date, y = cases_new), stat = "identity") +
-#   geom_line(aes(x = date, y = cases_smooth), color = "darkblue", size = 1.3, na.rm = TRUE) +
-#   labs(x = "Date", y = "Number of new cases") +
-#   xlim(c(first_date - 1, last_date + 1)) +
-#   theme_bw()
-# 
-# #Plot of interventions
-# p2 <- vistime::gg_vistime(int_data2, col.event = "status_simp",
-#                           col.group = "intervention_label",
-#                           show_labels = FALSE, linewidth = 6) +
-#   scale_color_identity(name = "",
-#                        breaks = c("red", "darkorange", "grey"),
-#                        labels = c("Strongly Implemented",
-#                                   "Partially Implemented",
-#                                   "Implementation Suspended"),
-#                        guide = "legend") +
-#   theme(legend.position = "bottom",
-#         legend.margin=margin(0,0,0,0),
-#         legend.box.margin=margin(-10,-10,-5,-10)) +
-#   xlim(as.POSIXct(c(first_date - 1, last_date + 1)))
-# 
-# #Need to figure out how to line up axes.
-# 
-# lay <- rbind(c(NA, NA, rep(1, 14)),
-#              c(NA, NA, rep(1, 14)),
-#              rep(2, 16))
-# 
-# grid.arrange(p1, p2, layout_matrix = lay)
-# 
-# }
+
+## UNDER DEVELOPMENT ##
+
+#hit_data <- hit_pull(add_first_case = FALSE)
+
+
+## TODO: Add admin1 data where available
+
+epi_curve <- function(hit_data, country, source){
+  
+  #### Error handling -----------------------------------------------------------------------------
+  
+  source <- toupper(source = c("WHO", "ECDC"),
+                    case_threshold = 0,
+                    first_date = NULL,
+                    last_date = NULL,
+                    date_format = "%m/%d/%Y")
+  
+  
+  #Setting default source to WHO and throwing an error if the source is not valid
+  if(all(source == c("WHO", "ECDC"))){
+    source <- "WHO"
+  }else if(length(source) > 1){
+    stop("source should be one of 'ECDC' or 'WHO'")
+  }else if(!source %in% c("WHO", "ECDC")){
+    stop("source should be one of 'ECDC' or 'WHO'")
+  }
+  
+  # Determine if the dates entered are valid, if not, return warning
+  if(!is.null(first_date)){
+    first_date <- as.Date(time_point, date.format)  
+    if(is.na(first_date)) {
+      stop('Date entered here is not valid, please enter a valid date in right format.')
+    } else if(first_date < as.Date("1/1/2020", date.format) |
+              first_date > Sys.Date()) {
+      stop("Date entered here is not valid, please enter valid date between 1/1/2020 and present.")
+    } 
+  }
+  if(!is.null(last_date)){
+    last_date <- as.Date(time_point, date.format)  
+    if(is.na(last_date)) {
+      stop('Date entered here is not valid, please enter a valid date in right format.')
+    } else if(last_date < as.Date("1/1/2020", date.format) |
+              last_date > Sys.Date()) {
+      stop("Date entered here is not valid, please enter valid date between 1/1/2020 and present.")
+    } 
+  }
+
+
+  
+  #### Setting up plotting data -------------------------------------------------------------------
+  
+  #Getting all case counts
+  case_counts <- covidregionaldata::get_national_data(source = source)
+  
+  #Finding iso_code (2 letter) that goes with the country specified
+  country_code <- unique(geo_lookup[geo_lookup$country == country & !is.na(geo_lookup$country),
+                                    "alpha_2"])
+  
+  #Filtering to country, restricting to more cases than specified threshold and adding 7-day average
+  case_counts <- case_counts %>%
+    filter(cases_total > case_threshold, iso_code == country_code) %>%
+    mutate(cases_smooth = zoo::rollmean(cases_new, 7, fill = NA))
+  
+  #Finding the min and max date (if first_date and last_date were not user-specified)
+  if(is.null(first_date)){first_date <- min(case_counts$date)}
+  if(is.null(last_date)){last_date <- max(case_counts$date)}
+  if(last_date <= first_date){
+    stop("first_date must be earlier than last_date")
+  }
+
+
+  #Filtering the HIT-COVID database and selecting interventions
+  ## TODO: Allow user to select interventions
+  int_data <- hit_filter(hit_data, country = country, include_admin1 = FALSE,
+                         intervention_group = c("household_confined", "closed_border", "mask",
+                                                "store_closed", "restaurant_closed", "school_closed"))
+  
+  #Creating intervention labels with line breaks for better printing
+  int_types <- cbind.data.frame("intervention_group" = c("household_confined",
+                                                        "closed_border",
+                                                        "mask",
+                                                        "school_closed",
+                                                        "store_closed",
+                                                        "restaurant_closed"),
+                                "intervention_label" = c("Household confinement",
+                                                         "Border closures",
+                                                         "Universal mask mandates",
+                                                         "Primary school closures",
+                                                         "Retail store closures",
+                                                         "Restaurant closures"))
+  
+  int_data <- int_data %>%
+    filter(!intervention_name %in% c("Nursery school closures", "Secondary school closures",
+                                     "Post-secondary school closures")) %>%
+    select(intervention_group, intervention_name, status, status_simp, date_of_update) %>%
+    arrange(intervention_group, date_of_update) %>%
+    group_by(intervention_group) %>%
+    mutate(lag_status = lag(status_simp)) %>%
+    left_join(int_types, by = "intervention_group")
+  
+  int_data2 <- int_data %>%
+    split(int_data$intervention_group) %>%
+    purrr::map_dfr(sameStatus) %>%
+    group_by(intervention_group) %>%
+    mutate(end = lead(start)) %>%
+    mutate(end = ifelse(is.na(end), as.character(last_date), end)) %>%
+    group_by(intervention_group, interval) %>%
+    slice_max(end) %>%
+    mutate(start = as.Date(start),
+           end = as.Date(end),
+           color = ifelse(status_simp == "Strongly Implemented", "red",
+                          ifelse(status_simp == "Partially Implemented", "darkorange", "grey")),
+           label = "")
+  
+  # If 'start' is earlier than first_date and 'end' is later than first_date
+  # then set the 'start' to be first_date, otherwise this bar will not be plotted
+  int_data2[which(int_data2$start <= first_date & int_data2$end >= first_date),]$start <- first_date
+  
+  #If 'start' == 'end', then delete this row in int_data2, otherwise there will be a dot on the plot
+  int_data2 <- int_data2[which(int_data2$start < int_data2$end), ]
+  
+  
+  #Plot of case counts
+  p1 <- ggplot2::ggplot(data = case_counts) +
+    ggplot2::geom_bar(ggplot2::aes(x = date, y = cases_new), stat = "identity") +
+    ggplot2::geom_line(aes(x = date, y = cases_smooth), color = "darkblue", size = 1.3, na.rm = TRUE) +
+    ggplot2::labs(y = "Number of new cases") +
+    ggplot2::xlim(c(first_date - 1, last_date + 1)) +
+    ggplot2::theme_bw() +
+    ggplot2::theme(axis.title.y = ggplot2::element_text(margin = margin(t = 0, r = 10, b = 0, l = 0)),
+                   axis.title.x = ggplot2::element_blank())
+  
+  #Plot of interventions
+  p2 <- vistime::gg_vistime(int_data2, col.event = "status_simp",
+                            col.group = "intervention_label",
+                            show_labels = FALSE, linewidth = 6) +
+    ggplot2::scale_color_identity(name = "",
+                                  breaks = c("red", "darkorange", "grey"),
+                                  labels = c("Strongly Implemented",
+                                             "Partially Implemented",
+                                             "Implementation Suspended"),
+                                  guide = "legend") +
+    ggplot2::theme(legend.position = "bottom",
+                   legend.margin=ggplot2::margin(0,0,0,0),
+                   legend.box.margin=ggplot2::margin(-10,-10,-5,-10)) +
+    ggplot2::xlim(as.POSIXct(c(first_date - 1, last_date + 1)))
+  
+  #Combining and using egg package to align axes
+  p <- egg::ggarrange(p1, p2, heights = c(0.7, 0.3))
+  
+  return(p)
+}
+
+
+#Function to create groups of consecutive updates with the same status
+#TODO: let you use status_simp or a collapsed version (implemented/not)
+sameStatus <- function(intdf){
+  
+  #Setting first row values
+  intdf[1, "interval"] <- 1
+  intdf[1, "start"] <- intdf[1, "date_of_update"]
+  
+  #Initializing values for loop
+  currentInterval <- intdf[1,]
+  interval <- 1
+  start <- intdf[1, "date_of_update"]
+  
+  if(nrow(intdf) == 1){
+    intdf[1, "start"] <- intdf[1, "date_of_update"]
+    intdf[1, "end"] <- intdf[1, "date_of_update"]
+  }
+  
+  if (nrow(intdf) > 1) {
+    for (i in 2:nrow(intdf)){  
+      if (intdf[i, "status_simp"] != intdf[i, "lag_status"]){ # if status different from previous status (lag)
+        interval <- interval + 1 # interval represent the interval between two policy updates
+        start <- intdf[i, "date_of_update"] # define the new start of the new interval
+        currentVisit <- intdf[i, ]
+      }
+      intdf[i, "interval"] <- interval
+      intdf[i, "start"] <- start
+    }
+  }  
+  return(intdf)
+}
 
