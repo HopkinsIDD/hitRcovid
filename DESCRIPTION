@@ -35,4 +35,8 @@ Imports:
     covidregionaldata,
     rlang,
     maps,
-    dplyr
+    dplyr,
+    purrr,
+    zoo,
+    egg,
+    vistime

@@ -68,6 +68,12 @@ use_package("covidregionaldata")
 use_package("rlang")
 use_package("dplyr")
 use_package("maps")
+use_package("purrr")
+use_package("zoo")
+use_package("egg")
+use_package("vistime")
+
+
 
 
 #Add to ignore file
