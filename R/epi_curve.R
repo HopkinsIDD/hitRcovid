@@ -6,15 +6,17 @@
 
 ## TODO: Add admin1 data where available
 
-epi_curve <- function(hit_data, country, source){
+epi_curve <- function(hit_data,
+                      country,
+                      source = c("WHO", "ECDC"),
+                      case_threshold = 0,
+                      first_date = NULL,
+                      last_date = NULL,
+                      date_format = "%m/%d/%Y"){
   
   #### Error handling -----------------------------------------------------------------------------
   
-  source <- toupper(source = c("WHO", "ECDC"),
-                    case_threshold = 0,
-                    first_date = NULL,
-                    last_date = NULL,
-                    date_format = "%m/%d/%Y")
+  source <- toupper(source)
   
   
   #Setting default source to WHO and throwing an error if the source is not valid
@@ -69,6 +71,20 @@ epi_curve <- function(hit_data, country, source){
     stop("first_date must be earlier than last_date")
   }
 
+  
+  #Creating intervention labels with line breaks for better printing
+  int_labels <- cbind.data.frame("intervention_group" = c("household_confined",
+                                                         "closed_border",
+                                                         "mask",
+                                                         "school_closed",
+                                                         "store_closed",
+                                                         "restaurant_closed"),
+                                "intervention_label" = c("Household confinement",
+                                                         "Border closures",
+                                                         "Universal mask mandates",
+                                                         "Primary school closures",
+                                                         "Retail store closures",
+                                                         "Restaurant closures"))
 
   #Filtering the HIT-COVID database and selecting interventions
   ## TODO: Allow user to select interventions
@@ -76,50 +92,51 @@ epi_curve <- function(hit_data, country, source){
                          intervention_group = c("household_confined", "closed_border", "mask",
                                                 "store_closed", "restaurant_closed", "school_closed"))
   
-  #Creating intervention labels with line breaks for better printing
-  int_types <- cbind.data.frame("intervention_group" = c("household_confined",
-                                                        "closed_border",
-                                                        "mask",
-                                                        "school_closed",
-                                                        "store_closed",
-                                                        "restaurant_closed"),
-                                "intervention_label" = c("Household confinement",
-                                                         "Border closures",
-                                                         "Universal mask mandates",
-                                                         "Primary school closures",
-                                                         "Retail store closures",
-                                                         "Restaurant closures"))
+  #Subsetting to just primary school closures for schools
+  int_data <- int_data[!int_data$intervention_name %in% c("Nursery school closures",
+                                                          "Secondary school closures",
+                                                          "Post-secondary school closures"),
+                       c("intervention_group", "status", "status_simp", "date_of_update")]
   
-  int_data <- int_data %>%
-    filter(!intervention_name %in% c("Nursery school closures", "Secondary school closures",
-                                     "Post-secondary school closures")) %>%
-    select(intervention_group, intervention_name, status, status_simp, date_of_update) %>%
-    arrange(intervention_group, date_of_update) %>%
-    group_by(intervention_group) %>%
-    mutate(lag_status = lag(status_simp)) %>%
-    left_join(int_types, by = "intervention_group")
+  #Ordering by intervention and date
+  int_data <- int_data[order(int_data$intervention_group, int_data$date_of_update),]
   
-  int_data2 <- int_data %>%
-    split(int_data$intervention_group) %>%
-    purrr::map_dfr(sameStatus) %>%
-    group_by(intervention_group) %>%
-    mutate(end = lead(start)) %>%
-    mutate(end = ifelse(is.na(end), as.character(last_date), end)) %>%
-    group_by(intervention_group, interval) %>%
-    slice_max(end) %>%
-    mutate(start = as.Date(start),
-           end = as.Date(end),
-           color = ifelse(status_simp == "Strongly Implemented", "red",
-                          ifelse(status_simp == "Partially Implemented", "darkorange", "grey")),
-           label = "")
+  #Adding status of previous intervention of the same type
+  int_data <- dplyr::group_by(int_data, .data$intervention_group)
+  int_data <- dplyr::mutate(int_data, lag_status = dplyr::lag(.data$status_simp))
+  
+  #Combining with intervention labels
+  int_data <- merge(int_data, int_labels, by = "intervention_group", all.x = TRUE)
+  
+  #Finding the groups of consecutive updates of the same intervention with the same status
+  split_data <- split(int_data, int_data$intervention_group)
+  int_data2 <- purrr::map_dfr(split_data, sameStatus)
+  
+  #Finding the start and end date for each group of updates with the same status
+  int_data2 <- dplyr::group_by(int_data2, .data$intervention_group)
+  int_data2 <- dplyr::mutate(int_data2, end = dplyr::lead(.data$start))
+  int_data2$end <- ifelse(is.na(int_data2$end), as.character(last_date), int_data2$end)
+  
+  #Collapsing to one row for each group of updates with the same status
+  int_data3 <- dplyr::group_by(int_data2, .data$intervention_group, .data$interval)
+  int_data3 <- dplyr::slice_max(int_data3, .data$end)
+  int_data3$start <- as.Date(int_data3$start)
+  int_data3$end <- as.Date(int_data3$end)
   
   # If 'start' is earlier than first_date and 'end' is later than first_date
-  # then set the 'start' to be first_date, otherwise this bar will not be plotted
-  int_data2[which(int_data2$start <= first_date & int_data2$end >= first_date),]$start <- first_date
+  # then set the 'start' to be first_date, int_data3 this bar will not be plotted
+  int_data3[int_data3$start <= first_date & int_data3$end >= first_date,]$start <- first_date
+  #If 'start' == 'end', then delete this row, otherwise there will be a dot on the plot
+  int_data3 <- int_data3[int_data3$start < int_data3$end, ]
   
-  #If 'start' == 'end', then delete this row in int_data2, otherwise there will be a dot on the plot
-  int_data2 <- int_data2[which(int_data2$start < int_data2$end), ]
+  #Setting plotting parameters
+  int_data3$color <- ifelse(int_data3$status_simp == "Strongly Implemented", "red",
+                            ifelse(int_data3$status_simp == "Partially Implemented", "darkorange",
+                                   "grey"))
+    
   
+  
+  #### Making plots -------------------------------------------------------------------------------
   
   #Plot of case counts
   p1 <- ggplot2::ggplot(data = case_counts) +
@@ -132,7 +149,7 @@ epi_curve <- function(hit_data, country, source){
                    axis.title.x = ggplot2::element_blank())
   
   #Plot of interventions
-  p2 <- vistime::gg_vistime(int_data2, col.event = "status_simp",
+  p2 <- vistime::gg_vistime(int_data3, col.event = "status_simp",
                             col.group = "intervention_label",
                             show_labels = FALSE, linewidth = 6) +
     ggplot2::scale_color_identity(name = "",
