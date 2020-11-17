@@ -6,7 +6,7 @@
 
 ## TODO: Add admin1 data where available
 
-epi_curve <- function(hit_data,
+intervention_epi <- function(hit_data,
                       country,
                       source = c("WHO", "ECDC"),
                       case_threshold = 0,
@@ -141,11 +141,11 @@ epi_curve <- function(hit_data,
   #Plot of case counts
   p1 <- ggplot2::ggplot(data = case_counts) +
     ggplot2::geom_bar(ggplot2::aes(x = date, y = cases_new), stat = "identity") +
-    ggplot2::geom_line(aes(x = date, y = cases_smooth), color = "darkblue", size = 1.3, na.rm = TRUE) +
+    ggplot2::geom_line(ggplot2::aes(x = date, y = cases_smooth), color = "darkblue", size = 1.3, na.rm = TRUE) +
     ggplot2::labs(y = "Number of new cases") +
     ggplot2::xlim(c(first_date - 1, last_date + 1)) +
     ggplot2::theme_bw() +
-    ggplot2::theme(axis.title.y = ggplot2::element_text(margin = margin(t = 0, r = 10, b = 0, l = 0)),
+    ggplot2::theme(axis.title.y = ggplot2::element_text(margin = ggplot2::margin(t = 0, r = 10, b = 0, l = 0)),
                    axis.title.x = ggplot2::element_blank())
   
   #Plot of interventions
