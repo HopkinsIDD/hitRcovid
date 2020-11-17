@@ -3,6 +3,7 @@
 export(get_first_case)
 export(hit_filter)
 export(hit_pull)
+export(intervention_epi)
 export(intervention_map)
 export(intervention_timeline)
 export(list_interventions)

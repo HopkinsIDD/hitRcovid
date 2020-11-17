@@ -41,7 +41,8 @@ should be drawn (defulat is TRUE).}
 
 \item{source}{the source of the case data that is used to determine the date of first case and
 first death if \code{hit_data} does not already include that information and either
-\code{first_case_line} or \code{first_death_line} are set to TRUE (default is "WHO").}
+\code{first_case_line} or \code{first_death_line} are set to TRUE. One of "ECDC" or "WHO"
+(default is "WHO").}
 
 \item{continent}{vector of continent names to filter the data to; should be one of
 \code{c("Asia", "Europe", "Africa", "Oceania", "North America", "South America")}}
@@ -77,7 +78,7 @@ the option to facet the plot by different location levels. If desired, it also d
 indicating the date of first case and first death in each facet provided.
 }
 \details{
-The dataset must first be loaded with \link{hit_pull} and fed into this function.
+The HIT-COVID database must first be loaded with \link{hit_pull} and fed into this function.
 See \link{hit_filter} for details about each of the different filtering arguments. If desired the
 plot can have facets for different location levels - continent, country, admin1 using the
 \code{facet-by} argument. The default plot will also facet by broad intervention categories.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/intervention_map.R
 \name{intervention_map}
 \alias{intervention_map}
-\title{Mapping of interventions}
+\title{Plots a world map of an intervention}
 \usage{
 intervention_map(
   hit_data,
@@ -19,24 +19,23 @@ intervention_map(
 \item{intervention_group}{vector of intervention group to filter the data to
 (see \link{intervention_lookup} column "intervention_group" or run \link{list_interventions} for options)}
 
-\item{date_format}{character string indicating the desired format of date. (default is "\%m/\%d/\%Y")}
-}
-\value{
-A world map depicting interventions of countries and administrative divisions by a specific date.
+\item{date_format}{character string indicating the date format of \code{time_point}
+(default is "\%m/\%d/\%Y").}
 }
 \description{
-This function maps the interventions at both national and administrative level at a specific time.
-The HIT-COVID dataset is loaded with \link{hit_pull}, and data of one specific intervention
-is pulled using \link{hit_filter}.
+This function maps the status of a specified intervention at a specified date at both national
+and administrative level.
 }
 \details{
-The function aims to draw a world map depicting the latest interventions before this \code{time_point}.
-If no value is entered for \code{time_point}, it will return a map of most recent interventions.
-Both national level and administrative level data are mapped on the same plot.
-National level data are represented by the color of country territories, and administrative level data are
-represented by dots, both types of data are coded in red (Strongly implemented),
-yellow (partially implemented) or green (implementation suspended). The strongest implementation
-intensity is used for mapping if for one territory there are multiple entries in the same intervention group on the same day.
+The HIT-COVID database must first be loaded with \link{hit_pull} and fed into this function.
+The function draws a world map depicting the latest intervention status before the provided
+\code{time_point}. If no value is entered for \code{time_point}, it will return a map of most
+current intervention status. Both national level and administrative level data are mapped.
+National level intervention data are represented by the color of the country polygons.
+Administrative level intervention data are represented by circles. Both types of data are coded
+in red (Strongly implemented), yellow (partially implemented) or gray (implementation suspended).
+The strongest implementation intensity is used for mapping if for one territory there are
+multiple entries in the same intervention group on the same day.
 }
 \examples{
 

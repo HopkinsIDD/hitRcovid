@@ -83,6 +83,24 @@ intervention_timeline(hit, facet_by = "continent", include_admin1 = FALSE, verbo
 
 
 #Testing epi-curve function
+hit <- hit_pull(add_first_case = FALSE)
 
+p <- intervention_epi(hit, country = "IND")
+intervention_epi(hit, country = "IND")
+intervention_epi(hit, country = "IND", case_threshold = 100)
+intervention_epi(hit, country = "IND", case_threshold = 100, first_date = "2/1/2020")
+intervention_epi(hit, country = "IND", case_threshold = 100, last_date = "9/30/2020")
+intervention_epi(hit, country = "IND",first_date = "2/1/2020", last_date = "9/30/2020")
+intervention_epi(hit, country = "NZL", first_date = "3/1/2020", last_date = "5/31/2020")
 
+#Error testing
+intervention_epi(hit, country = "garbage")
+intervention_epi(hit, country = "IND", first_date = "garbage")
+intervention_epi(hit, country = "IND", last_date = "garbage")
+intervention_epi(hit, country = "IND", first_date = "12/31/2019")
+intervention_epi(hit, country = "IND", first_date = Sys.Date() + 10)
+intervention_epi(hit, country = "IND", last_date = "12/31/2019")
+intervention_epi(hit, country = "IND", last_date = Sys.Date() + 10)
+intervention_epi(hit, country = "IND", first_date = "5/31/2020", last_date = "4/1/2020")
+intervention_epi(hit, country = "IND", last_date = "1/1/2020")
 

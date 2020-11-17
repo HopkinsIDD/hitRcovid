@@ -188,7 +188,8 @@ should be drawn (defulat is TRUE).</p></td>
       <th>source</th>
       <td><p>the source of the case data that is used to determine the date of first case and
 first death if <code>hit_data</code> does not already include that information and either
-<code>first_case_line</code> or <code>first_death_line</code> are set to TRUE (default is "WHO").</p></td>
+<code>first_case_line</code> or <code>first_death_line</code> are set to TRUE. One of "ECDC" or "WHO"
+(default is "WHO").</p></td>
     </tr>
     <tr>
       <th>continent</th>
@@ -240,7 +241,7 @@ of "include", "exclude" or "restrict_to" (default is "exclude").</p></td>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The dataset must first be loaded with <a href='hit_pull.html'>hit_pull</a> and fed into this function.
+    <p>The HIT-COVID database must first be loaded with <a href='hit_pull.html'>hit_pull</a> and fed into this function.
 See <a href='hit_filter.html'>hit_filter</a> for details about each of the different filtering arguments. If desired the
 plot can have facets for different location levels - continent, country, admin1 using the
 <code>facet-by</code> argument. The default plot will also facet by broad intervention categories.

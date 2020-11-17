@@ -107,6 +107,7 @@
 <p><code>hit_data &lt;- hit_pull()</code></p>
 <p>You can then filter the database by location and/or intervention type using <a href="https://hopkinsidd.github.io/hitRcovid/reference/hit_filter.html">hit_filter()</a> function. The documentation provides details on all of the options available for this function. Here is an example looking at the mask policies across Asia:</p>
 <p><code>asia_masks &lt;- hit_filter(hit_data, continent = "Asia", intervention_group = "mask")</code></p>
+<p>The country and admin codes to be used for filtering can be found in the <a href="https://hopkinsidd.github.io/hitRcovid/reference/geo_lookup.html">geo_lookup</a> dataframe provided in the package. The intervention group codes and names can be found in the <a href="https://hopkinsidd.github.io/hitRcovid/reference/intervention_lookup.html">intervention_lookup</a> dataframe provided in the package or all options can be printed using the function <a href="https://hopkinsidd.github.io/hitRcovid/reference/list_interventions.html">list_interventions()</a>.</p>
 </div>
 <div id="visualizations" class="section level2">
 <h2 class="hasAnchor">
@@ -120,7 +121,8 @@
 <div id="world-map-of-status-of-an-intervention" class="section level3">
 <h3 class="hasAnchor">
 <a href="#world-map-of-status-of-an-intervention" class="anchor"></a>World map of status of an intervention</h3>
-<p>TO COME</p>
+<p>The package contains a plotting function, <a href="https://hopkinsidd.github.io/hitRcovid/reference/intervention_map.html">intervention_map()</a>, to display a world map showing the current status of a one intervention group at a date specified. The documentation provides details about all of the filtering and visualization options. Here is an example of a map of the status of school closures on September 1, 2020:</p>
+<p><code><a href="reference/intervention_map.html">intervention_map(hit_data, intervention_group = "school_closed", time_point = "9/01/2020")</a></code></p>
 </div>
 <div id="epi-curve-with-intervention-data" class="section level3">
 <h3 class="hasAnchor">
