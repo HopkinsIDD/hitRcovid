@@ -82,3 +82,7 @@ intervention_timeline(hit, facet_by = "continent", include_admin1 = TRUE)
 intervention_timeline(hit, facet_by = "continent", include_admin1 = FALSE, verbose = FALSE)
 
 
+#Testing epi-curve function
+
+
+

@@ -5,13 +5,14 @@
 \alias{geo_lookup}
 \title{Country and Admin1 Code Look-up Table}
 \format{
-A data frame with 3611 rows and 4 variables:
+A data frame with 3611 rows and 5 variables:
 \describe{
 \item{country}{ISO 3166-1 alpha-3 country code}
 \item{admin1}{first administrative unit code (following GADM5 unless otherwise noted)}
 \item{country_name}{country name}
 \item{admin1_name}{level 1 administrative unit name}
 \item{continent}{continent name}
+\item{alpha_2}{ISO 3166-1 alpha-2 country code}
 }
 }
 \usage{

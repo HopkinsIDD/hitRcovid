@@ -8,7 +8,7 @@ intervention_map(
   hit_data,
   time_point = Sys.Date(),
   intervention_group = NULL,
-  date.format = "\%m/\%d/\%Y"
+  date_format = "\%m/\%d/\%Y"
 )
 }
 \arguments{
@@ -19,7 +19,7 @@ intervention_map(
 \item{intervention_group}{vector of intervention group to filter the data to
 (see \link{intervention_lookup} column "intervention_group" or run \link{list_interventions} for options)}
 
-\item{date.format}{character string indicating the desired format of date. (default is "\%m/\%d/\%Y")}
+\item{date_format}{character string indicating the desired format of date. (default is "\%m/\%d/\%Y")}
 }
 \value{
 A world map depicting interventions of countries and administrative divisions by a specific date.
