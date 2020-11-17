@@ -239,7 +239,7 @@ intervention_epi <- function(hit_data,
     ggplot2::xlim(as.POSIXct(c(first_date - 1, last_date + 1)))
   
   #Combining and using egg package to align axes
-  p <- egg::ggarrange(p1, p2, heights = c(0.7, 0.3))
+  p <- egg::ggarrange(p1, p2, heights = c(0.7, 0.3), draw = FALSE)
   
   return(p)
 }

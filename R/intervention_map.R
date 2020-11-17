@@ -177,7 +177,7 @@ intervention_map <- function(hit_data,
      ggplot2::coord_fixed(ratio = 1.3) +
      ggplot2::theme(legend.position = "bottom")
    
-  print(p)
+  return(p)
 }
 
 
