@@ -1,0 +1,320 @@
+"ISO_code","GID_code","Name","Type","ons_region_code"
+"AF-BDS","AFG.1_1","Badakhshan","Province",NA
+"AF-BDG","AFG.2_1","Badghis","Province",NA
+"AF-BGL","AFG.3_1","Baghlan","Province",NA
+"AF-BAL","AFG.4_1","Balkh","Province",NA
+"AF-BAM","AFG.5_1","Bamyan","Province",NA
+"AF-DAY","AFG.6_1","Daykundi","Province",NA
+"AF-FRA","AFG.7_1","Farah","Province",NA
+"AF-FYB","AFG.8_1","Faryab","Province",NA
+"AF-GHA","AFG.9_1","Ghazni","Province",NA
+"AF-GHO","AFG.10_1","Ghor","Province",NA
+"AF-HEL","AFG.11_1","Helmand","Province",NA
+"AF-HER","AFG.12_1","Herat","Province",NA
+"AF-JOW","AFG.13_1","Jowzjan","Province",NA
+"AF-KAB","AFG.14_1","Kabul","Province",NA
+"AF-KAN","AFG.15_1","Kandahar","Province",NA
+"AF-KAP","AFG.16_1","Kapisa","Province",NA
+"AF-KHO","AFG.17_1","Khost","Province",NA
+"AF-KNR","AFG.18_1","Kunar","Province",NA
+"AF-KDZ","AFG.19_1","Kunduz","Province",NA
+"AF-LAG","AFG.20_1","Laghman","Province",NA
+"AF-LOG","AFG.21_1","Logar","Province",NA
+"AF-NAN","AFG.22_1","Nangarhar","Province",NA
+"AF-NIM","AFG.23_1","Nimroz","Province",NA
+"AF-NUR","AFG.24_1","Nuristan","Province",NA
+"AF-PKA","AFG.25_1","Paktika","Province",NA
+"AF-PIA","AFG.26_1","Paktiya","Province",NA
+"AF-PAN","AFG.27_1","Panjshayr","Province",NA
+"AF-PAR","AFG.28_1","Parwan","Province",NA
+"AF-SAM","AFG.29_1","Samangan","Province",NA
+"AF-SAR","AFG.30_1","Sar-e Pul","Province",NA
+"AF-TAK","AFG.31_1","Takhar","Province",NA
+"AF-URU","AFG.32_1","Uruzgan","Province",NA
+"AF-WAR","AFG.33_1","Wardak","Province",NA
+"AF-ZAB","AFG.34_1","Zabul","Province",NA
+"BE-BRU","BEL.1_1","Bruxelles-Capitale, Région de;Brussels Hoofdstedelijk Gewest","Region",NA
+"BE-VLG","BEL.2_1","Vlaams Gewest","Region",NA
+"BE-WAL","BEL.3_1","wallonne, Région","Region",NA
+"BR-AC","BRA.1_1","Acre","State",NA
+"BR-AL","BRA.2_1","Alagoas","State",NA
+"BR-AP","BRA.3_1","Amapá","State",NA
+"BR-AM","BRA.4_1","Amazonas","State",NA
+"BR-BA","BRA.5_1","Bahia","State",NA
+"BR-CE","BRA.6_1","Ceará","State",NA
+"BR-DF","BRA.7_1","Distrito Federal","Federal District",NA
+"BR-ES","BRA.8_1","Espírito Santo","State",NA
+"BR-GO","BRA.9_1","Goiás","State",NA
+"BR-MA","BRA.10_1","Maranhão","State",NA
+"BR-MT","BRA.12_1","Mato Grosso","State",NA
+"BR-MS","BRA.11_1","Mato Grosso do Sul","State",NA
+"BR-MG","BRA.13_1","Minas Gerais","State",NA
+"BR-PA","BRA.14_1","Pará","State",NA
+"BR-PB","BRA.15_1","Paraíba","State",NA
+"BR-PR","BRA.16_1","Paraná","State",NA
+"BR-PE","BRA.17_1","Pernambuco","State",NA
+"BR-PI","BRA.18_1","Piauí","State",NA
+"BR-RJ","BRA.19_1","Rio de Janeiro","State",NA
+"BR-RN","BRA.20_1","Rio Grande do Norte","State",NA
+"BR-RS","BRA.21_1","Rio Grande do Sul","State",NA
+"BR-RO","BRA.22_1","Rondônia","State",NA
+"BR-RR","BRA.23_1","Roraima","State",NA
+"BR-SC","BRA.24_1","Santa Catarina","State",NA
+"BR-SP","BRA.25_1","São Paulo","State",NA
+"BR-SE","BRA.26_1","Sergipe","State",NA
+"BR-TO","BRA.27_1","Tocantins","State",NA
+"CA-AB","CAN.1_1","Alberta","Province",NA
+"CA-BC","CAN.2_1","British Columbia","Province",NA
+"CA-MB","CAN.3_1","Manitoba","Province",NA
+"CA-NB","CAN.4_1","New Brunswick","Province",NA
+"CA-NL","CAN.5_1","Newfoundland and Labrador","Province",NA
+"CA-NT","CAN.6_1","Northwest Territories","Territory",NA
+"CA-NS","CAN.7_1","Nova Scotia","Province",NA
+"CA-NU","CAN.8_1","Nunavut","Territory",NA
+"CA-ON","CAN.9_1","Ontario","Province",NA
+"CA-PE","CAN.10_1","Prince Edward Island","Province",NA
+"CA-QC","CAN.11_1","Quebec","Province",NA
+"CA-SK","CAN.12_1","Saskatchewan","Province",NA
+"CA-YT","CAN.13_1","Yukon Territory","Territory",NA
+"CO-AMA","COL.1_1","Amazonas","Department",NA
+"CO-ANT","COL.2_1","Antioquia","Department",NA
+"CO-ARA","COL.3_1","Arauca","Department",NA
+"CO-ATL","COL.4_1","Atlántico","Department",NA
+"CO-BOL","COL.5_1","Bolívar","Department",NA
+"CO-BOY","COL.6_1","Boyacá","Department",NA
+"CO-CAL","COL.7_1","Caldas","Department",NA
+"CO-CAQ","COL.8_1","Caquetá","Department",NA
+"CO-CAS","COL.9_1","Casanare","Department",NA
+"CO-CAU","COL.10_1","Cauca","Department",NA
+"CO-CES","COL.11_1","Cesar","Department",NA
+"CO-CHO","COL.12_1","Chocó","Department",NA
+"CO-COR","COL.13_1","Córdoba","Department",NA
+"CO-CUN","COL.14_1","Cundinamarca","Department",NA
+"CO-GUA","COL.15_1","Guainía","Department",NA
+"CO-GUV","COL.16_1","Guaviare","Department",NA
+"CO-HUI","COL.17_1","Huila","Department",NA
+"CO-LAG","COL.18_1","La Guajira","Department",NA
+"CO-MAG","COL.19_1","Magdalena","Department",NA
+"CO-MET","COL.20_1","Meta","Department",NA
+"CO-NAR","COL.21_1","Nariño","Department",NA
+"CO-NSA","COL.22_1","Norte de Santander","Department",NA
+"CO-PUT","COL.23_1","Putumayo","Department",NA
+"CO-QUI","COL.24_1","Quindío","Department",NA
+"CO-RIS","COL.25_1","Risaralda","Department",NA
+"CO-SAP","COL.26_1","San Andrés, Providencia y Santa Catalina","Department",NA
+"CO-SAN","COL.27_1","Santander","Department",NA
+"CO-SUC","COL.28_1","Sucre","Department",NA
+"CO-TOL","COL.29_1","Tolima","Department",NA
+"CO-VAC","COL.30_1","Valle del Cauca","Department",NA
+"CO-VAU","COL.31_1","Vaupés","Department",NA
+"CO-VID","COL.32_1","Vichada","Department",NA
+"DE-BW","DEU.1_1","Baden-Württemberg","State",NA
+"DE-BY","DEU.2_1","Bayern","State",NA
+"DE-BE","DEU.3_1","Berlin","State",NA
+"DE-BB","DEU.4_1","Brandenburg","State",NA
+"DE-HB","DEU.5_1","Bremen","State",NA
+"DE-HH","DEU.6_1","Hamburg","State",NA
+"DE-HE","DEU.7_1","Hessen","State",NA
+"DE-MV","DEU.8_1","Mecklenburg-Vorpommern","State",NA
+"DE-NI","DEU.9_1","Niedersachsen","State",NA
+"DE-NW","DEU.10_1","Nordrhein-Westfalen","State",NA
+"DE-RP","DEU.11_1","Rheinland-Pfalz","State",NA
+"DE-SL","DEU.12_1","Saarland","State",NA
+"DE-SN","DEU.14_1","Sachsen","State",NA
+"DE-ST","DEU.13_1","Sachsen-Anhalt","State",NA
+"DE-SH","DEU.15_1","Schleswig-Holstein","State",NA
+"DE-TH","DEU.16_1","Thüringen","State",NA
+"GB-ENG","GBR.1_1","England","Country","E92000001"
+"GB-NIR","GBR.2_1","Northern Ireland","Province","N92000002"
+"GB-SCT","GBR.3_1","Scotland","Country","S92000003"
+"GB-WLS","GBR.4_1","Wales","Country","W92000004"
+"IN-AN","IND.1_1","Andaman and Nicobar Islands","Union territory",NA
+"IN-AP","IND.2_1","Andhra Pradesh","State",NA
+"IN-AR","IND.3_1","Arunachal Pradesh","State",NA
+"IN-AS","IND.4_1","Assam","State",NA
+"IN-BR","IND.5_1","Bihar","State",NA
+"IN-CH","IND.6_1","Chandigarh","Union territory",NA
+"IN-CT","IND.7_1","Chhattisgarh","State",NA
+"IN-DN","IND.8_1","Dadra and Nagar Haveli","Union territory",NA
+"IN-DD","IND.9_1","Daman and Diu","Union territory",NA
+"IN-DL","IND.25_1","Delhi","Union territory",NA
+"IN-GA","IND.10_1","Goa","State",NA
+"IN-GJ","IND.11_1","Gujarat","State",NA
+"IN-HR","IND.12_1","Haryana","State",NA
+"IN-HP","IND.13_1","Himachal Pradesh","State",NA
+"IN-JK","IND.14_1","Jammu and Kashmir","State",NA
+"IN-JH","IND.15_1","Jharkhand","State",NA
+"IN-KA","IND.16_1","Karnataka","State",NA
+"IN-KL","IND.17_1","Kerala","State",NA
+"IN-LD","IND.18_1","Lakshadweep","Union territory",NA
+"IN-MP","IND.19_1","Madhya Pradesh","State",NA
+"IN-MH","IND.20_1","Maharashtra","State",NA
+"IN-MN","IND.21_1","Manipur","State",NA
+"IN-ML","IND.22_1","Meghalaya","State",NA
+"IN-MZ","IND.23_1","Mizoram","State",NA
+"IN-NL","IND.24_1","Nagaland","State",NA
+"IN-OR","IND.26_1","Odisha","State",NA
+"IN-PY","IND.27_1","Puducherry","Union territory",NA
+"IN-PB","IND.28_1","Punjab","State",NA
+"IN-RJ","IND.29_1","Rajasthan","State",NA
+"IN-SK","IND.30_1","Sikkim","State",NA
+"IN-TN","IND.31_1","Tamil Nadu","State",NA
+"IN-TG","IND.32_1","Telangana","State",NA
+"IN-TR","IND.33_1","Tripura","State",NA
+"IN-UP","IND.34_1","Uttar Pradesh","State",NA
+"IN-UT","IND.35_1","Uttarakhand","State",NA
+"IN-WB","IND.36_1","West Bengal","State",NA
+"IT-65","ITA.1_1","Abruzzo","Region",NA
+"IT-77","ITA.3_1","Basilicata","Region",NA
+"IT-78","ITA.4_1","Calabria","Region",NA
+"IT-72","ITA.5_1","Campania","Region",NA
+"IT-45","ITA.6_1","Emilia-Romagna","Region",NA
+"IT-36","ITA.7_1","Friuli-Venezia Giulia","Region",NA
+"IT-62","ITA.8_1","Lazio","Region",NA
+"IT-42","ITA.9_1","Liguria","Region",NA
+"IT-25","ITA.10_1","Lombardia","Region",NA
+"IT-57","ITA.11_1","Marche","Region",NA
+"IT-67","ITA.12_1","Molise","Region",NA
+"IT-21","ITA.13_1","Piemonte","Region",NA
+"IT-75","ITA.2_1","Puglia","Region",NA
+"IT-88","ITA.14_1","Sardegna","Region",NA
+"IT-82","ITA.15_1","Sicilia","Region",NA
+"IT-52","ITA.16_1","Toscana","Region",NA
+"IT-32","ITA.17_1","Trentino-Alto Adige","Region",NA
+"IT-55","ITA.18_1","Umbria","Region",NA
+"IT-23","ITA.19_1","Valle d'Aosta","Region",NA
+"IT-34","ITA.20_1","Veneto","Region",NA
+"RU-AD","RUS.1_1","Adygeya, Respublika","Republic",NA
+"RU-AL","RUS.2_1","Altay, Respublika","Republic",NA
+"RU-ALT","RUS.16_1","Altayskiy kray","Administrative Territory",NA
+"RU-AMU","RUS.3_1","Amurskaya oblast'","Administrative Region",NA
+"RU-ARK","RUS.4_1","Arkhangel'skaya oblast'","Administrative Region",NA
+"RU-AST","RUS.5_1","Astrakhanskaya oblast'","Administrative Region",NA
+"RU-BA","RUS.6_1","Bashkortostan, Respublika","Republic",NA
+"RU-BEL","RUS.7_1","Belgorodskaya oblast'","Administrative Region",NA
+"RU-BRY","RUS.8_1","Bryanskaya oblast'","Administrative Region",NA
+"RU-BU","RUS.9_1","Buryatiya, Respublika","Republic",NA
+"RU-CE","RUS.10_1","Chechenskaya Respublika","Republic",NA
+"RU-CHE","RUS.11_1","Chelyabinskaya oblast'","Administrative Region",NA
+"RU-CHU","RUS.12_1","Chukotskiy avtonomnyy okrug","Autonomous District",NA
+"RU-CU","RUS.13_1","Chuvashskaya Respublika","Republic",NA
+"RU-DA","RUS.15_1","Dagestan, Respublika","Republic",NA
+"RU-IRK","RUS.18_1","Irkutiskaya oblast'","Administrative Region",NA
+"RU-IVA","RUS.19_1","Ivanovskaya oblast'","Administrative Region",NA
+"RU-KB","RUS.20_1","Kabardino-Balkarskaya Respublika","Republic",NA
+"RU-KGD","RUS.21_1","Kaliningradskaya oblast'","Administrative Region",NA
+"RU-KL","RUS.22_1","Kalmykiya, Respublika","Republic",NA
+"RU-KLU","RUS.23_1","Kaluzhskaya oblast'","Administrative Region",NA
+"RU-KAM","RUS.24_1","Kamchatskiy kray","Administrative Territory",NA
+"RU-KC","RUS.25_1","Karachayevo-Cherkesskaya Respublika","Republic",NA
+"RU-KR","RUS.26_1","Kareliya, Respublika","Republic",NA
+"RU-KEM","RUS.27_1","Kemerovskaya oblast'","Administrative Region",NA
+"RU-KHA","RUS.28_1","Khabarovskiy kray","Administrative Territory",NA
+"RU-KK","RUS.29_1","Khakasiya, Respublika","Republic",NA
+"RU-KHM","RUS.30_1","Khanty-Mansiysky avtonomnyy okrug-Yugra","Autonomous District",NA
+"RU-KIR","RUS.31_1","Kirovskaya oblast'","Administrative Region",NA
+"RU-KO","RUS.32_1","Komi, Respublika","Republic",NA
+"RU-KOS","RUS.33_1","Kostromskaya oblast'","Administrative Region",NA
+"RU-KDA","RUS.34_1","Krasnodarskiy kray","Administrative Territory",NA
+"RU-KYA","RUS.35_1","Krasnoyarskiy kray","Administrative Territory",NA
+"RU-KRS","RUS.37_1","Kurskaya oblast'","Administrative Region",NA
+"RU-KGN","RUS.36_1","Kurganskaya oblast'","Administrative Region",NA
+"RU-LEN","RUS.38_1","Leningradskaya oblast'","Administrative Region",NA
+"RU-LIP","RUS.39_1","Lipetskaya oblast'","Administrative Region",NA
+"RU-MAG","RUS.40_1","Magadanskaya oblast'","Administrative Region",NA
+"RU-ME","RUS.41_1","Mariy El, Respublika","Republic",NA
+"RU-MO","RUS.42_1","Mordoviya, Respublika","Republic",NA
+"RU-MOS","RUS.43_1","Moskovskaya oblast'","Administrative Region",NA
+"RU-MOW","RUS.44_1","Moskva","Autonomous City",NA
+"RU-MUR","RUS.45_1","Murmanskaya oblast'","Administrative Region",NA
+"RU-NEN","RUS.46_1","Nenetskiy avtonomnyy okrug","Autonomous District",NA
+"RU-NIZ","RUS.47_1","Nizhegorodskaya oblast'","Administrative Region",NA
+"RU-NGR","RUS.49_1","Novgorodskaya oblast'","Administrative Region",NA
+"RU-NVS","RUS.50_1","Novosibirskaya oblast'","Administrative Region",NA
+"RU-OMS","RUS.51_1","Omskaya oblast'","Administrative Region",NA
+"RU-ORE","RUS.53_1","Orenburgskaya oblast'","Administrative Region",NA
+"RU-ORL","RUS.52_1","Orlovskaya oblast'","Administrative Region",NA
+"RU-PNZ","RUS.54_1","Penzenskaya oblast'","Administrative Region",NA
+"RU-PER","RUS.55_1","Permskiy kray","Administrative Territory",NA
+"RU-PRI","RUS.56_1","Primorskiy kray","Administrative Territory",NA
+"RU-PSK","RUS.57_1","Pskovskaya oblast'","Administrative Region",NA
+"RU-IN","RUS.17_1","Respublika Ingushetiya","Republic",NA
+"RU-ROS","RUS.58_1","Rostovskaya oblast'","Administrative Region",NA
+"RU-RYA","RUS.59_1","Ryazanskaya oblast'","Administrative Region",NA
+"RU-SA","RUS.60_1","Sakha, Respublika [Yakutiya]","Republic",NA
+"RU-SAK","RUS.61_1","Sakhalinskaya oblast'","Administrative Region",NA
+"RU-SAM","RUS.62_1","Samaraskaya oblast'","Administrative Region",NA
+"RU-SPE","RUS.14_1","Sankt-Peterburg","Autonomous City",NA
+"RU-SAR","RUS.63_1","Saratovskaya oblast'","Administrative Region",NA
+"RU-SE","RUS.48_1","Severnaya Osetiya-Alaniya, Respublika","Republic",NA
+"RU-SMO","RUS.64_1","Smolenskaya oblast'","Administrative Region",NA
+"RU-STA","RUS.65_1","Stavropol'skiy kray","Administrative Territory",NA
+"RU-SVE","RUS.66_1","Sverdlovskaya oblast'","Administrative Region",NA
+"RU-TAM","RUS.67_1","Tambovskaya oblast'","Administrative Region",NA
+"RU-TA","RUS.68_1","Tatarstan, Respublika","Republic",NA
+"RU-TOM","RUS.69_1","Tomskaya oblast'","Administrative Region",NA
+"RU-TUL","RUS.70_1","Tul'skaya oblast'","Administrative Region",NA
+"RU-TVE","RUS.72_1","Tverskaya oblast'","Administrative Region",NA
+"RU-TYU","RUS.73_1","Tyumenskaya oblast'","Administrative Region",NA
+"RU-TY","RUS.71_1","Tyva, Respublika [Tuva]","Republic",NA
+"RU-UD","RUS.74_1","Udmurtskaya Respublika","Republic",NA
+"RU-ULY","RUS.75_1","Ul'yanovskaya oblast'","Administrative Region",NA
+"RU-VLA","RUS.76_1","Vladimirskaya oblast'","Administrative Region",NA
+"RU-VGG","RUS.77_1","Volgogradskaya oblast'","Administrative Region",NA
+"RU-VLG","RUS.78_1","Vologodskaya oblast'","Administrative Region",NA
+"RU-VOR","RUS.79_1","Voronezhskaya oblast'","Administrative Region",NA
+"RU-YAN","RUS.80_1","Yamalo-Nenetskiy avtonomnyy okrug","Autonomous District",NA
+"RU-YAR","RUS.81_1","Yaroslavskaya oblast'","Administrative Region",NA
+"RU-YEV","RUS.82_1","Yevreyskaya avtonomnaya oblast'","Autonomous Region",NA
+"RU-ZAB","RUS.83_1","Zabajkal'skij kraj","Administrative Territory",NA
+"US-AL","USA.1_1","Alabama","State",NA
+"US-AK","USA.2_1","Alaska","State",NA
+"US-AZ","USA.3_1","Arizona","State",NA
+"US-AR","USA.4_1","Arkansas","State",NA
+"US-CA","USA.5_1","California","State",NA
+"US-CO","USA.6_1","Colorado","State",NA
+"US-CT","USA.7_1","Connecticut","State",NA
+"US-DE","USA.8_1","Delaware","State",NA
+"US-DC","USA.9_1","District of Columbia","District",NA
+"US-FL","USA.10_1","Florida","State",NA
+"US-GA","USA.11_1","Georgia","State",NA
+"US-HI","USA.12_1","Hawaii","State",NA
+"US-ID","USA.13_1","Idaho","State",NA
+"US-IL","USA.14_1","Illinois","State",NA
+"US-IN","USA.15_1","Indiana","State",NA
+"US-IA","USA.16_1","Iowa","State",NA
+"US-KS","USA.17_1","Kansas","State",NA
+"US-KY","USA.18_1","Kentucky","State",NA
+"US-LA","USA.19_1","Louisiana","State",NA
+"US-ME","USA.20_1","Maine","State",NA
+"US-MD","USA.21_1","Maryland","State",NA
+"US-MA","USA.22_1","Massachusetts","State",NA
+"US-MI","USA.23_1","Michigan","State",NA
+"US-MN","USA.24_1","Minnesota","State",NA
+"US-MS","USA.25_1","Mississippi","State",NA
+"US-MO","USA.26_1","Missouri","State",NA
+"US-MT","USA.27_1","Montana","State",NA
+"US-NE","USA.28_1","Nebraska","State",NA
+"US-NV","USA.29_1","Nevada","State",NA
+"US-NH","USA.30_1","New Hampshire","State",NA
+"US-NJ","USA.31_1","New Jersey","State",NA
+"US-NM","USA.32_1","New Mexico","State",NA
+"US-NY","USA.33_1","New York","State",NA
+"US-NC","USA.34_1","North Carolina","State",NA
+"US-ND","USA.35_1","North Dakota","State",NA
+"US-OH","USA.36_1","Ohio","State",NA
+"US-OK","USA.37_1","Oklahoma","State",NA
+"US-OR","USA.38_1","Oregon","State",NA
+"US-PA","USA.39_1","Pennsylvania","State",NA
+"US-RI","USA.40_1","Rhode Island","State",NA
+"US-SC","USA.41_1","South Carolina","State",NA
+"US-SD","USA.42_1","South Dakota","State",NA
+"US-TN","USA.43_1","Tennessee","State",NA
+"US-TX","USA.44_1","Texas","State",NA
+"US-UT","USA.45_1","Utah","State",NA
+"US-VT","USA.46_1","Vermont","State",NA
+"US-VA","USA.47_1","Virginia","State",NA
+"US-WA","USA.48_1","Washington","State",NA
+"US-WV","USA.49_1","West Virginia","State",NA
+"US-WI","USA.50_1","Wisconsin","State",NA
+"US-WY","USA.51_1","Wyoming","State",NA

@@ -104,3 +104,21 @@ intervention_epi(hit, country = "IND", last_date = Sys.Date() + 10)
 intervention_epi(hit, country = "IND", first_date = "5/31/2020", last_date = "4/1/2020")
 intervention_epi(hit, country = "IND", last_date = "1/1/2020")
 
+#Admin1 level
+t1 <- covidregionaldata::get_regional_data(country = "Belgium")
+t2 <- covidregionaldata::get_regional_data(country = "Germany")
+t3 <- covidregionaldata::get_regional_data(country = "UK")
+t4 <- covidregionaldata::get_regional_data(country = "Italy")
+t5 <- covidregionaldata::get_regional_data(country = "Russia")
+t6 <- covidregionaldata::get_regional_data(country = "Brazil")
+t7 <- covidregionaldata::get_regional_data(country = "USA")
+t8 <- covidregionaldata::get_regional_data(country = "Canada")
+t9 <- covidregionaldata::get_regional_data(country = "Colombia")
+t10 <- covidregionaldata::get_regional_data(country = "Afghanistan")
+t11 <- covidregionaldata::get_regional_data(country = "India")
+
+
+
+
+
+

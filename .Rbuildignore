@@ -8,3 +8,7 @@
 ^pkgdown$
 ^Package_Testing\.R$
 ^\.github$
+^Admin1_Codes\.R$
+^name_corrections\.csv$
+^ISO_to_GADM_admin1_codes\.csv$
+^ISO_to_GID_admin1_codes\.csv$

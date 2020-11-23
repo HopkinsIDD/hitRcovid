@@ -41,12 +41,19 @@ codes$country <- ifelse(codes$alpha_2 == "UK", "GBR", codes$country)
 codes$country <- ifelse(codes$alpha_2 == "EL", "GRC", codes$country)
 codes$country <- ifelse(codes$alpha_2 == "XK", "XKO", codes$country)
 
+#Adding selected admin1 codes
+admin1_codes <- read.csv("ISO_to_GID_admin1_codes.csv")
+
 geo_lookup <- geo_lookup1 %>%
   select(country = admin0, admin1 = GID_1, country_name = NAME_0, admin1_name = NAME_1) %>%
   mutate(admin1_name = iconv(admin1_name, "UTF-8", "ASCII//TRANSLIT"),
          country_name = iconv(country_name, "UTF-8", "ASCII//TRANSLIT")) %>%
   left_join(continent2, by = "country") %>%
-  left_join(codes, by = "country")
+  left_join(codes, by = "country") %>%
+  left_join(select(admin1_codes, ISO_code, GID_code, ons_region_code),
+            by = c("admin1" = "GID_code")) %>%
+  rename(admin1_ISO = ISO_code,
+         ons_region_code_uk = ons_region_code)
 
 use_data(geo_lookup, overwrite = TRUE)
 
@@ -74,11 +81,12 @@ use_package("egg")
 use_package("vistime")
 
 
-
-
 #Add to ignore file
 use_build_ignore("Package_Setup.R")
 use_build_ignore("Paper_Figures.R")
 use_build_ignore("Package_Testing.R")
+use_build_ignore("Admin1_Codes.R")
+use_build_ignore("name_corrections.csv")
 use_build_ignore(".github")
+use_build_ignore("ISO_to_GID_admin1_codes.csv")
 
