@@ -4,7 +4,7 @@ library(hitRcovid)
 
 hit <- hit_pull()
 
-test_that("intervention_epi returns grob objects with no errors",{
+test_that("intervention_epi for countries returns grob objects with no errors",{
   
   expect_true("grob" %in% class(intervention_epi(hit, country = "IND")))
   
@@ -20,11 +20,42 @@ test_that("intervention_epi returns grob objects with no errors",{
                                                    last_date = "9/30/2020")))
 })
 
+test_that("intervention_epi for admin1 units returns grob objects with no errors",{
+  
+  expect_true("grob" %in% class(intervention_epi(hit, admin1 = "DEU.1_1")))
+  expect_true("grob" %in% class(intervention_epi(hit, admin1 = "GBR.1_1")))
+  expect_true("grob" %in% class(intervention_epi(hit, admin1 = "ITA.1_1")))
+  expect_true("grob" %in% class(intervention_epi(hit, admin1 = "RUS.10_1")))
+  expect_true("grob" %in% class(intervention_epi(hit, admin1 = "BRA.1_1")))
+  expect_true("grob" %in% class(intervention_epi(hit, admin1 = "USA.1_1")))
+  expect_true("grob" %in% class(intervention_epi(hit, admin1 = "CAN.1_1")))
+  expect_true("grob" %in% class(intervention_epi(hit, admin1 = "COL.2_1")))
+})
 
-test_that("Descriptive error messages and notes returned from intervention_epi",{
+
+test_that("Descriptive error messages returned from intervention_epi for country/admin1 inputs",{
   
   expect_error(intervention_epi(hit, country = "garbage"),
-               "The country code provided is not valid")
+               "The country code provided is not valid.")
+  
+  expect_error(intervention_epi(hit, admin1 = "garbage"),
+               "The admin1 code provided is not valid.")
+  
+  expect_error(intervention_epi(hit, admin1 = "CHN.1_1"),
+               "There are no case count data available for the admin1 code provided.") 
+  
+  expect_error(intervention_epi(hit, country = "SWE"),
+               "The country code provided is not represented in the HIT-COVID database.")
+  
+  expect_error(intervention_epi(hit, admin1 = "BEL.1_1"),
+               "The admin1 code provided is not represented in the HIT-COVID database.")
+  
+  expect_error(intervention_epi(hit),
+               "Please provide either a country or admin1 code.")
+})
+
+
+test_that("Descriptive error messages returned from intervention_epi for date inputs", {
   
   expect_error(intervention_epi(hit, country = "IND", first_date = "garbage"),
                "first_date is not valid, please enter a valid date in right format")

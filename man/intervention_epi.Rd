@@ -6,19 +6,24 @@
 \usage{
 intervention_epi(
   hit_data,
-  country,
+  country = NULL,
+  admin1 = NULL,
   source = c("WHO", "ECDC"),
   case_threshold = 0,
   first_date = NULL,
   last_date = NULL,
-  date_format = "\%m/\%d/\%Y"
+  date_format = "\%m/\%d/\%Y",
+  include_title = TRUE
 )
 }
 \arguments{
 \item{hit_data}{the full HIT-COVID database pulled from GitHub, pulled using \link{hit_pull}}
 
-\item{country}{vector of ISO 3166-1 alpha-3 country codes to filter the data to
+\item{country}{country ISO 3166-1 alpha-3 code to plot
 (see \link{geo_lookup} for concordance of country codes to names)}
+
+\item{admin1}{first administrative unit GID codes to plot
+(see \link{geo_lookup} for concordance of admin 1 codes to names).}
 
 \item{source}{the source of the daily case count data, one of "ECDC" or "WHO" (default is "WHO").}
 
@@ -31,21 +36,38 @@ the total number of cases is greater than the \code{case_threshold}).}
 \item{last_date}{character string indicating the latest date to plot (default is today)}
 
 \item{date_format}{character string indicating the format of the date inputs (default is "\%m/\%d/\%Y").}
+
+\item{include_title}{logical indicating if the plot should have a title (default is TRUE)}
 }
 \description{
-This function plots the daily case counts for a given country from either the WHO or ECDC with
+This function plots the daily case counts (epi-curve) for a given country or admin1 unit with
 as seven day rolling average. The status of select intervention information (border closures,
 household confinement, universal mask mandates, restaurant closures, primary school closures,
-and retail store closures) are also plotted.
+and retail store closures) are also plotted. The admin1 plotting is only available for 11 countries.
 }
 \details{
 The HIT-COVID database must first be loaded with \link{hit_pull} and fed into this function.
-Only one country can be plotted at a time and the case counts for this country will be plotted
-with select intervention data. The user can specify the date range for the plot using
-\code{first_date} and \code{last_date}. Another way to restrict the plot is to change
+Only one country or admin1 unit can be plotted at a time and the resulting plot will include the
+case counts for this location with select intervention data. The user can specify the date range
+for the plot using \code{first_date} and \code{last_date}. Another way to restrict the plot is to change
 \code{case_threshold} then the earliest date of the plot will be when the total number of cases
 in the country exceeded \code{case_threshold}. If both \code{first_date} and \code{case_threshold}
 are provided, \code{first_date} will be used as the start of the plot.
+
+The source for the country level data is either the European Centre for Disease
+Control (ECDC) or the World Health Organization (WHO) with the WHO as the default. The source for
+the admin1 data varies depending on the package and can be seen in the
+\href{https://github.com/epiforecasts/covidregionaldata/tree/master/R}{covidregional data source code}.
+The admin1 case counts data is pulled using \link[covidregionaldata]{get_regional_data}. As of now
+this is only available for 11 countries: Afghanistan, Belgium, Brazil, Canada, Columbia, Germany,
+India, Italy, Russia, UK, and USA. The admin1 units that are included in the HIT-COVID database
+can be found by using \link{get_admin1}.
+
+IMPORTANT note about intervention timelines printed under the epi curves. These final bars of each
+timeline represent the last logged status of an intervention. For some locations, the intervention data
+may not have been updated which means that older policies would appear to carry to the present when
+they are not still active. Care should be taken when interpretting these plots without knowledge of
+the completeness of the intervention data of the location of interest.
 }
 \examples{
 
@@ -58,8 +80,11 @@ intervention_epi(hit_data, country = "IND")
 # Starting when there were more than 100 cases
 intervention_epi(hit_data, country = "IND", case_threshold = 100)
 
-#Plotting the case counts for the New Zealand from February to May 
+# Plotting the case counts for the New Zealand from February to May 
 intervention_epi(hit_data, country = "NZL", first_date = "3/1/2020", last_date = "5/31/2020")
+
+# Plotting the case counts for New Jersey, USA
+intervention_epi(hit_data, admin1 = "USA.31_1")
  
 }
 \references{

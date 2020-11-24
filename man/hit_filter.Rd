@@ -24,16 +24,16 @@ hit_filter(
 \item{continent}{vector of continent names to filter the data to; should be one of
 "Antarctica", "Asia", "Europe", "Africa", "Oceania", "North America", "South America"}
 
-\item{country}{vector of ISO 3166-1 alpha-3 country codes to filter the data to
+\item{country}{vector of country ISO 3166-1 alpha-3 codes to filter the data to
 (see \link{geo_lookup} for concordance of country codes to names)}
 
-\item{admin1}{vector of the first administrative unit codes to filter the data to
+\item{admin1}{vector of the first administrative unit GID codes to filter the data to
 (see \link{geo_lookup} for concordance of admin 1 codes to names).}
 
 \item{locality}{vector of the names of localities to include (this is a free text field)}
 
 \item{intervention_group}{vector of intervention group to filter the data to
-(see \link{intervention_lookup} column "intervention_group" or run \link{list_interventions} for options)}
+(see \link{intervention_lookup} column "intervention_group" or run \link{get_interventions} for options)}
 
 \item{include_national}{logical indicating if national-level data should be included (default is TRUE)}
 
@@ -109,5 +109,5 @@ no_county <- hit_filter(hit_data, usa_county_data = "include")
 
 }
 \seealso{
-\link{hit_pull} \link{list_interventions}
+\link{hit_pull} \link{get_interventions}
 }

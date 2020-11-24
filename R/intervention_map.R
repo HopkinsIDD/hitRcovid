@@ -17,7 +17,7 @@
 #' @param hit_data the full HIT-COVID database pulled from GitHub, pulled using \link{hit_pull}
 #' @param time_point character string indicating the desired mapping date (default is Sys.Date())
 #' @param intervention_group vector of intervention group to filter the data to 
-#' (see \link{intervention_lookup} column "intervention_group" or run \link{list_interventions} for options)
+#' (see \link{intervention_lookup} column "intervention_group" or run \link{get_interventions} for options)
 #' @param date_format character string indicating the date format of \code{time_point} 
 #' (default is "%m/%d/%Y").
 #' 

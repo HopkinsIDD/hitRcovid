@@ -47,16 +47,16 @@ first death if \code{hit_data} does not already include that information and eit
 \item{continent}{vector of continent names to filter the data to; should be one of
 \code{c("Asia", "Europe", "Africa", "Oceania", "North America", "South America")}}
 
-\item{country}{vector of ISO 3166-1 alpha-3 country codes to filter the data to
+\item{country}{vector of country ISO 3166-1 alpha-3 codes to include in plot
 (see \link{geo_lookup} for concordance of country codes to names)}
 
-\item{admin1}{vector of the first administrative unit codes to filter the data to
+\item{admin1}{vector of the first administrative unit GID codes to include in plot
 (see \link{geo_lookup} for concordance of admin 1 codes to names).}
 
 \item{locality}{vector of the names of localities to include (this is a free text field)}
 
 \item{intervention_group}{vector of intervention group to filter the data to
-(see \link{intervention_lookup} column "intervention_group" for options)}
+(see \link{intervention_lookup} column "intervention_group" or run \link{get_interventions} for options)}
 
 \item{include_national}{logical indicating if national-level data should be included (default is TRUE)}
 

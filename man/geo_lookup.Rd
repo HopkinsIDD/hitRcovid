@@ -13,6 +13,8 @@ A data frame with 3611 rows and 5 variables:
 \item{admin1_name}{level 1 administrative unit name}
 \item{continent}{continent name}
 \item{alpha_2}{ISO 3166-1 alpha-2 country code}
+\item{admin1_ISO}{ISO 3166-2 admin1 code for selected countries}
+\item{ons_region_code_uk}{Region code unique to the UK}
 }
 }
 \usage{

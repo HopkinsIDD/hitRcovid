@@ -85,7 +85,7 @@ intervention_timeline(hit, facet_by = "continent", include_admin1 = FALSE, verbo
 #Testing epi-curve function
 hit <- hit_pull(add_first_case = FALSE)
 
-p <- intervention_epi(hit, country = "IND")
+#Country level
 intervention_epi(hit, country = "IND")
 intervention_epi(hit, country = "IND", case_threshold = 100)
 intervention_epi(hit, country = "IND", case_threshold = 100, first_date = "2/1/2020")
@@ -95,6 +95,12 @@ intervention_epi(hit, country = "NZL", first_date = "3/1/2020", last_date = "5/3
 
 #Error testing
 intervention_epi(hit, country = "garbage")
+intervention_epi(hit, admin1 = "garbage")
+intervention_epi(hit, admin1 = "CHN.1_1")
+intervention_epi(hit, country = "SWE")
+intervention_epi(hit_data, admin1 = "BEL.1_1")
+intervention_epi(hit)
+
 intervention_epi(hit, country = "IND", first_date = "garbage")
 intervention_epi(hit, country = "IND", last_date = "garbage")
 intervention_epi(hit, country = "IND", first_date = "12/31/2019")
@@ -105,19 +111,22 @@ intervention_epi(hit, country = "IND", first_date = "5/31/2020", last_date = "4/
 intervention_epi(hit, country = "IND", last_date = "1/1/2020")
 
 #Admin1 level
-t1 <- covidregionaldata::get_regional_data(country = "Belgium")
-t2 <- covidregionaldata::get_regional_data(country = "Germany")
-t3 <- covidregionaldata::get_regional_data(country = "UK")
-t4 <- covidregionaldata::get_regional_data(country = "Italy")
-t5 <- covidregionaldata::get_regional_data(country = "Russia")
-t6 <- covidregionaldata::get_regional_data(country = "Brazil")
-t7 <- covidregionaldata::get_regional_data(country = "USA")
-t8 <- covidregionaldata::get_regional_data(country = "Canada")
-t9 <- covidregionaldata::get_regional_data(country = "Colombia")
-t10 <- covidregionaldata::get_regional_data(country = "Afghanistan")
-t11 <- covidregionaldata::get_regional_data(country = "India")
+intervention_epi(hit_data, admin1 = "BEL.1_1")
+intervention_epi(hit_data, admin1 = "DEU.1_1")
+intervention_epi(hit_data, admin1 = "GBR.1_1")
+intervention_epi(hit_data, admin1 = "ITA.1_1")
+intervention_epi(hit_data, admin1 = "RUS.10_1")
+intervention_epi(hit_data, admin1 = "BRA.1_1")
+intervention_epi(hit_data, admin1 = "USA.1_1")
+intervention_epi(hit_data, admin1 = "CAN.1_1")
+intervention_epi(hit_data, admin1 = "COL.2_1")
 
-
+#HIT-COVID doesn't have any admin1 data for Belgium
+#intervention_epi(hit_data, admin1 = "BEL.1_1")
+#The case-count data for Afghanistan is not good quality
+#intervention_epi(hit_data, admin1 = "AFG.12_1")
+#The case-count data for India isn't loading
+#intervention_epi(hit_data, admin1 = "IND.1_1")
 
 
 

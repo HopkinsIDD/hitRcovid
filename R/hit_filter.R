@@ -92,16 +92,16 @@ hit_pull <- function(add_first_case = TRUE, source = c("WHO", "ECDC")){
 #' @param hit_data the full HIT-COVID database pulled from GitHub, pulled using \link{hit_pull}
 #' @param continent vector of continent names to filter the data to; should be one of
 #' "Antarctica", "Asia", "Europe", "Africa", "Oceania", "North America", "South America"
-#' @param country vector of ISO 3166-1 alpha-3 country codes to filter the data to 
+#' @param country vector of country ISO 3166-1 alpha-3 codes to filter the data to 
 #' (see \link{geo_lookup} for concordance of country codes to names)
-#' @param admin1 vector of the first administrative unit codes to filter the data to
+#' @param admin1 vector of the first administrative unit GID codes to filter the data to
 #' (see \link{geo_lookup} for concordance of admin 1 codes to names). 
 #' @param locality vector of the names of localities to include (this is a free text field)
 #' @param include_national logical indicating if national-level data should be included (default is TRUE)
 #' @param include_admin1 logical indicating if admin1-level data should be included (default is TRUE)
 #' @param include_locality logical indicating if locality data should be included (default is FALSE)
 #' @param intervention_group vector of intervention group to filter the data to 
-#' (see \link{intervention_lookup} column "intervention_group" or run \link{list_interventions} for options)
+#' (see \link{intervention_lookup} column "intervention_group" or run \link{get_interventions} for options)
 #' @param usa_county_data character string indicating how to deal with USA county-level data: one
 #' of "include", "exclude" or "restrict_to" (default is "exclude").
 #' @param remove_columns a logical indicating if columns with only missing values should be removed 
@@ -138,7 +138,7 @@ hit_pull <- function(add_first_case = TRUE, source = c("WHO", "ECDC")){
 #' #Adding USA county data (default is to exclude)
 #' no_county <- hit_filter(hit_data, usa_county_data = "include")
 #' 
-#' @seealso \link{hit_pull} \link{list_interventions}
+#' @seealso \link{hit_pull} \link{get_interventions}
 #' 
 #' @export
 
@@ -323,7 +323,22 @@ hit_filter <- function(hit_data,
 #' 
 #' @export
 
-list_interventions <- function(){
+get_interventions <- function(){
   print(unique(hitRcovid::intervention_lookup$intervention_group))
+}
+
+
+#' Lists the admin1 codes for a country
+#' 
+#' Prints the admin1 levels for a given country that have data in the HIT-COVID database. The database
+#' should first be pulled using \link{hit_pull} and fed into this function.
+#' 
+#' @param hit_data the full HIT-COVID database pulled from GitHub, pulled using \link{hit_pull}
+#' @param country country ISO 3166-1 alpha-3 code
+#' 
+#' @export
+
+get_admin1 <- function(hit_data, country){
+  print(unique(hit_data[hit_data$country == country & !is.na(hit_data$admin1), "admin1"]))
 }
 

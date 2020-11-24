@@ -37,16 +37,16 @@
 #' (default is "WHO").
 #' @param continent vector of continent names to filter the data to; should be one of
 #' \code{c("Asia", "Europe", "Africa", "Oceania", "North America", "South America")}
-#' @param country vector of ISO 3166-1 alpha-3 country codes to filter the data to 
+#' @param country vector of country ISO 3166-1 alpha-3 codes to include in plot
 #' (see \link{geo_lookup} for concordance of country codes to names)
-#' @param admin1 vector of the first administrative unit codes to filter the data to
+#' @param admin1 vector of the first administrative unit GID codes to include in plot
 #' (see \link{geo_lookup} for concordance of admin 1 codes to names). 
 #' @param locality vector of the names of localities to include (this is a free text field)
 #' @param include_national logical indicating if national-level data should be included (default is TRUE)
 #' @param include_admin1 logical indicating if admin1-level data should be included (default is TRUE)
 #' @param include_locality logical indicating if locality data should be included (default is FALSE)
 #' @param intervention_group vector of intervention group to filter the data to 
-#' (see \link{intervention_lookup} column "intervention_group" for options)
+#' (see \link{intervention_lookup} column "intervention_group" or run \link{get_interventions} for options)
 #' @param usa_county_data character string indicating how to deal with USA county-level data: one
 #' of "include", "exclude" or "restrict_to" (default is "exclude").
 #' @param verbose a logical indicating if notes about excluded points and lines should be printed 

@@ -1,22 +1,39 @@
 
 #' Plots case counts with intervention status timelines
 #' 
-#' This function plots the daily case counts for a given country from either the WHO or ECDC with
+#' This function plots the daily case counts (epi-curve) for a given country or admin1 unit with
 #' as seven day rolling average. The status of select intervention information (border closures, 
 #' household confinement, universal mask mandates, restaurant closures, primary school closures, 
-#' and retail store closures) are also plotted.
+#' and retail store closures) are also plotted. The admin1 plotting is only available for 11 countries.
 #' 
 #' The HIT-COVID database must first be loaded with \link{hit_pull} and fed into this function. 
-#' Only one country can be plotted at a time and the case counts for this country will be plotted
-#' with select intervention data. The user can specify the date range for the plot using 
-#' \code{first_date} and \code{last_date}. Another way to restrict the plot is to change 
+#' Only one country or admin1 unit can be plotted at a time and the resulting plot will include the
+#' case counts for this location with select intervention data. The user can specify the date range 
+#' for the plot using \code{first_date} and \code{last_date}. Another way to restrict the plot is to change 
 #' \code{case_threshold} then the earliest date of the plot will be when the total number of cases
 #' in the country exceeded \code{case_threshold}. If both \code{first_date} and \code{case_threshold} 
 #' are provided, \code{first_date} will be used as the start of the plot.
 #' 
+#' The source for the country level data is either the European Centre for Disease
+#' Control (ECDC) or the World Health Organization (WHO) with the WHO as the default. The source for
+#' the admin1 data varies depending on the package and can be seen in the 
+#' \href{https://github.com/epiforecasts/covidregionaldata/tree/master/R}{covidregional data source code}.
+#' The admin1 case counts data is pulled using \link[covidregionaldata]{get_regional_data}. As of now
+#' this is only available for 11 countries: Afghanistan, Belgium, Brazil, Canada, Columbia, Germany,
+#' India, Italy, Russia, UK, and USA. The admin1 units that are included in the HIT-COVID database
+#' can be found by using \link{get_admin1}.
+#' 
+#' IMPORTANT note about intervention timelines printed under the epi curves. These final bars of each
+#' timeline represent the last logged status of an intervention. For some locations, the intervention data
+#' may not have been updated which means that older policies would appear to carry to the present when
+#' they are not still active. Care should be taken when interpretting these plots without knowledge of
+#' the completeness of the intervention data of the location of interest.
+#' 
 #' @param hit_data the full HIT-COVID database pulled from GitHub, pulled using \link{hit_pull}
-#' @param country vector of ISO 3166-1 alpha-3 country codes to filter the data to 
+#' @param country country ISO 3166-1 alpha-3 code to plot
 #' (see \link{geo_lookup} for concordance of country codes to names)
+#' @param admin1 first administrative unit GID codes to plot
+#' (see \link{geo_lookup} for concordance of admin 1 codes to names).
 #' @param source the source of the daily case count data, one of "ECDC" or "WHO" (default is "WHO").
 #' @param case_threshold threshold the total number of cases needs to exceed to start the plot 
 #' (default is 0).
@@ -24,6 +41,7 @@
 #' the total number of cases is greater than the \code{case_threshold}).
 #' @param last_date character string indicating the latest date to plot (default is today)
 #' @param date_format character string indicating the format of the date inputs (default is "%m/%d/%Y").
+#' @param include_title logical indicating if the plot should have a title (default is TRUE)
 #' 
 #' @examples
 #' 
@@ -36,8 +54,11 @@
 #' # Starting when there were more than 100 cases
 #' intervention_epi(hit_data, country = "IND", case_threshold = 100)
 #' 
-#' #Plotting the case counts for the New Zealand from February to May 
+#' # Plotting the case counts for the New Zealand from February to May 
 #' intervention_epi(hit_data, country = "NZL", first_date = "3/1/2020", last_date = "5/31/2020")
+#' 
+#' # Plotting the case counts for New Jersey, USA
+#' intervention_epi(hit_data, admin1 = "USA.31_1")
 #'  
 #' @seealso \link{hit_filter}
 #' 
@@ -55,12 +76,14 @@
 ## TODO: Add admin1 data where available
 
 intervention_epi <- function(hit_data,
-                      country,
+                      country = NULL,
+                      admin1 = NULL,
                       source = c("WHO", "ECDC"),
                       case_threshold = 0,
                       first_date = NULL,
                       last_date = NULL,
-                      date_format = "%m/%d/%Y"){
+                      date_format = "%m/%d/%Y",
+                      include_title = TRUE){
   
   #### Error handling -----------------------------------------------------------------------------
   
@@ -75,9 +98,40 @@ intervention_epi <- function(hit_data,
     stop("source should be one of 'ECDC' or 'WHO'")
   }
   
-  #Determining if the country is valid
-  if(!country %in% hitRcovid::geo_lookup$country){
-    stop("The country code provided is not valid")
+  #Checking the country code
+  if(!is.null(country)){
+    #Determining if the country code is valid
+    if(!country %in% hitRcovid::geo_lookup$country){
+      stop("The country code provided is not valid.")
+    }
+    #Determining if the country is in the HIT-COVID database
+    if(!country %in% hit_data$country){
+      stop("The country code provided is not represented in the HIT-COVID database.")
+    }
+  }
+  
+  #Determining if there is admin1-level data for the admin1 code
+  admin1_avail <- hitRcovid::geo_lookup[!is.na(hitRcovid::geo_lookup$admin1_ISO), ]
+  
+  #Checking the admin1 code
+  if(!is.null(admin1)){
+    #Determining if the admin1 code is valid
+    if(!admin1 %in% hitRcovid::geo_lookup$admin1){
+      stop("The admin1 code provided is not valid.")
+    }
+    #Determining if the admin1 code is in the list with case counts data
+    if(!admin1 %in% admin1_avail$admin1){
+      stop("There are no case count data available for the admin1 code provided.")
+    }
+    #Determining if the admin1 code is in the HIT-COVID database
+    if(!admin1 %in% hit_data$admin1){
+      stop("The admin1 code provided is not represented in the HIT-COVID database.")
+    }
+  }
+  
+  #Making sure either country or admin1 is specified
+  if(is.null(country) & is.null(admin1)){
+    stop("Please provide either a country or admin1 code.")
   }
   
   # Determine if the dates entered are valid, if not, return warning
@@ -118,22 +172,62 @@ intervention_epi <- function(hit_data,
                                                           "Retail store closures",
                                                           "Restaurant closures"))
   
-  #Finding iso_code (2 letter) that goes with the country specified
-  country_code <- unique(hitRcovid::geo_lookup[hitRcovid::geo_lookup$country == country & 
-                                                 !is.na(hitRcovid::geo_lookup$country), "alpha_2"])
+  ## Filtering to provided country or admin1
   
-  #Getting all case counts
-  case_counts <- covidregionaldata::get_national_data(source = source)
+  #If admin1 is not provided, filter to country
+  if(is.null(admin1)){
+    #Finding iso_code (2 letter) that goes with the country specified
+    iso_code <- unique(hitRcovid::geo_lookup[hitRcovid::geo_lookup$country == country & 
+                                                   !is.na(hitRcovid::geo_lookup$country), "alpha_2"])
+    
+    #Getting all case counts
+    case_counts <- covidregionaldata::get_national_data(source = source)
+    
+    #Filtering to the country provided
+    case_counts <- case_counts[!is.na(case_counts$iso_code) & case_counts$iso_code == iso_code, ]
+  }
   
-  #Filtering to the country provided
-  case_counts <- case_counts[!is.na(case_counts$iso_code) & case_counts$iso_code == country_code, ]
+  #If admin1 is provided, filter to admin1
+  if(!is.null(admin1)){
+    
+    #Finding the country code that goes with the admin1 unit specified
+    country <- substr(admin1, 1, 3)
+    
+    #Finding name that goes with the country specified
+    name <- unique(hitRcovid::geo_lookup[hitRcovid::geo_lookup$country == country & 
+                                               !is.na(hitRcovid::geo_lookup$country), "country_name"])
+    if(name == "United States"){name <- "USA"}
+    if(name == "United Kingdom"){name <- "UK"}
+    
+    #Finding the iso code or ons region code (UK only) to match the admin1 code
+    if(name == "UK"){
+      new_code <- admin1_avail[admin1_avail$admin1 == admin1,
+                               "ons_region_code_uk"]
+    }else{
+      new_code <- admin1_avail[admin1_avail$admin1 == admin1,
+                               "admin1_ISO"]
+    }
+    
+    #Pulling case counts for the whole country
+    case_counts <- covidregionaldata::get_regional_data(country = name)
+    
+    #Filtering to admin1 unit specified
+    if(name == "UK"){
+      case_counts <- case_counts[case_counts$ons_region_code == new_code, ]
+    }else{
+      case_counts <- case_counts[case_counts$iso_3166_2 == new_code, ]
+    }
+  }
+  
+  
   
   #If first_date provided, filtering to days after that date
   #If first_date is not provided, filtering to days when there are more than case_threshold cases
   if(!is.null(first_date)){
     case_counts <- case_counts[case_counts$date >= first_date, ]
   }else{
-    case_counts <- case_counts[case_counts$cases_total > case_threshold, ]
+    case_counts <- case_counts[case_counts$cases_total > case_threshold & 
+                                 !is.na(case_counts$cases_total), ]
   }
   
   #Finding the min and max date (if first_date and last_date were not user-specified)
@@ -150,12 +244,26 @@ intervention_epi <- function(hit_data,
   #Adding 7-day rolling average
   case_counts$cases_smooth <- zoo::rollmean(case_counts$cases_new, 7, fill = NA)
 
+  #Removing missing values
+  case_counts <- case_counts[!is.na(case_counts$cases_new), ]
 
   #Filtering the HIT-COVID database and selecting interventions
   ## TODO: Allow user to select interventions
-  int_data <- hit_filter(hit_data, country = country, include_admin1 = FALSE,
-                         intervention_group = c("household_confined", "closed_border", "mask",
-                                                "store_closed", "restaurant_closed", "school_closed"))
+  if(is.null(admin1)){
+    suppressWarnings(
+      int_data <- hit_filter(hit_data, country = country, include_admin1 = FALSE,
+                           intervention_group = c("household_confined", "closed_border", "mask",
+                                                  "store_closed", "restaurant_closed", "school_closed"))
+    )
+  }
+  if(!is.null(admin1)){
+    suppressWarnings(
+      int_data <- hit_filter(hit_data, admin1 = admin1, include_national = FALSE,
+                           intervention_group = c("household_confined", "closed_border", "mask",
+                                                  "store_closed", "restaurant_closed", "school_closed"))
+    )
+  }
+
   
   #Filtering to just primary school closures for schools
   int_data <- int_data[!int_data$intervention_name %in% c("Nursery school closures",
@@ -196,11 +304,11 @@ intervention_epi <- function(hit_data,
   int_data3[int_data3$start >= first_date & int_data3$start <= last_date &
               int_data3$end > last_date,]$end <- last_date
   
-  #Removing rows where 'start' == 'end', otherwise there will be a dot on the plot
-  int_data3 <- int_data3[int_data3$start < last_date, ]
-  
   #Removing interventions which start after the time window
   int_data3 <- int_data3[!(int_data3$start >= last_date), ]
+  
+  #Removing rows where 'start' == 'end', otherwise there will be a dot on the plot
+  int_data3 <- int_data3[int_data3$start < int_data3$end, ]
   
   #Setting plotting parameters
   int_data3$color <- ifelse(int_data3$status_simp == "Strongly Implemented", "red",
@@ -222,6 +330,20 @@ intervention_epi <- function(hit_data,
     ggplot2::theme_bw() +
     ggplot2::theme(axis.title.y = ggplot2::element_text(margin = ggplot2::margin(t = 0, r = 10, b = 0, l = 0)),
                    axis.title.x = ggplot2::element_blank())
+  
+  if(include_title == TRUE){
+    if(is.null(admin1)){
+      title_name <- unique(hitRcovid::geo_lookup[hitRcovid::geo_lookup$country == country &
+                                                   !is.na(hitRcovid::geo_lookup$country),
+                                                 "country_name"])
+    }else{
+      title_name <- unique(hitRcovid::geo_lookup[hitRcovid::geo_lookup$admin1 == admin1 &
+                                                   !is.na(hitRcovid::geo_lookup$admin1),
+                                                 "admin1_name"])
+    }
+    p1 <- p1 + ggplot2::ggtitle(paste0("Case counts and intervention timeline for ",
+                                       title_name))
+  }
   
   #Plot of interventions
   p2 <- vistime::gg_vistime(int_data3, col.event = "status_simp",
