@@ -40,10 +40,10 @@
 
 
 <meta property="og:title" content="Plots case counts with intervention status timelines — intervention_epi" />
-<meta property="og:description" content="This function plots the daily case counts for a given country from either the WHO or ECDC with
+<meta property="og:description" content="This function plots the daily case counts (epi-curve) for a given country or admin1 unit with
 as seven day rolling average. The status of select intervention information (border closures,
 household confinement, universal mask mandates, restaurant closures, primary school closures,
-and retail store closures) are also plotted." />
+and retail store closures) are also plotted. The admin1 plotting is only available for 11 countries." />
 
 
 
@@ -98,7 +98,7 @@ and retail store closures) are also plotted." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/my-vignette.html">my-vignette</a>
+      <a href="../articles/hitRcovid-vignette.html">my-vignette</a>
     </li>
   </ul>
 </li>
@@ -129,20 +129,22 @@ and retail store closures) are also plotted." />
     </div>
 
     <div class="ref-description">
-    <p>This function plots the daily case counts for a given country from either the WHO or ECDC with
+    <p>This function plots the daily case counts (epi-curve) for a given country or admin1 unit with
 as seven day rolling average. The status of select intervention information (border closures,
 household confinement, universal mask mandates, restaurant closures, primary school closures,
-and retail store closures) are also plotted.</p>
+and retail store closures) are also plotted. The admin1 plotting is only available for 11 countries.</p>
     </div>
 
     <pre class="usage"><span class='fu'>intervention_epi</span>(
   <span class='no'>hit_data</span>,
-  <span class='no'>country</span>,
+  <span class='kw'>country</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>admin1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>source</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"WHO"</span>, <span class='st'>"ECDC"</span>),
   <span class='kw'>case_threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>first_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>last_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>date_format</span> <span class='kw'>=</span> <span class='st'>"%m/%d/%Y"</span>
+  <span class='kw'>date_format</span> <span class='kw'>=</span> <span class='st'>"%m/%d/%Y"</span>,
+  <span class='kw'>include_title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -154,8 +156,13 @@ and retail store closures) are also plotted.</p>
     </tr>
     <tr>
       <th>country</th>
-      <td><p>vector of ISO 3166-1 alpha-3 country codes to filter the data to
+      <td><p>country ISO 3166-1 alpha-3 code to plot
 (see <a href='geo_lookup.html'>geo_lookup</a> for concordance of country codes to names)</p></td>
+    </tr>
+    <tr>
+      <th>admin1</th>
+      <td><p>first administrative unit GID codes to plot
+(see <a href='geo_lookup.html'>geo_lookup</a> for concordance of admin 1 codes to names).</p></td>
     </tr>
     <tr>
       <th>source</th>
@@ -179,17 +186,34 @@ the total number of cases is greater than the <code>case_threshold</code>).</p><
       <th>date_format</th>
       <td><p>character string indicating the format of the date inputs (default is "%m/%d/%Y").</p></td>
     </tr>
+    <tr>
+      <th>include_title</th>
+      <td><p>logical indicating if the plot should have a title (default is TRUE)</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The HIT-COVID database must first be loaded with <a href='hit_pull.html'>hit_pull</a> and fed into this function.
-Only one country can be plotted at a time and the case counts for this country will be plotted
-with select intervention data. The user can specify the date range for the plot using
-<code>first_date</code> and <code>last_date</code>. Another way to restrict the plot is to change
+Only one country or admin1 unit can be plotted at a time and the resulting plot will include the
+case counts for this location with select intervention data. The user can specify the date range
+for the plot using <code>first_date</code> and <code>last_date</code>. Another way to restrict the plot is to change
 <code>case_threshold</code> then the earliest date of the plot will be when the total number of cases
 in the country exceeded <code>case_threshold</code>. If both <code>first_date</code> and <code>case_threshold</code>
 are provided, <code>first_date</code> will be used as the start of the plot.</p>
+<p>The source for the country level data is either the European Centre for Disease
+Control (ECDC) or the World Health Organization (WHO) with the WHO as the default. The source for
+the admin1 data varies depending on the package and can be seen in the
+<a href='https://github.com/epiforecasts/covidregionaldata/tree/master/R'>covidregional data source code</a>.
+The admin1 case counts data is pulled using <a href='epiforecasts.io/covidregionaldata//reference/get_regional_data.html'>get_regional_data</a>. As of now
+this is only available for 11 countries: Afghanistan, Belgium, Brazil, Canada, Columbia, Germany,
+India, Italy, Russia, UK, and USA. The admin1 units that are included in the HIT-COVID database
+can be found by using <a href='get_admin1.html'>get_admin1</a>.</p>
+<p>IMPORTANT note about intervention timelines printed under the epi curves. These final bars of each
+timeline represent the last logged status of an intervention. For some locations, the intervention data
+may not have been updated which means that older policies would appear to carry to the present when
+they are not still active. Care should be taken when interpretting these plots without knowledge of
+the completeness of the intervention data of the location of interest.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Sam Abbott, Katharine Sherratt, Jonnie Bevan, Hamish Gibbs, Joel Hellewell, James Munday,
@@ -211,8 +235,10 @@ https://CRAN.R-project.org/package=covidregionaldata</p>
 #&gt; <span class='message'>  as.zoo.data.frame zoo </span></div><div class='img'><img src='intervention_epi-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Starting when there were more than 100 cases</span>
 <span class='fu'>intervention_epi</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"IND"</span>, <span class='kw'>case_threshold</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='img'><img src='intervention_epi-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>#Plotting the case counts for the New Zealand from February to May </span>
-<span class='fu'>intervention_epi</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"NZL"</span>, <span class='kw'>first_date</span> <span class='kw'>=</span> <span class='st'>"3/1/2020"</span>, <span class='kw'>last_date</span> <span class='kw'>=</span> <span class='st'>"5/31/2020"</span>)</div><div class='img'><img src='intervention_epi-3.png' alt='' width='700' height='433' /></div><div class='input'> 
+<span class='co'># Plotting the case counts for the New Zealand from February to May </span>
+<span class='fu'>intervention_epi</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"NZL"</span>, <span class='kw'>first_date</span> <span class='kw'>=</span> <span class='st'>"3/1/2020"</span>, <span class='kw'>last_date</span> <span class='kw'>=</span> <span class='st'>"5/31/2020"</span>)</div><div class='img'><img src='intervention_epi-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Plotting the case counts for New Jersey, USA</span>
+<span class='fu'>intervention_epi</span>(<span class='no'>hit_data</span>, <span class='kw'>admin1</span> <span class='kw'>=</span> <span class='st'>"USA.31_1"</span>)</div><div class='img'><img src='intervention_epi-4.png' alt='' width='700' height='433' /></div><div class='input'> 
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

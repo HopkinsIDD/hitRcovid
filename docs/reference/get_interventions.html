@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Country and Admin1 Code Look-up Table — geo_lookup • hitRcovid</title>
+<title>Lists the intervention_group codes — get_interventions • hitRcovid</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Country and Admin1 Code Look-up Table — geo_lookup" />
-<meta property="og:description" content="A dataset with the country codes and admin1 codes with their corresponding names.
-It can be used to identify codes to use when filtering the HIT-COVID database." />
+<meta property="og:title" content="Lists the intervention_group codes — get_interventions" />
+<meta property="og:description" content="Prints the valid values of the intervention_group argument used in hit_filter
+and therefore also in intervention_timeline and intervention_map." />
 
 
 
@@ -121,36 +121,22 @@ It can be used to identify codes to use when filtering the HIT-COVID database." 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Country and Admin1 Code Look-up Table</h1>
-    <small class="dont-index">Source: <a href='https://github.com/HopkinsIDD/hitRcovid/blob/master/R/geo_lookup.R'><code>R/geo_lookup.R</code></a></small>
-    <div class="hidden name"><code>geo_lookup.Rd</code></div>
+    <h1>Lists the intervention_group codes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/HopkinsIDD/hitRcovid/blob/master/R/hit_filter.R'><code>R/hit_filter.R</code></a></small>
+    <div class="hidden name"><code>get_interventions.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A dataset with the country codes and admin1 codes with their corresponding names.
-It can be used to identify codes to use when filtering the HIT-COVID database.</p>
+    <p>Prints the valid values of the <code>intervention_group</code> argument used in <a href='hit_filter.html'>hit_filter</a>
+and therefore also in <a href='intervention_timeline.html'>intervention_timeline</a> and <a href='intervention_map.html'>intervention_map</a>.</p>
     </div>
 
-    <pre class="usage"><span class='no'>geo_lookup</span></pre>
+    <pre class="usage"><span class='fu'>get_interventions</span>()</pre>
 
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>A data frame with 3611 rows and 5 variables:</p><dl'>
-<dt>country</dt><dd><p>ISO 3166-1 alpha-3 country code</p></dd>
-<dt>admin1</dt><dd><p>first administrative unit code (following GADM5 unless otherwise noted)</p></dd>
-<dt>country_name</dt><dd><p>country name</p></dd>
-<dt>admin1_name</dt><dd><p>level 1 administrative unit name</p></dd>
-<dt>continent</dt><dd><p>continent name</p></dd>
-<dt>alpha_2</dt><dd><p>ISO 3166-1 alpha-2 country code</p></dd>
-<dt>admin1_ISO</dt><dd><p>ISO 3166-2 admin1 code for selected countries</p></dd>
-<dt>ons_region_code_uk</dt><dd><p>Region code unique to the UK</p></dd>
-
-</dl>
-
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p><a href='https://gadm.org/'>https://gadm.org/</a></p>
+    <div class='dont-index'><p><a href='hit_filter.html'>hit_filter</a>, <a href='intervention_timeline.html'>intervention_timeline</a>, <a href='intervention_map.html'>intervention_map</a></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

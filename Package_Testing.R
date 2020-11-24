@@ -21,7 +21,7 @@ build_site()
 ?hit_pull
 ?hit_filter
 ?intervention_map
-?list_interventions
+?get_interventions
 
 #Running tests
 #test()

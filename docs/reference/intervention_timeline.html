@@ -99,7 +99,7 @@ indicating the date of first case and first death in each facet provided." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/my-vignette.html">my-vignette</a>
+      <a href="../articles/hitRcovid-vignette.html">my-vignette</a>
     </li>
   </ul>
 </li>
@@ -198,12 +198,12 @@ first death if <code>hit_data</code> does not already include that information a
     </tr>
     <tr>
       <th>country</th>
-      <td><p>vector of ISO 3166-1 alpha-3 country codes to filter the data to
+      <td><p>vector of country ISO 3166-1 alpha-3 codes to include in plot
 (see <a href='geo_lookup.html'>geo_lookup</a> for concordance of country codes to names)</p></td>
     </tr>
     <tr>
       <th>admin1</th>
-      <td><p>vector of the first administrative unit codes to filter the data to
+      <td><p>vector of the first administrative unit GID codes to include in plot
 (see <a href='geo_lookup.html'>geo_lookup</a> for concordance of admin 1 codes to names).</p></td>
     </tr>
     <tr>
@@ -213,7 +213,7 @@ first death if <code>hit_data</code> does not already include that information a
     <tr>
       <th>intervention_group</th>
       <td><p>vector of intervention group to filter the data to
-(see <a href='intervention_lookup.html'>intervention_lookup</a> column "intervention_group" for options)</p></td>
+(see <a href='intervention_lookup.html'>intervention_lookup</a> column "intervention_group" or run <a href='get_interventions.html'>get_interventions</a> for options)</p></td>
     </tr>
     <tr>
       <th>include_national</th>
