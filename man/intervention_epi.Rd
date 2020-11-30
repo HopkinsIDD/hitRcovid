@@ -61,7 +61,8 @@ the admin1 data varies depending on the package and can be seen in the
 The admin1 case counts data is pulled using \link[covidregionaldata]{get_regional_data}. As of now
 this is only available for 11 countries: Afghanistan, Belgium, Brazil, Canada, Columbia, Germany,
 India, Italy, Russia, UK, and USA. The admin1 units that are included in the HIT-COVID database
-can be found by using \link{get_admin1}.
+can be found by using \link{get_admin1}. As of 11/30/2020 the admin1 data for India and Afghanistan
+does not work.
 
 IMPORTANT note about intervention timelines printed under the epi curves. These final bars of each
 timeline represent the last logged status of an intervention. For some locations, the intervention data
@@ -91,7 +92,33 @@ intervention_epi(hit_data, admin1 = "USA.31_1")
 Sam Abbott, Katharine Sherratt, Jonnie Bevan, Hamish Gibbs, Joel Hellewell, James Munday,
 Paul Campbell and Sebastian Funk (2020). covidregionaldata: Subnational Data for the
 Covid-19 Outbreak. R package version 0.6.0.
-https://CRAN.R-project.org/package=covidregionaldata
+\url{https://CRAN.R-project.org/package=covidregionaldata}
+
+ECDC national data: \url{https://opendata.ecdc.europa.eu/covid19}
+
+WHO national data: \url{https://covid19.who.int}
+
+Afghanistan admin1 data: \url{https://data.humdata.org/dataset/afghanistan-covid-19-statistics-per-province}
+
+Belgium admin1 data: \url{https://epistat.wiv-isp.be/covid/}
+
+Brazil admin1 data: \url{https://github.com/wcota/covid19br}
+
+Canada admin1 data: \url{https://health-infobase.canada.ca}
+
+Columbia admin1 data: \url{https://github.com/danielcs88/colombia_covid-19}
+
+Germany admin1 data: \url{https://npgeo-corona-npgeo-de.hub.arcgis.com/datasets/dd4580c810204019a7b8eb3e0b329dd6_0}
+
+India admin1 data: \url{https://api.covid19india.org/csv/latest/state_wise_daily.csv}
+
+Italy admin1 data: \url{https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-regioni/dpc-covid19-ita-regioni.csv}
+
+Russia admin1 data: \url{https://raw.githubusercontent.com/grwlf/COVID-19_plus_Russia/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_RU.csv}
+
+UK admin1 data: \url{https://coronavirus.data.gov.uk/details/cases}
+
+USA admin1 data: \url{https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv}
 }
 \seealso{
 \link{hit_filter}

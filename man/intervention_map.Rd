@@ -42,11 +42,11 @@ multiple entries in the same intervention group on the same day.
 # Puling the HIT-COVID database
 hit_data <- hit_pull(add_first_case = FALSE)
  
-# Mapping of most recent interventions in "quarantine and isolation" domain
+# Mapping of most recent interventions in quarantine and home isolation domain
 intervention_map(hit_data, intervention_group = "quar_iso")
 
-# Mapping of latest "quarantine and isolation" interventions before 5/24/2020
-intervention_map(hit_data, intervention_group = "quar_iso", time_point = "5/24/2020")
+# Mapping of latest school closures interventions before 5/24/2020
+intervention_map(hit_data, intervention_group = "school_closed", time_point = "5/24/2020")
 
 }
 \references{

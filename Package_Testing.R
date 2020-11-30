@@ -66,7 +66,7 @@ intervention_timeline(hit, country = c("IND", "USA"),
                       intervention_group = c("closed_border", "school_closed", "household_confined"),
                       facet_by = "country")
 
-intervention_timeline(hit, admin1 = c("USA.22_1", "USA.31_1", "USA.39_1"),
+intervention_timeline(hit_data, admin1 = c("USA.22_1", "USA.31_1", "USA.39_1"),
                       facet_by = "admin1", include_national = TRUE)
 
 #Errors/warnings/notes

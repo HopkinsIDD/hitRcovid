@@ -73,7 +73,7 @@
 #' intervention_timeline(hit_data, country = "USA", include_national = FALSE)
 #' 
 #' #Including three states (admin1 level) and faceting by state
-#' intervention_timeline(hit, admin1 = c("USA.22_1", "USA.31_1", "USA.39_1"),
+#' intervention_timeline(hit_data, admin1 = c("USA.22_1", "USA.31_1", "USA.39_1"),
 #' facet_by = "admin1", include_national = TRUE)
 #' 
 #' #Removing vertical lines
@@ -87,11 +87,11 @@
 #' Sam Abbott, Katharine Sherratt, Jonnie Bevan, Hamish Gibbs, Joel Hellewell, James Munday,
 #' Paul Campbell and Sebastian Funk (2020). covidregionaldata: Subnational Data for the
 #' Covid-19 Outbreak. R package version 0.6.0.
-#' https://CRAN.R-project.org/package=covidregionaldata
+#' \url{https://CRAN.R-project.org/package=covidregionaldata}
 #' 
-#' ECDC national data: https://opendata.ecdc.europa.eu/covid19
+#' ECDC national data: \url{https://opendata.ecdc.europa.eu/covid19}
 #' 
-#' WHO national data: https://covid19.who.int
+#' WHO national data: \url{https://covid19.who.int}
 #' 
 #' @importFrom rlang .data
 #' 
@@ -277,10 +277,10 @@ intervention_timeline <- function(hit_data,
   #Drawing points including national if specified
   if(include_national == TRUE & include_admin1 == TRUE){
     p <- p + ggplot2::geom_jitter(ggplot2::aes(col = .data$status_simp, shape = .data$level),
-                                  alpha=0.5, size=2.3, width=0, height=0.2, na.rm = TRUE)
+                                  alpha=0.5, size=2, width=0, height=0.2, na.rm = TRUE)
   }else{
     p <- p + ggplot2::geom_jitter(ggplot2::aes(col = .data$status_simp),
-                    alpha=0.5, size=2.3, width=0, height=0.2, na.rm = TRUE)
+                    alpha=0.5, size=2, width=0, height=0.2, na.rm = TRUE)
   }
 
   #Faceting by provided level
