@@ -144,20 +144,20 @@ intervention_map <- function(hit_data,
    
   # set color palette and legend for country level data (considering some recent_status may have 0 record)
   country_legend <- as.data.frame(table(country_map$recent_status))
-  country_legend$country_colors = c("red", "darkorange", "gray66", "white")
+  country_legend$country_colors = c("red2", "gold1", "gray40", "white")
   country_mapping_colors <- country_legend[which(country_legend$Freq > 0), ]$country_colors
    
    
   # set color palette and legend for admin data points
   admin_legend <- as.data.frame(table(admin_map$recent_status))
-  admin_legend$admin_colors = c("gray33", "darkorange3", "red3")
+  admin_legend$admin_colors = c("gray20", "gold3", "red4")
   admin_mapping_colors <- admin_legend[which(admin_legend$Freq > 0), ]$admin_colors
    
   # map data of both level ---------------------------------------------------------
   p <- ggplot2::ggplot() +
      ggplot2::geom_polygon(data = country_map, ggplot2::aes(x = .data$long, y = .data$lat,
                                                             group = .data$group, fill = .data$recent_status), 
-                  color = "black", size = 0.2, alpha = 0.5) +
+                  color = "black", size = 0.2, alpha = 0.3) +
      ggplot2::scale_fill_manual(values = country_mapping_colors, 
                                 guide = ggplot2::guide_legend(title.position = "top")) +
      ggplot2::geom_point(data = admin_map, ggplot2::aes(x = .data$long, y = .data$lat, col = .data$recent_status),

@@ -39,7 +39,7 @@ The country and admin codes to be used for filtering can be found in the [geo_lo
 
 The package contains a plotting function, [intervention_timeline()](https://hopkinsidd.github.io/hitRcovid/reference/intervention_timeline.html), to display a timeline of all of the intervention updates in the database using [hit_filter()](https://hopkinsidd.github.io/hitRcovid/reference/hit_filter.html) to focus on the locations and/or intervention types specified. The documentation provides details about all of the filtering and visualization options. Here is an example of a plot of the interventions from India and New Zealand:
 
-`intervention_timeline(hit, country = c("IND", "NZL"), facet_by = "country")`
+`intervention_timeline(hit_data, country = c("IND", "NZL"), facet_by = "country")`
 
 
 ### World map of status of an intervention

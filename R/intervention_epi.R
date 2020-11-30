@@ -339,8 +339,8 @@ intervention_epi <- function(hit_data,
   int_data3 <- int_data3[int_data3$start < int_data3$end, ]
   
   #Setting plotting parameters
-  int_data3$color <- ifelse(int_data3$status_simp == "Strongly Implemented", "red",
-                            ifelse(int_data3$status_simp == "Partially Implemented", "darkorange",
+  int_data3$color <- ifelse(int_data3$status_simp == "Strongly Implemented", "red2",
+                            ifelse(int_data3$status_simp == "Partially Implemented", "gold1",
                                    "grey"))
     
   
@@ -378,7 +378,7 @@ intervention_epi <- function(hit_data,
                             col.group = "intervention_label",
                             show_labels = FALSE, linewidth = 6) +
     ggplot2::scale_color_identity(name = "",
-                                  breaks = c("red", "darkorange", "grey"),
+                                  breaks = c("red2", "gold1", "grey"),
                                   labels = c("Strongly Implemented",
                                              "Partially Implemented",
                                              "Implementation Suspended"),

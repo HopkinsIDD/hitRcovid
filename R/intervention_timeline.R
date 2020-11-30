@@ -321,7 +321,7 @@ intervention_timeline <- function(hit_data,
                   y = "Intervention \nType",
                   shape = "Geographic Level") +
 
-    ggplot2::scale_color_manual(name="Status", values = c("red","darkorange","black")) +
+    ggplot2::scale_color_manual(name="Status", values = c("red2","gold1","grey")) +
     
     ggplot2::scale_linetype_identity(name = "",
                                      breaks = c("dashed", "dotted"), 
