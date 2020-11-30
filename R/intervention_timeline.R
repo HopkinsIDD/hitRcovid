@@ -277,10 +277,10 @@ intervention_timeline <- function(hit_data,
   #Drawing points including national if specified
   if(include_national == TRUE & include_admin1 == TRUE){
     p <- p + ggplot2::geom_jitter(ggplot2::aes(col = .data$status_simp, shape = .data$level),
-                                  alpha=0.4, size=2, width=0, height=0.2, na.rm = TRUE)
+                                  alpha=0.5, size=2.3, width=0, height=0.2, na.rm = TRUE)
   }else{
     p <- p + ggplot2::geom_jitter(ggplot2::aes(col = .data$status_simp),
-                    alpha=0.4, size=2, width=0, height=0.2, na.rm = TRUE)
+                    alpha=0.5, size=2.3, width=0, height=0.2, na.rm = TRUE)
   }
 
   #Faceting by provided level
