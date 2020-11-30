@@ -72,6 +72,10 @@
 #' #Plotting just state-level data from the USA
 #' intervention_timeline(hit_data, country = "USA", include_national = FALSE)
 #' 
+#' #Including three states (admin1 level) and faceting by state
+#' intervention_timeline(hit, admin1 = c("USA.22_1", "USA.31_1", "USA.39_1"),
+#' facet_by = "admin1", include_national = TRUE)
+#' 
 #' #Removing vertical lines
 #' intervention_timeline(hit_data, country = "USA",
 #' first_case_line = FALSE, first_death_line = FALSE)
@@ -84,6 +88,10 @@
 #' Paul Campbell and Sebastian Funk (2020). covidregionaldata: Subnational Data for the
 #' Covid-19 Outbreak. R package version 0.6.0.
 #' https://CRAN.R-project.org/package=covidregionaldata
+#' 
+#' ECDC national data: https://opendata.ecdc.europa.eu/covid19
+#' 
+#' WHO national data: https://covid19.who.int
 #' 
 #' @importFrom rlang .data
 #' 

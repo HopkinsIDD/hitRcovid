@@ -40,6 +40,10 @@
 #' Covid-19 Outbreak. R package version 0.6.0.
 #' https://CRAN.R-project.org/package=covidregionaldata
 #' 
+#' ECDC national data: https://opendata.ecdc.europa.eu/covid19
+#' 
+#' WHO national data: https://covid19.who.int
+#' 
 #' @export
 
 get_first_case <- function(source = c("WHO", "ECDC")){
