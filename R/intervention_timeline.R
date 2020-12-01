@@ -193,6 +193,10 @@ intervention_timeline <- function(hit_data,
     national <- data[data$level == "National",  ]
 
     #Finding admin1 codes and names (make sure order matches)
+    if(is.null(admin1)){
+      admin1 <- unique(data[!is.na(data$admin1), "admin1"])
+    }
+    
     admin1 <- admin1[order(admin1)]
     data <- data[order(data$admin1), ]
     admin1_names <- unique(data[!is.na(data$admin1), "admin1_name"])

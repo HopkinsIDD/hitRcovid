@@ -1,7 +1,5 @@
 # hitRcovid: Access and Visualize the HIT-COVID Database
 
-### *Under development*
-
 For documentation and a tutorial (to come) see: https://hopkinsidd.github.io/hitRcovid/ 
 
 ## Database background
@@ -30,7 +28,7 @@ You can then filter the database by location and/or intervention type using [hit
 
 `asia_masks <- hit_filter(hit_data, continent = "Asia", intervention_group = "mask")`
 
-The country and admin codes to be used for filtering can be found in the [geo_lookup](https://hopkinsidd.github.io/hitRcovid/reference/geo_lookup.html) dataframe provided in the package. The intervention group codes and names can be found in the [intervention_lookup](https://hopkinsidd.github.io/hitRcovid/reference/intervention_lookup.html) dataframe provided in the package or all options can be printed using the function [get_interventions()](https://hopkinsidd.github.io/hitRcovid/reference/list_interventions.html).
+The country and admin codes to be used for filtering can be found in the [geo_lookup](https://hopkinsidd.github.io/hitRcovid/reference/geo_lookup.html) dataframe provided in the package. Additionally, the admin1 codes that have data in the database for a specified country can be printed by using [get_admin1](https://hopkinsidd.github.io/hitRcovid/reference/get_admin1.html). The intervention group codes and names can be found in the [intervention_lookup](https://hopkinsidd.github.io/hitRcovid/reference/intervention_lookup.html) dataframe provided in the package or all options can be printed using the function [get_interventions()](https://hopkinsidd.github.io/hitRcovid/reference/list_interventions.html).
 
 
 ## Visualizations
@@ -82,7 +80,7 @@ This dataset is licensed under the GNU General Public License v3.0 - see the [LI
 
 ## Acknowledgments
 
-* Our nifty [website](https://akuko.io/post/covid-intervention-tracking) was designed by Matt Berg and Dan McCarey from [ona.io](https://ona.io/home/)
+* Our [website](https://akuko.io/post/covid-intervention-tracking) was designed by Matt Berg and Dan McCarey from [ona.io](https://ona.io/home/)
 
 Contact: Andrew Azman (azman@jhu.edu) or hit-covid@jhu.edu
 
