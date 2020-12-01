@@ -63,21 +63,25 @@ get_admin1(hit_data, country = "GBR")
 This code filters to all data from Great Britain:
 
 ```{r gbr1}
-gbr <- hit_filter(hit_data, country = "GBR")
+gbr <- hit_filter(hit_data,
+                  country = "GBR")
 nrow(gbr)
 ```
 
 You can also look at just the national-level data by removing all admin1 data:
 
 ```{r gbr2}
-gbr_national <- hit_filter(hit_data, country = "GBR", include_admin1 = FALSE)
+gbr_national <- hit_filter(hit_data,
+                           country = "GBR",
+                           include_admin1 = FALSE)
 nrow(gbr_national)
 ```
 
 You can filter by continent, for example looking at all policies in Africa and Asia:
 
 ```{r afr}
-afr <- hit_filter(hit_data, continent = c("Asia", "Africa"))
+afr <- hit_filter(hit_data, 
+                  continent = c("Asia", "Africa"))
 nrow(afr)
 ```
 
@@ -90,14 +94,18 @@ get_interventions()
 Here is the code to look at school closures and restaurant closures across the entire database:
 
 ```{r schoolres}
-school_restaurant <- hit_filter(hit_data, intervention = c("school_closed", "restaurant_closed"))
+school_restaurant <- hit_filter(hit_data,
+                                intervention = c("school_closed", "restaurant_closed"))
 nrow(school_restaurant)
 ```
 
 Here we are looking at all mask policies across three US states and removing the national data:
 
 ```{r usamask}
-us_mask <- hit_filter(hit_data, intervention = "mask", admin1 = c("USA.22_1", "USA.31_1", "USA.39_1"), include_national = FALSE)
+us_mask <- hit_filter(hit_data,
+                      intervention = "mask",
+                      admin1 = c("USA.22_1", "USA.31_1", "USA.39_1"),
+                      include_national = FALSE)
 nrow(us_mask)
 ```
 
@@ -110,20 +118,28 @@ The function [intervention_map()](https://hopkinsidd.github.io/hitRcovid/referen
 Here is an example of a map of the status of school closures on April 1, 2020:
 
 ```{r map1, fig.height=5, fig.width=8}
-intervention_map(hit_data, intervention_group = "school_closed", time_point = "4/1/2020")
+intervention_map(hit_data,
+                 intervention_group = "school_closed",
+                 time_point = "4/1/2020")
 ```
 
 And here is the map of the status of school closures on September 1, 2020: 
 
 ```{r map2, fig.height=5, fig.width=8}
-intervention_map(hit_data, intervention_group = "school_closed", time_point = "9/1/2020")
+intervention_map(hit_data,
+                 intervention_group = "school_closed",
+                 time_point = "9/1/2020")
 ```
 
 Here are the global mask policies on April 1, 2020 and then on 9/1/2020
 
 ```{r map3, fig.height=5, fig.width=8}
-intervention_map(hit_data, intervention_group = "mask", time_point = "4/1/2020")
-intervention_map(hit_data, intervention_group = "mask", time_point = "9/1/2020")
+intervention_map(hit_data,
+                 intervention_group = "mask",
+                 time_point = "4/1/2020")
+intervention_map(hit_data,
+                 intervention_group = "mask",
+                 time_point = "9/1/2020")
 ```
 
 
@@ -137,38 +153,58 @@ The plot can be faceted by continent, country, or admin1 unit if desired. The us
 This is a timeline of all national and admin1 data in the database, in North America, Asia, Europe and Africa faceting by continent which is a fairly busy plot:
 
 ```{r timeline1, fig.height=6.5, fig.width=10}
-intervention_timeline(hit_data, continent = c("Asia", "Europe", "Africa", "North America"), facet_by = "continent")
+intervention_timeline(hit_data,
+                      continent = c("Asia", "Europe", "Africa", "North America"),
+                      facet_by = "continent")
 ```
 
 
 This is a timeline of all data from India and New Zealand faceting by country:
 
 ```{r timeline2, fig.height=6.5, fig.width=8}
-intervention_timeline(hit_data, country = c("IND", "NZL"), facet_by = "country")
+intervention_timeline(hit_data,
+                      country = c("IND", "NZL"),
+                      facet_by = "country")
 ```
 
 This a timeline of the USA data but removes the national policies (only includes state-level data)
 
 ```{r timeline3, fig.height=6, fig.width=8}
-intervention_timeline(hit_data, country = "USA", include_national = FALSE)
+intervention_timeline(hit_data,
+                      country = "USA",
+                      include_national = FALSE)
 ```
 
 This timeline focuses on three US states faceting by state and including national data
 
 ```{r timeline4, fig.height=6.5, fig.width=9}
-intervention_timeline(hit_data, admin1 = c("USA.22_1", "USA.31_1", "USA.39_1"), facet_by = "admin1", include_national = TRUE)
+intervention_timeline(hit_data,
+                      admin1 = c("USA.22_1", "USA.31_1", "USA.39_1"),
+                      facet_by = "admin1",
+                      include_national = TRUE)
 ```
 
 This plot removes the lines representing the first case and first death in the US from the previous timeline
 
 ```{r timeline5, fig.height=6.5, fig.width=9}
-intervention_timeline(hit_data, admin1 = c("USA.22_1", "USA.31_1", "USA.39_1"), facet_by = "admin1", include_national = TRUE, first_case_line = FALSE, first_death_line = FALSE)
+intervention_timeline(hit_data,
+                      admin1 = c("USA.22_1", "USA.31_1", "USA.39_1"),
+                      facet_by = "admin1",
+                      include_national = TRUE,
+                      first_case_line = FALSE,
+                      first_death_line = FALSE)
 ```
 
 This is a timeline of of all of the data from Great Britain restricting to social and physical distancing measures and masking.
 
 ```{r timeline6, fig.height=4.5, fig.width=8.5}
-intervention_timeline(hit_data, country = "GBR", facet_by = "admin1", intervention = c("mask", "entertainment_closed", "office_closed", "public_space_closed", "religion_closed", "restaurant_closed", "school_closed", "social_group_limits", "store_closed"), intervention_facet = FALSE)
+intervention_timeline(hit_data,
+                      country = "GBR",
+                      facet_by = "admin1",
+                      intervention = c("mask", "entertainment_closed", "office_closed",
+                                       "public_space_closed", "religion_closed", "restaurant_closed",
+                                       "school_closed", "social_group_limits", "store_closed"),
+                      intervention_facet = FALSE)
 ```
 
 
@@ -176,35 +212,41 @@ intervention_timeline(hit_data, country = "GBR", facet_by = "admin1", interventi
 
 The funciton [intervention_epi()](https://hopkinsidd.github.io/hitRcovid/reference/intervention_epi.html) can be used to display a barplot of daily case counts (the epi-curve) along with a timeline showing the status of selected interventions (border closures, household confinement, universal mask mandates, restaurant closures, primary school closures, and retail store closures) over time.
 
-The main usage would be to plot the epi-curves at the country level, but admin1 level case counts are available for 11 countries (Afghanistan, Belgium, Brazil, Canada, Columbia, Germany, India, Italy, Russia, UK, and USA). Only one country or admin1 unit can be plotted at a time.
-
-The user can specify the date range for the plot using first_date and last_date. Another way to restrict the plot is to change case_threshold. In this case the earliest date of the plot will be when the total number of cases in the country exceeded case_threshold. If both first_date and case_threshold are provided, first_date will be used as the start of the plot.
+The main usage would be to plot the epi-curves at the country level, but admin1 level case counts are available for 11 countries (Afghanistan, Belgium, Brazil, Canada, Columbia, Germany, India, Italy, Russia, UK, and USA). Only one country or admin1 unit can be plotted at a time. The user can specify the date range for the plot using first_date and last_date. Another way to restrict the plot is to change case_threshold. In this case the earliest date of the plot will be when the total number of cases in the country exceeded case_threshold.
 
 
 Here is the epi-curve for India starting from January 1, 2020:
 
 ```{r epi1, fig.height=5.5, fig.width=8}
-intervention_epi(hit_data, country = "IND")
+intervention_epi(hit_data,
+                 country = "IND")
 ```
 
 This plot starts when there were more than 100 cases in India:
 
 ```{r epi2, fig.height=5.5, fig.width=8}
-intervention_epi(hit_data, country = "IND", case_threshold = 100)
+intervention_epi(hit_data,
+                 country = "IND",
+                 case_threshold = 100)
 ```
 
 
 Here is the epi-curve for New Zealand from February to May:
 
 ```{r epi3, fig.height=5.5, fig.width=8}
-intervention_epi(hit_data, country = "NZL", first_date = "3/1/2020", last_date = "5/31/2020")
+intervention_epi(hit_data,
+                 country = "NZL",
+                 first_date = "3/1/2020",
+                 last_date = "5/31/2020")
 ```
 
 
 Here is the epi-curve for England starting when there were 100 cases
 
 ```{r epi4, fig.height=5.5, fig.width=8}
-intervention_epi(hit_data, admin1 = "GBR.1_1", case_threshold = 100)
+intervention_epi(hit_data,
+                 admin1 = "GBR.1_1",
+                 case_threshold = 100)
 ```
 
 
@@ -213,7 +255,7 @@ intervention_epi(hit_data, admin1 = "GBR.1_1", case_threshold = 100)
 
 The HIT-COVID database is a managed crowd sourcing effort supported by numerous volunteers over the past eight months. Because of this data collection effort, the database is not complete for all countries and admin1 units. This should be taken into account when using this database.
 
-This caveat is especially important when interpretting the intervention timelines printed under the epi curves. These final bars of each timeline represent the last logged status of an intervention. For some locations, the intervention data may not have been updated which means that older policies would appear to carry to the present when they are not still active. Care should be taken when interpreting these plots without knowledge of the completeness of the intervention data of the location of interest.
+This caveat is especially important when interpreting the intervention timelines printed under the epi curves. These final bars of each timeline represent the last logged status of an intervention. For some locations, the intervention data may not have been updated which means that older policies would appear to carry to the present when they are not still active. Care should be taken when interpreting these plots without knowledge of the completeness of the intervention data of the location of interest.
 
 If you are interested in working on a particular are which has incomplete data and would like to contribute to this database, please reach out to the management team at [hit-covid@jhu.edu](hit-covid@jhu.edu).
 

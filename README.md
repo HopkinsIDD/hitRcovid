@@ -1,6 +1,6 @@
 # hitRcovid: Access and Visualize the HIT-COVID Database
 
-For documentation and a tutorial (to come) see: https://hopkinsidd.github.io/hitRcovid/ 
+For documentation and a more detailed tutorial see: https://hopkinsidd.github.io/hitRcovid/ 
 
 ## Database background
 

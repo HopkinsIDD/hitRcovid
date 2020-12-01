@@ -98,7 +98,7 @@ and retail store closures) are also plotted. The admin1 plotting is only availab
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/hitRcovid-vignette.html">my-vignette</a>
+      <a href="../articles/hitRcovid-vignette.html">Introduction to hitRcovid: Access and Visualize the HIT-COVID Database</a>
     </li>
   </ul>
 </li>
@@ -198,13 +198,13 @@ the total number of cases is greater than the <code>case_threshold</code>).</p><
 Only one country or admin1 unit can be plotted at a time and the resulting plot will include the
 case counts for this location with select intervention data. The user can specify the date range
 for the plot using <code>first_date</code> and <code>last_date</code>. Another way to restrict the plot is to change
-<code>case_threshold</code> then the earliest date of the plot will be when the total number of cases
-in the country exceeded <code>case_threshold</code>. If both <code>first_date</code> and <code>case_threshold</code>
-are provided, <code>first_date</code> will be used as the start of the plot.</p>
+<code>case_threshold</code>. When the <code>case_threshold is specified</code> then the earliest date of the
+plot will be when the total number of cases in the country exceeded <code>case_threshold</code>.
+If both <code>first_date</code> and <code>case_threshold</code> are provided, <code>first_date</code> will be used
+as the beginning of the plot.</p>
 <p>The source for the country level data is either the European Centre for Disease
 Control (ECDC) or the World Health Organization (WHO) with the WHO as the default. The source for
-the admin1 data varies depending on the package and can be seen in the
-<a href='https://github.com/epiforecasts/covidregionaldata/tree/master/R'>covidregional data source code</a>.
+the admin1 data varies depending on the package and can be seen in the reference section below.
 The admin1 case counts data is pulled using <a href='epiforecasts.io/covidregionaldata//reference/get_regional_data.html'>get_regional_data</a>. As of now
 this is only available for 11 countries: Afghanistan, Belgium, Brazil, Canada, Columbia, Germany,
 India, Italy, Russia, UK, and USA. The admin1 units that are included in the HIT-COVID database
