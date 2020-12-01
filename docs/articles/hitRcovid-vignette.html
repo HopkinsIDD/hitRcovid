@@ -128,15 +128,19 @@
 <span class="fu"><a href="../reference/get_admin1.html">get_admin1</a></span>(<span class="no">hit_data</span>, <span class="kw">country</span> <span class="kw">=</span> <span class="st">"GBR"</span>)
 <span class="co">#&gt; [1] "GBR.4_1" "GBR.1_1" "GBR.3_1" "GBR.2_1"</span></pre></body></html></div>
 <p>This code filters to all data from Great Britain:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">gbr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/hit_filter.html">hit_filter</a></span>(<span class="no">hit_data</span>, <span class="kw">country</span> <span class="kw">=</span> <span class="st">"GBR"</span>)
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">gbr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/hit_filter.html">hit_filter</a></span>(<span class="no">hit_data</span>,
+                  <span class="kw">country</span> <span class="kw">=</span> <span class="st">"GBR"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">gbr</span>)
 <span class="co">#&gt; [1] 172</span></pre></body></html></div>
 <p>You can also look at just the national-level data by removing all admin1 data:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">gbr_national</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/hit_filter.html">hit_filter</a></span>(<span class="no">hit_data</span>, <span class="kw">country</span> <span class="kw">=</span> <span class="st">"GBR"</span>, <span class="kw">include_admin1</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">gbr_national</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/hit_filter.html">hit_filter</a></span>(<span class="no">hit_data</span>,
+                           <span class="kw">country</span> <span class="kw">=</span> <span class="st">"GBR"</span>,
+                           <span class="kw">include_admin1</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">gbr_national</span>)
 <span class="co">#&gt; [1] 11</span></pre></body></html></div>
 <p>You can filter by continent, for example looking at all policies in Africa and Asia:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">afr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/hit_filter.html">hit_filter</a></span>(<span class="no">hit_data</span>, <span class="kw">continent</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Asia"</span>, <span class="st">"Africa"</span>))
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">afr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/hit_filter.html">hit_filter</a></span>(<span class="no">hit_data</span>,
+                  <span class="kw">continent</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Asia"</span>, <span class="st">"Africa"</span>))
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">afr</span>)
 <span class="co">#&gt; [1] 4563</span></pre></body></html></div>
 <p>You can also filter by intervention type. The intervention group codes and names can be found in the <a href="https://hopkinsidd.github.io/hitRcovid/reference/intervention_lookup.html">intervention_lookup</a> dataframe provided in the package or all options can be printed using the function <a href="https://hopkinsidd.github.io/hitRcovid/reference/list_interventions.html">get_interventions()</a>. Then you can use those codes to filter by intervention type either on their own or in conjunction with location filtering.</p>
@@ -153,11 +157,15 @@
 <span class="co">#&gt; [19] "symp_screening"          "testing_asymp"          </span>
 <span class="co">#&gt; [21] "testing_symp"</span></pre></body></html></div>
 <p>Here is the code to look at school closures and restaurant closures across the entire database:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">school_restaurant</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/hit_filter.html">hit_filter</a></span>(<span class="no">hit_data</span>, <span class="kw">intervention</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"school_closed"</span>, <span class="st">"restaurant_closed"</span>))
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">school_restaurant</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/hit_filter.html">hit_filter</a></span>(<span class="no">hit_data</span>,
+                                <span class="kw">intervention</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"school_closed"</span>, <span class="st">"restaurant_closed"</span>))
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">school_restaurant</span>)
 <span class="co">#&gt; [1] 1903</span></pre></body></html></div>
 <p>Here we are looking at all mask policies across three US states and removing the national data:</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">us_mask</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/hit_filter.html">hit_filter</a></span>(<span class="no">hit_data</span>, <span class="kw">intervention</span> <span class="kw">=</span> <span class="st">"mask"</span>, <span class="kw">admin1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"USA.22_1"</span>, <span class="st">"USA.31_1"</span>, <span class="st">"USA.39_1"</span>), <span class="kw">include_national</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">us_mask</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/hit_filter.html">hit_filter</a></span>(<span class="no">hit_data</span>,
+                      <span class="kw">intervention</span> <span class="kw">=</span> <span class="st">"mask"</span>,
+                      <span class="kw">admin1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"USA.22_1"</span>, <span class="st">"USA.31_1"</span>, <span class="st">"USA.39_1"</span>),
+                      <span class="kw">include_national</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">us_mask</span>)
 <span class="co">#&gt; [1] 8</span></pre></body></html></div>
 </div>
@@ -166,15 +174,23 @@
 <a href="#world-map-of-status-of-an-intervention" class="anchor"></a>World map of status of an intervention</h2>
 <p>The function <a href="https://hopkinsidd.github.io/hitRcovid/reference/intervention_map.html">intervention_map()</a> can be used to display a world map showing the current status of a one intervention group at a date specified. The documentation provides details about all of the filtering and visualization options.</p>
 <p>Here is an example of a map of the status of school closures on April 1, 2020:</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_map.html">intervention_map</a></span>(<span class="no">hit_data</span>, <span class="kw">intervention_group</span> <span class="kw">=</span> <span class="st">"school_closed"</span>, <span class="kw">time_point</span> <span class="kw">=</span> <span class="st">"4/1/2020"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_map.html">intervention_map</a></span>(<span class="no">hit_data</span>,
+                 <span class="kw">intervention_group</span> <span class="kw">=</span> <span class="st">"school_closed"</span>,
+                 <span class="kw">time_point</span> <span class="kw">=</span> <span class="st">"4/1/2020"</span>)</pre></body></html></div>
 <p><img src="hitRcovid-vignette_files/figure-html/map1-1.png" width="768"></p>
 <p>And here is the map of the status of school closures on September 1, 2020:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_map.html">intervention_map</a></span>(<span class="no">hit_data</span>, <span class="kw">intervention_group</span> <span class="kw">=</span> <span class="st">"school_closed"</span>, <span class="kw">time_point</span> <span class="kw">=</span> <span class="st">"9/1/2020"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_map.html">intervention_map</a></span>(<span class="no">hit_data</span>,
+                 <span class="kw">intervention_group</span> <span class="kw">=</span> <span class="st">"school_closed"</span>,
+                 <span class="kw">time_point</span> <span class="kw">=</span> <span class="st">"9/1/2020"</span>)</pre></body></html></div>
 <p><img src="hitRcovid-vignette_files/figure-html/map2-1.png" width="768"></p>
 <p>Here are the global mask policies on April 1, 2020 and then on 9/1/2020</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_map.html">intervention_map</a></span>(<span class="no">hit_data</span>, <span class="kw">intervention_group</span> <span class="kw">=</span> <span class="st">"mask"</span>, <span class="kw">time_point</span> <span class="kw">=</span> <span class="st">"4/1/2020"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_map.html">intervention_map</a></span>(<span class="no">hit_data</span>,
+                 <span class="kw">intervention_group</span> <span class="kw">=</span> <span class="st">"mask"</span>,
+                 <span class="kw">time_point</span> <span class="kw">=</span> <span class="st">"4/1/2020"</span>)</pre></body></html></div>
 <p><img src="hitRcovid-vignette_files/figure-html/map3-1.png" width="768"></p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_map.html">intervention_map</a></span>(<span class="no">hit_data</span>, <span class="kw">intervention_group</span> <span class="kw">=</span> <span class="st">"mask"</span>, <span class="kw">time_point</span> <span class="kw">=</span> <span class="st">"9/1/2020"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_map.html">intervention_map</a></span>(<span class="no">hit_data</span>,
+                 <span class="kw">intervention_group</span> <span class="kw">=</span> <span class="st">"mask"</span>,
+                 <span class="kw">time_point</span> <span class="kw">=</span> <span class="st">"9/1/2020"</span>)</pre></body></html></div>
 <p><img src="hitRcovid-vignette_files/figure-html/map3-2.png" width="768"></p>
 </div>
 <div id="timeline-of-intervention-updates" class="section level2">
@@ -183,51 +199,78 @@
 <p>The function, <a href="https://hopkinsidd.github.io/hitRcovid/reference/intervention_timeline.html">intervention_timeline()</a> can be used to display a timeline of all of the intervention updates in the database using <a href="https://hopkinsidd.github.io/hitRcovid/reference/hit_filter.html">hit_filter()</a> to focus on the locations and/or intervention types specified. The documentation provides details about all of the filtering and visualization options.</p>
 <p>The plot can be faceted by continent, country, or admin1 unit if desired. The user can also specify if they want the a line drawn for the date of the first case and/or first death. If desired, both national and admin1 data can be plotted or just one level. The following are numerous examples to demonstrate the functionality of this plot.</p>
 <p>This is a timeline of all national and admin1 data in the database, in North America, Asia, Europe and Africa faceting by continent which is a fairly busy plot:</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_timeline.html">intervention_timeline</a></span>(<span class="no">hit_data</span>, <span class="kw">continent</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Asia"</span>, <span class="st">"Europe"</span>, <span class="st">"Africa"</span>, <span class="st">"North America"</span>), <span class="kw">facet_by</span> <span class="kw">=</span> <span class="st">"continent"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_timeline.html">intervention_timeline</a></span>(<span class="no">hit_data</span>,
+                      <span class="kw">continent</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Asia"</span>, <span class="st">"Europe"</span>, <span class="st">"Africa"</span>, <span class="st">"North America"</span>),
+                      <span class="kw">facet_by</span> <span class="kw">=</span> <span class="st">"continent"</span>)</pre></body></html></div>
 <p><img src="hitRcovid-vignette_files/figure-html/timeline1-1.png" width="960"></p>
 <p>This is a timeline of all data from India and New Zealand faceting by country:</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_timeline.html">intervention_timeline</a></span>(<span class="no">hit_data</span>, <span class="kw">country</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"IND"</span>, <span class="st">"NZL"</span>), <span class="kw">facet_by</span> <span class="kw">=</span> <span class="st">"country"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_timeline.html">intervention_timeline</a></span>(<span class="no">hit_data</span>,
+                      <span class="kw">country</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"IND"</span>, <span class="st">"NZL"</span>),
+                      <span class="kw">facet_by</span> <span class="kw">=</span> <span class="st">"country"</span>)</pre></body></html></div>
 <p><img src="hitRcovid-vignette_files/figure-html/timeline2-1.png" width="768"></p>
 <p>This a timeline of the USA data but removes the national policies (only includes state-level data)</p>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_timeline.html">intervention_timeline</a></span>(<span class="no">hit_data</span>, <span class="kw">country</span> <span class="kw">=</span> <span class="st">"USA"</span>, <span class="kw">include_national</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_timeline.html">intervention_timeline</a></span>(<span class="no">hit_data</span>,
+                      <span class="kw">country</span> <span class="kw">=</span> <span class="st">"USA"</span>,
+                      <span class="kw">include_national</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
 <p><img src="hitRcovid-vignette_files/figure-html/timeline3-1.png" width="768"></p>
 <p>This timeline focuses on three US states faceting by state and including national data</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_timeline.html">intervention_timeline</a></span>(<span class="no">hit_data</span>, <span class="kw">admin1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"USA.22_1"</span>, <span class="st">"USA.31_1"</span>, <span class="st">"USA.39_1"</span>), <span class="kw">facet_by</span> <span class="kw">=</span> <span class="st">"admin1"</span>, <span class="kw">include_national</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_timeline.html">intervention_timeline</a></span>(<span class="no">hit_data</span>,
+                      <span class="kw">admin1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"USA.22_1"</span>, <span class="st">"USA.31_1"</span>, <span class="st">"USA.39_1"</span>),
+                      <span class="kw">facet_by</span> <span class="kw">=</span> <span class="st">"admin1"</span>,
+                      <span class="kw">include_national</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <p><img src="hitRcovid-vignette_files/figure-html/timeline4-1.png" width="864"></p>
 <p>This plot removes the lines representing the first case and first death in the US from the previous timeline</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_timeline.html">intervention_timeline</a></span>(<span class="no">hit_data</span>, <span class="kw">admin1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"USA.22_1"</span>, <span class="st">"USA.31_1"</span>, <span class="st">"USA.39_1"</span>), <span class="kw">facet_by</span> <span class="kw">=</span> <span class="st">"admin1"</span>, <span class="kw">include_national</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">first_case_line</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">first_death_line</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_timeline.html">intervention_timeline</a></span>(<span class="no">hit_data</span>,
+                      <span class="kw">admin1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"USA.22_1"</span>, <span class="st">"USA.31_1"</span>, <span class="st">"USA.39_1"</span>),
+                      <span class="kw">facet_by</span> <span class="kw">=</span> <span class="st">"admin1"</span>,
+                      <span class="kw">include_national</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
+                      <span class="kw">first_case_line</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
+                      <span class="kw">first_death_line</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
 <p><img src="hitRcovid-vignette_files/figure-html/timeline5-1.png" width="864"></p>
 <p>This is a timeline of of all of the data from Great Britain restricting to social and physical distancing measures and masking.</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_timeline.html">intervention_timeline</a></span>(<span class="no">hit_data</span>, <span class="kw">country</span> <span class="kw">=</span> <span class="st">"GBR"</span>, <span class="kw">facet_by</span> <span class="kw">=</span> <span class="st">"admin1"</span>, <span class="kw">intervention</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"mask"</span>, <span class="st">"entertainment_closed"</span>, <span class="st">"office_closed"</span>, <span class="st">"public_space_closed"</span>, <span class="st">"religion_closed"</span>, <span class="st">"restaurant_closed"</span>, <span class="st">"school_closed"</span>, <span class="st">"social_group_limits"</span>, <span class="st">"store_closed"</span>), <span class="kw">intervention_facet</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_timeline.html">intervention_timeline</a></span>(<span class="no">hit_data</span>,
+                      <span class="kw">country</span> <span class="kw">=</span> <span class="st">"GBR"</span>,
+                      <span class="kw">facet_by</span> <span class="kw">=</span> <span class="st">"admin1"</span>,
+                      <span class="kw">intervention</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"mask"</span>, <span class="st">"entertainment_closed"</span>, <span class="st">"office_closed"</span>,
+                                       <span class="st">"public_space_closed"</span>, <span class="st">"religion_closed"</span>, <span class="st">"restaurant_closed"</span>,
+                                       <span class="st">"school_closed"</span>, <span class="st">"social_group_limits"</span>, <span class="st">"store_closed"</span>),
+                      <span class="kw">intervention_facet</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
 <p><img src="hitRcovid-vignette_files/figure-html/timeline6-1.png" width="816"></p>
 </div>
 <div id="epi-curve-with-intervention-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#epi-curve-with-intervention-data" class="anchor"></a>Epi-curve with intervention data</h2>
 <p>The funciton <a href="https://hopkinsidd.github.io/hitRcovid/reference/intervention_epi.html">intervention_epi()</a> can be used to display a barplot of daily case counts (the epi-curve) along with a timeline showing the status of selected interventions (border closures, household confinement, universal mask mandates, restaurant closures, primary school closures, and retail store closures) over time.</p>
-<p>The main usage would be to plot the epi-curves at the country level, but admin1 level case counts are available for 11 countries (Afghanistan, Belgium, Brazil, Canada, Columbia, Germany, India, Italy, Russia, UK, and USA). Only one country or admin1 unit can be plotted at a time.</p>
-<p>The user can specify the date range for the plot using first_date and last_date. Another way to restrict the plot is to change case_threshold. In this case the earliest date of the plot will be when the total number of cases in the country exceeded case_threshold. If both first_date and case_threshold are provided, first_date will be used as the start of the plot.</p>
+<p>The main usage would be to plot the epi-curves at the country level, but admin1 level case counts are available for 11 countries (Afghanistan, Belgium, Brazil, Canada, Columbia, Germany, India, Italy, Russia, UK, and USA). Only one country or admin1 unit can be plotted at a time. The user can specify the date range for the plot using first_date and last_date. Another way to restrict the plot is to change case_threshold. In this case the earliest date of the plot will be when the total number of cases in the country exceeded case_threshold.</p>
 <p>Here is the epi-curve for India starting from January 1, 2020:</p>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_epi.html">intervention_epi</a></span>(<span class="no">hit_data</span>, <span class="kw">country</span> <span class="kw">=</span> <span class="st">"IND"</span>)
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_epi.html">intervention_epi</a></span>(<span class="no">hit_data</span>,
+                 <span class="kw">country</span> <span class="kw">=</span> <span class="st">"IND"</span>)
 <span class="co">#&gt; Registered S3 method overwritten by 'quantmod':</span>
 <span class="co">#&gt;   method            from</span>
 <span class="co">#&gt;   as.zoo.data.frame zoo</span></pre></body></html></div>
 <p><img src="hitRcovid-vignette_files/figure-html/epi1-1.png" width="768"></p>
 <p>This plot starts when there were more than 100 cases in India:</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_epi.html">intervention_epi</a></span>(<span class="no">hit_data</span>, <span class="kw">country</span> <span class="kw">=</span> <span class="st">"IND"</span>, <span class="kw">case_threshold</span> <span class="kw">=</span> <span class="fl">100</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_epi.html">intervention_epi</a></span>(<span class="no">hit_data</span>,
+                 <span class="kw">country</span> <span class="kw">=</span> <span class="st">"IND"</span>,
+                 <span class="kw">case_threshold</span> <span class="kw">=</span> <span class="fl">100</span>)</pre></body></html></div>
 <p><img src="hitRcovid-vignette_files/figure-html/epi2-1.png" width="768"></p>
 <p>Here is the epi-curve for New Zealand from February to May:</p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_epi.html">intervention_epi</a></span>(<span class="no">hit_data</span>, <span class="kw">country</span> <span class="kw">=</span> <span class="st">"NZL"</span>, <span class="kw">first_date</span> <span class="kw">=</span> <span class="st">"3/1/2020"</span>, <span class="kw">last_date</span> <span class="kw">=</span> <span class="st">"5/31/2020"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_epi.html">intervention_epi</a></span>(<span class="no">hit_data</span>,
+                 <span class="kw">country</span> <span class="kw">=</span> <span class="st">"NZL"</span>,
+                 <span class="kw">first_date</span> <span class="kw">=</span> <span class="st">"3/1/2020"</span>,
+                 <span class="kw">last_date</span> <span class="kw">=</span> <span class="st">"5/31/2020"</span>)</pre></body></html></div>
 <p><img src="hitRcovid-vignette_files/figure-html/epi3-1.png" width="768"></p>
 <p>Here is the epi-curve for England starting when there were 100 cases</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_epi.html">intervention_epi</a></span>(<span class="no">hit_data</span>, <span class="kw">admin1</span> <span class="kw">=</span> <span class="st">"GBR.1_1"</span>, <span class="kw">case_threshold</span> <span class="kw">=</span> <span class="fl">100</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_epi.html">intervention_epi</a></span>(<span class="no">hit_data</span>,
+                 <span class="kw">admin1</span> <span class="kw">=</span> <span class="st">"GBR.1_1"</span>,
+                 <span class="kw">case_threshold</span> <span class="kw">=</span> <span class="fl">100</span>)</pre></body></html></div>
 <p><img src="hitRcovid-vignette_files/figure-html/epi4-1.png" width="768"></p>
 </div>
 <div id="comments-and-limitations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#comments-and-limitations" class="anchor"></a>Comments and Limitations</h2>
 <p>The HIT-COVID database is a managed crowd sourcing effort supported by numerous volunteers over the past eight months. Because of this data collection effort, the database is not complete for all countries and admin1 units. This should be taken into account when using this database.</p>
-<p>This caveat is especially important when interpretting the intervention timelines printed under the epi curves. These final bars of each timeline represent the last logged status of an intervention. For some locations, the intervention data may not have been updated which means that older policies would appear to carry to the present when they are not still active. Care should be taken when interpreting these plots without knowledge of the completeness of the intervention data of the location of interest.</p>
+<p>This caveat is especially important when interpreting the intervention timelines printed under the epi curves. These final bars of each timeline represent the last logged status of an intervention. For some locations, the intervention data may not have been updated which means that older policies would appear to carry to the present when they are not still active. Care should be taken when interpreting these plots without knowledge of the completeness of the intervention data of the location of interest.</p>
 <p>If you are interested in working on a particular are which has incomplete data and would like to contribute to this database, please reach out to the management team at <a href="hit-covid@jhu.edu">hit-covid@jhu.edu</a>.</p>
 </div>
 <div id="mangement-team" class="section level2">

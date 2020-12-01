@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 ## Database background
@@ -217,7 +218,7 @@ The main usage would be to plot the epi-curves at the country level, but admin1 
 
 Here is the epi-curve for India starting from January 1, 2020:
 
-```{r epi1, fig.height=5.5, fig.width=8}
+```{r epi1, fig.height=5.5, fig.width=8, message=FALSE}
 intervention_epi(hit_data,
                  country = "IND")
 ```
