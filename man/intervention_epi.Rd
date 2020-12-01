@@ -50,14 +50,14 @@ The HIT-COVID database must first be loaded with \link{hit_pull} and fed into th
 Only one country or admin1 unit can be plotted at a time and the resulting plot will include the
 case counts for this location with select intervention data. The user can specify the date range
 for the plot using \code{first_date} and \code{last_date}. Another way to restrict the plot is to change
-\code{case_threshold} then the earliest date of the plot will be when the total number of cases
-in the country exceeded \code{case_threshold}. If both \code{first_date} and \code{case_threshold}
-are provided, \code{first_date} will be used as the start of the plot.
+\code{case_threshold}. When the \code{case_threshold is specified} then the earliest date of the
+plot will be when the total number of cases in the country exceeded \code{case_threshold}.
+If both \code{first_date} and \code{case_threshold} are provided, \code{first_date} will be used
+as the beginning of the plot.
 
 The source for the country level data is either the European Centre for Disease
 Control (ECDC) or the World Health Organization (WHO) with the WHO as the default. The source for
-the admin1 data varies depending on the package and can be seen in the
-\href{https://github.com/epiforecasts/covidregionaldata/tree/master/R}{covidregional data source code}.
+the admin1 data varies depending on the package and can be seen in the reference section below.
 The admin1 case counts data is pulled using \link[covidregionaldata]{get_regional_data}. As of now
 this is only available for 11 countries: Afghanistan, Belgium, Brazil, Canada, Columbia, Germany,
 India, Italy, Russia, UK, and USA. The admin1 units that are included in the HIT-COVID database

@@ -1,5 +1,5 @@
 ---
-title: "my-vignette"
+title: "Introduction to hitRcovid: Access and Visualize the HIT-COVID Database"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{my-vignette}
@@ -14,6 +14,231 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(hitRcovid)
+## Database background
+
+The Health Intervention Tracking for COVID-19 (HIT-COVID) project tracks the implementation and relaxation of public health and social measures (PHSMs) taken by governments to slow transmission of SARS-COV-2 globally. Hundreds of volunteer data contributors were trained, provided with standardized field definitions and access to an online forum for asking questions and sharing ideas. Each change in policy and corresponding date is documented at the first-level administrative unit (e.g., states, districts) and nationally for all countries with more detailed geographic resolution in some locations (e.g., counties in the US).
+
+Data are entered into a structured questionnaire with a source document(s) required for each record. Source documents from official government sources are preferred, but other sources are permitted when official sources are unavailable. For each intervention, HIT-COVID captures a suite of additional data including whether interventions are required or recommended and the particular subpopulation to which policies apply. To ensure data quality, contributors are asked to complete weekly self-audit reports, have the ability to submit corrections on past entries, and the management team performs geographic or intervention-specific audits as issues arise. 
+
+This package can be used to easily access, filter, and visualize the HIT-COVID database. The full database including detailed documentation is available in the [hit-covid repository](https://github.com/HopkinsIDD/hit-covid) and more details can be found on the [website](https://akuko.io/post/covid-intervention-tracking). The creation of the database is also described in detail in [this paper](https://www.nature.com/articles/s41597-020-00610-2).
+
+## Installation
+
+You want to start by installing hitRcovid if you have not already done so using:
+
+```{r setup1, eval = FALSE}
+devtools::install_github('https://github.com/HopkinsIDD/hitRcovid.git')
 ```
+
+Then you can load the package by running:
+
+```{r setup2}
+library('hitRcovid')
+```
+
+
+## Pulling the HIT-COVID database
+
+Before using any of the filtering or visualization functions you first need to pull the HIT-COVID database using [hit_pull()](https://hopkinsidd.github.io/hitRcovid/reference/hit_pull.html). The default behavior of this function will use the [covidregionaldata](https://github.com/epiforecasts/covidregionaldata) package to include the date of the first case of COVID-19 and the first death from COVID-19 for each country.
+
+```{r pull}
+hit_data <- hit_pull()
+```
+
+You can change the source of the case data (WHO or ECDC) using the source arguement. If you do not want the dates of the first case and first death you can use the option add_first_case = FALSE. This will also increase the speed of the function.
+
+
+## Filtering the HIT-COVID database
+
+You can then filter the database by location and/or intervention type using [hit_filter()](https://hopkinsidd.github.io/hitRcovid/reference/hit_filter.html) function. This function is meant to be very flexible and the various options are described in detail in the documentations.
+
+The country and admin codes to be used for filtering can be found in the [geo_lookup](https://hopkinsidd.github.io/hitRcovid/reference/geo_lookup.html) dataframe provided in the package. Additionally, the admin1 codes that have data in the database for a specified country can be printed by using [get_admin1](https://hopkinsidd.github.io/hitRcovid/reference/get_admin1.html).
+
+```{r}
+get_admin1(hit_data, country = "USA")
+get_admin1(hit_data, country = "GBR")
+```
+
+
+This code filters to all data from Great Britain:
+
+```{r gbr1}
+gbr <- hit_filter(hit_data, country = "GBR")
+nrow(gbr)
+```
+
+You can also look at just the national-level data by removing all admin1 data:
+
+```{r gbr2}
+gbr_national <- hit_filter(hit_data, country = "GBR", include_admin1 = FALSE)
+nrow(gbr_national)
+```
+
+You can filter by continent, for example looking at all policies in Africa and Asia:
+
+```{r afr}
+afr <- hit_filter(hit_data, continent = c("Asia", "Africa"))
+nrow(afr)
+```
+
+You can also filter by intervention type. The intervention group codes and names can be found in the [intervention_lookup](https://hopkinsidd.github.io/hitRcovid/reference/intervention_lookup.html) dataframe provided in the package or all options can be printed using the function [get_interventions()](https://hopkinsidd.github.io/hitRcovid/reference/list_interventions.html). Then you can use those codes to filter by intervention type either on their own or in conjunction with location filtering.
+
+```{r int}
+get_interventions()
+```
+
+Here is the code to look at school closures and restaurant closures across the entire database:
+
+```{r schoolres}
+school_restaurant <- hit_filter(hit_data, intervention = c("school_closed", "restaurant_closed"))
+nrow(school_restaurant)
+```
+
+Here we are looking at all mask policies across three US states and removing the national data:
+
+```{r usamask}
+us_mask <- hit_filter(hit_data, intervention = "mask", admin1 = c("USA.22_1", "USA.31_1", "USA.39_1"), include_national = FALSE)
+nrow(us_mask)
+```
+
+
+
+## World map of status of an intervention
+
+The function [intervention_map()](https://hopkinsidd.github.io/hitRcovid/reference/intervention_map.html) can be used to display a world map showing the current status of a one intervention group at a date specified. The documentation provides details about all of the filtering and visualization options.
+
+Here is an example of a map of the status of school closures on April 1, 2020:
+
+```{r map1, fig.height=5, fig.width=8}
+intervention_map(hit_data, intervention_group = "school_closed", time_point = "4/1/2020")
+```
+
+And here is the map of the status of school closures on September 1, 2020: 
+
+```{r map2, fig.height=5, fig.width=8}
+intervention_map(hit_data, intervention_group = "school_closed", time_point = "9/1/2020")
+```
+
+Here are the global mask policies on April 1, 2020 and then on 9/1/2020
+
+```{r map3, fig.height=5, fig.width=8}
+intervention_map(hit_data, intervention_group = "mask", time_point = "4/1/2020")
+intervention_map(hit_data, intervention_group = "mask", time_point = "9/1/2020")
+```
+
+
+
+## Timeline of intervention updates
+
+The function, [intervention_timeline()](https://hopkinsidd.github.io/hitRcovid/reference/intervention_timeline.html) can be used to display a timeline of all of the intervention updates in the database using [hit_filter()](https://hopkinsidd.github.io/hitRcovid/reference/hit_filter.html) to focus on the locations and/or intervention types specified. The documentation provides details about all of the filtering and visualization options.
+
+The plot can be faceted by continent, country, or admin1 unit if desired. The user can also specify if they want the a line drawn for the date of the first case and/or first death. If desired, both national and admin1 data can be plotted or just one level. The following are numerous examples to demonstrate the functionality of this plot.
+
+This is a timeline of all national and admin1 data in the database, in North America, Asia, Europe and Africa faceting by continent which is a fairly busy plot:
+
+```{r timeline1, fig.height=6.5, fig.width=10}
+intervention_timeline(hit_data, continent = c("Asia", "Europe", "Africa", "North America"), facet_by = "continent")
+```
+
+
+This is a timeline of all data from India and New Zealand faceting by country:
+
+```{r timeline2, fig.height=6.5, fig.width=8}
+intervention_timeline(hit_data, country = c("IND", "NZL"), facet_by = "country")
+```
+
+This a timeline of the USA data but removes the national policies (only includes state-level data)
+
+```{r timeline3, fig.height=6, fig.width=8}
+intervention_timeline(hit_data, country = "USA", include_national = FALSE)
+```
+
+This timeline focuses on three US states faceting by state and including national data
+
+```{r timeline4, fig.height=6.5, fig.width=9}
+intervention_timeline(hit_data, admin1 = c("USA.22_1", "USA.31_1", "USA.39_1"), facet_by = "admin1", include_national = TRUE)
+```
+
+This plot removes the lines representing the first case and first death in the US from the previous timeline
+
+```{r timeline5, fig.height=6.5, fig.width=9}
+intervention_timeline(hit_data, admin1 = c("USA.22_1", "USA.31_1", "USA.39_1"), facet_by = "admin1", include_national = TRUE, first_case_line = FALSE, first_death_line = FALSE)
+```
+
+This is a timeline of of all of the data from Great Britain restricting to social and physical distancing measures and masking.
+
+```{r timeline6, fig.height=4.5, fig.width=8.5}
+intervention_timeline(hit_data, country = "GBR", facet_by = "admin1", intervention = c("mask", "entertainment_closed", "office_closed", "public_space_closed", "religion_closed", "restaurant_closed", "school_closed", "social_group_limits", "store_closed"), intervention_facet = FALSE)
+```
+
+
+## Epi-curve with intervention data
+
+The funciton [intervention_epi()](https://hopkinsidd.github.io/hitRcovid/reference/intervention_epi.html) can be used to display a barplot of daily case counts (the epi-curve) along with a timeline showing the status of selected interventions (border closures, household confinement, universal mask mandates, restaurant closures, primary school closures, and retail store closures) over time.
+
+The main usage would be to plot the epi-curves at the country level, but admin1 level case counts are available for 11 countries (Afghanistan, Belgium, Brazil, Canada, Columbia, Germany, India, Italy, Russia, UK, and USA). Only one country or admin1 unit can be plotted at a time.
+
+The user can specify the date range for the plot using first_date and last_date. Another way to restrict the plot is to change case_threshold. In this case the earliest date of the plot will be when the total number of cases in the country exceeded case_threshold. If both first_date and case_threshold are provided, first_date will be used as the start of the plot.
+
+
+Here is the epi-curve for India starting from January 1, 2020:
+
+```{r epi1, fig.height=5.5, fig.width=8}
+intervention_epi(hit_data, country = "IND")
+```
+
+This plot starts when there were more than 100 cases in India:
+
+```{r epi2, fig.height=5.5, fig.width=8}
+intervention_epi(hit_data, country = "IND", case_threshold = 100)
+```
+
+
+Here is the epi-curve for New Zealand from February to May:
+
+```{r epi3, fig.height=5.5, fig.width=8}
+intervention_epi(hit_data, country = "NZL", first_date = "3/1/2020", last_date = "5/31/2020")
+```
+
+
+Here is the epi-curve for England starting when there were 100 cases
+
+```{r epi4, fig.height=5.5, fig.width=8}
+intervention_epi(hit_data, admin1 = "GBR.1_1", case_threshold = 100)
+```
+
+
+
+## Comments and Limitations
+
+The HIT-COVID database is a managed crowd sourcing effort supported by numerous volunteers over the past eight months. Because of this data collection effort, the database is not complete for all countries and admin1 units. This should be taken into account when using this database.
+
+This caveat is especially important when interpretting the intervention timelines printed under the epi curves. These final bars of each timeline represent the last logged status of an intervention. For some locations, the intervention data may not have been updated which means that older policies would appear to carry to the present when they are not still active. Care should be taken when interpreting these plots without knowledge of the completeness of the intervention data of the location of interest.
+
+If you are interested in working on a particular are which has incomplete data and would like to contribute to this database, please reach out to the management team at [hit-covid@jhu.edu](hit-covid@jhu.edu).
+
+
+## Mangement Team
+
+* Qulu Zheng, Johns Hopkins Bloomberg School of Public Health
+* Sophia Zweig, Johns Hopkins Bloomberg School of Public Health
+* Sarah V. Leavitt, Boston University School of Public Health
+* Lawson Ung, Harvard Medical School
+* Forrest K. Jones, Johns Hopkins Bloomberg School of Public Health
+* Hanmeng Xu, Johns Hopkins Bloomberg School of Public Health
+* Elizabeth C. Lee, Johns Hopkins Bloomberg School of Public Health
+* Alain Labrique, Johns Hopkins Bloomberg School of Public Health
+* David Peters, Johns Hopkins Bloomberg School of Public Health
+* Andrew S. Azman, Johns Hopkins Bloomberg School of Public Health
+
+See also the list of data [contributors](https://akuko.io/post/9862de6c-1b8b-4927-b939-3c2282397c31) who participated in this project.
+
+## License
+
+This dataset is licensed under the GNU General Public License v3.0 - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* Our [website](https://akuko.io/post/covid-intervention-tracking) was designed by Matt Berg and Dan McCarey from [ona.io](https://ona.io/home/)
+
+Contact: Andrew Azman (azman@jhu.edu) or hit-covid@jhu.edu
