@@ -8,7 +8,7 @@
 #' the option to facet the plot by different location levels. If desired, it also draws vertical lines 
 #' indicating the date of first case and first death in each facet provided.
 #' 
-#' The dataset must first be loaded with \link{hit_pull} and fed into this function.
+#' The HIT-COVID database must first be loaded with \link{hit_pull} and fed into this function.
 #' See \link{hit_filter} for details about each of the different filtering arguments. If desired the
 #' plot can have facets for different location levels - continent, country, admin1 using the
 #' \code{facet-by} argument. The default plot will also facet by broad intervention categories.
@@ -33,19 +33,20 @@
 #' should be drawn (defulat is TRUE).
 #' @param source the source of the case data that is used to determine the date of first case and
 #' first death if \code{hit_data} does not already include that information and either
-#' \code{first_case_line} or \code{first_death_line} are set to TRUE (default is "WHO").
+#' \code{first_case_line} or \code{first_death_line} are set to TRUE. One of "ECDC" or "WHO" 
+#' (default is "WHO").
 #' @param continent vector of continent names to filter the data to; should be one of
 #' \code{c("Asia", "Europe", "Africa", "Oceania", "North America", "South America")}
-#' @param country vector of ISO 3166-1 alpha-3 country codes to filter the data to 
+#' @param country vector of country ISO 3166-1 alpha-3 codes to include in plot
 #' (see \link{geo_lookup} for concordance of country codes to names)
-#' @param admin1 vector of the first administrative unit codes to filter the data to
+#' @param admin1 vector of the first administrative unit GID codes to include in plot
 #' (see \link{geo_lookup} for concordance of admin 1 codes to names). 
 #' @param locality vector of the names of localities to include (this is a free text field)
 #' @param include_national logical indicating if national-level data should be included (default is TRUE)
 #' @param include_admin1 logical indicating if admin1-level data should be included (default is TRUE)
 #' @param include_locality logical indicating if locality data should be included (default is FALSE)
 #' @param intervention_group vector of intervention group to filter the data to 
-#' (see \link{intervention_lookup} column "intervention_group" for options)
+#' (see \link{intervention_lookup} column "intervention_group" or run \link{get_interventions} for options)
 #' @param usa_county_data character string indicating how to deal with USA county-level data: one
 #' of "include", "exclude" or "restrict_to" (default is "exclude").
 #' @param verbose a logical indicating if notes about excluded points and lines should be printed 
@@ -71,6 +72,10 @@
 #' #Plotting just state-level data from the USA
 #' intervention_timeline(hit_data, country = "USA", include_national = FALSE)
 #' 
+#' #Including three states (admin1 level) and faceting by state
+#' intervention_timeline(hit_data, admin1 = c("USA.22_1", "USA.31_1", "USA.39_1"),
+#' facet_by = "admin1", include_national = TRUE)
+#' 
 #' #Removing vertical lines
 #' intervention_timeline(hit_data, country = "USA",
 #' first_case_line = FALSE, first_death_line = FALSE)
@@ -82,7 +87,11 @@
 #' Sam Abbott, Katharine Sherratt, Jonnie Bevan, Hamish Gibbs, Joel Hellewell, James Munday,
 #' Paul Campbell and Sebastian Funk (2020). covidregionaldata: Subnational Data for the
 #' Covid-19 Outbreak. R package version 0.6.0.
-#' https://CRAN.R-project.org/package=covidregionaldata
+#' \url{https://CRAN.R-project.org/package=covidregionaldata}
+#' 
+#' ECDC national data: \url{https://opendata.ecdc.europa.eu/covid19}
+#' 
+#' WHO national data: \url{https://covid19.who.int}
 #' 
 #' @importFrom rlang .data
 #' 
@@ -184,6 +193,10 @@ intervention_timeline <- function(hit_data,
     national <- data[data$level == "National",  ]
 
     #Finding admin1 codes and names (make sure order matches)
+    if(is.null(admin1)){
+      admin1 <- unique(data[!is.na(data$admin1), "admin1"])
+    }
+    
     admin1 <- admin1[order(admin1)]
     data <- data[order(data$admin1), ]
     admin1_names <- unique(data[!is.na(data$admin1), "admin1_name"])
@@ -268,10 +281,10 @@ intervention_timeline <- function(hit_data,
   #Drawing points including national if specified
   if(include_national == TRUE & include_admin1 == TRUE){
     p <- p + ggplot2::geom_jitter(ggplot2::aes(col = .data$status_simp, shape = .data$level),
-                                  alpha=0.3, size=2, width=0, height=0.2, na.rm = TRUE)
+                                  alpha=0.5, size=2, width=0, height=0.2, na.rm = TRUE)
   }else{
     p <- p + ggplot2::geom_jitter(ggplot2::aes(col = .data$status_simp),
-                    alpha=0.3, size=2, width=0, height=0.2, na.rm = TRUE)
+                    alpha=0.5, size=2, width=0, height=0.2, na.rm = TRUE)
   }
 
   #Faceting by provided level
@@ -312,7 +325,7 @@ intervention_timeline <- function(hit_data,
                   y = "Intervention \nType",
                   shape = "Geographic Level") +
 
-    ggplot2::scale_color_manual(name="Status", values = c("red","darkorange","black")) +
+    ggplot2::scale_color_manual(name="Status", values = c("red2","gold1","grey10")) +
     
     ggplot2::scale_linetype_identity(name = "",
                                      breaks = c("dashed", "dotted"), 

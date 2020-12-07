@@ -54,7 +54,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/my-vignette.html">my-vignette</a>
+      <a href="articles/hitRcovid-vignette.html">Introduction to hitRcovid: Access and Visualize the HIT-COVID Database</a>
     </li>
   </ul>
 </li>
@@ -81,12 +81,7 @@
 <div id="hitrcovid-access-and-visualize-the-hit-covid-database" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#hitrcovid-access-and-visualize-the-hit-covid-database" class="anchor"></a>hitRcovid: Access and Visualize the HIT-COVID Database</h1></div>
-<div id="under-development" class="section level3">
-<h3 class="hasAnchor">
-<a href="#under-development" class="anchor"></a><em>Under development</em>
-</h3>
-<p>For documentation and a tutorial (to come) see: <a href="https://hopkinsidd.github.io/hitRcovid/" class="uri">https://hopkinsidd.github.io/hitRcovid/</a></p>
-</div>
+<p>For documentation and a more detailed tutorial see: <a href="https://hopkinsidd.github.io/hitRcovid/" class="uri">https://hopkinsidd.github.io/hitRcovid/</a></p>
 <div id="database-background" class="section level2">
 <h2 class="hasAnchor">
 <a href="#database-background" class="anchor"></a>Database background</h2>
@@ -107,6 +102,7 @@
 <p><code>hit_data &lt;- hit_pull()</code></p>
 <p>You can then filter the database by location and/or intervention type using <a href="https://hopkinsidd.github.io/hitRcovid/reference/hit_filter.html">hit_filter()</a> function. The documentation provides details on all of the options available for this function. Here is an example looking at the mask policies across Asia:</p>
 <p><code>asia_masks &lt;- hit_filter(hit_data, continent = "Asia", intervention_group = "mask")</code></p>
+<p>The country and admin codes to be used for filtering can be found in the <a href="https://hopkinsidd.github.io/hitRcovid/reference/geo_lookup.html">geo_lookup</a> dataframe provided in the package. Additionally, the admin1 codes that have data in the database for a specified country can be printed by using <a href="https://hopkinsidd.github.io/hitRcovid/reference/get_admin1.html">get_admin1</a>. The intervention group codes and names can be found in the <a href="https://hopkinsidd.github.io/hitRcovid/reference/intervention_lookup.html">intervention_lookup</a> dataframe provided in the package or all options can be printed using the function <a href="https://hopkinsidd.github.io/hitRcovid/reference/list_interventions.html">get_interventions()</a>.</p>
 </div>
 <div id="visualizations" class="section level2">
 <h2 class="hasAnchor">
@@ -115,17 +111,21 @@
 <h3 class="hasAnchor">
 <a href="#timeline-of-intervention-updates" class="anchor"></a>Timeline of intervention updates</h3>
 <p>The package contains a plotting function, <a href="https://hopkinsidd.github.io/hitRcovid/reference/intervention_timeline.html">intervention_timeline()</a>, to display a timeline of all of the intervention updates in the database using <a href="https://hopkinsidd.github.io/hitRcovid/reference/hit_filter.html">hit_filter()</a> to focus on the locations and/or intervention types specified. The documentation provides details about all of the filtering and visualization options. Here is an example of a plot of the interventions from India and New Zealand:</p>
-<p><code><a href="reference/intervention_timeline.html">intervention_timeline(hit, country = c("IND", "NZL"), facet_by = "country")</a></code></p>
+<p><code><a href="reference/intervention_timeline.html">intervention_timeline(hit_data, country = c("IND", "NZL"), facet_by = "country")</a></code></p>
 </div>
 <div id="world-map-of-status-of-an-intervention" class="section level3">
 <h3 class="hasAnchor">
 <a href="#world-map-of-status-of-an-intervention" class="anchor"></a>World map of status of an intervention</h3>
-<p>TO COME</p>
+<p>The package contains a plotting function, <a href="https://hopkinsidd.github.io/hitRcovid/reference/intervention_map.html">intervention_map()</a>, to display a world map showing the current status of a one intervention group at a date specified. The documentation provides details about all of the filtering and visualization options. Here is an example of a map of the status of school closures on September 1, 2020:</p>
+<p><code><a href="reference/intervention_map.html">intervention_map(hit_data, intervention_group = "school_closed", time_point = "9/01/2020")</a></code></p>
 </div>
 <div id="epi-curve-with-intervention-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#epi-curve-with-intervention-data" class="anchor"></a>Epi-curve with intervention data</h3>
-<p>TO COME</p>
+<p>The package contains a plotting funciton, <a href="https://hopkinsidd.github.io/hitRcovid/reference/intervention_epi.html">intervention_epi()</a>, to display a barplot of daily case counts (the epi-curve) along with a timeline showing the status of selected interventions (border closures, household confinement, universal mask mandates, restaurant closures, primary school closures, and retail store closures) over time. The main usage would be to plot the epi-curves at the country level, but admin1 level case counts are available for 11 countries (Afghanistan, Belgium, Brazil, Canada, Columbia, Germany, India, Italy, Russia, UK, and USA).</p>
+<p><em>IMPORTANT note about intervention timelines printed under the epi curves. These final bars of each timeline represent the last logged status of an intervention. For some locations, the intervention data may not have been updated which means that older policies would appear to carry to the present when they are not still active. Care should be taken when interpreting these plots without knowledge of the completeness of the intervention data of the location of interest.</em></p>
+<p>Here is an example plotting the epi-curve and intervention status for India starting from when the country had 100 total cases:</p>
+<p><code><a href="reference/intervention_epi.html">intervention_epi(hit_data, country = "IND", case_threshold = 100)</a></code></p>
 </div>
 </div>
 <div id="mangement-team" class="section level2">
@@ -154,7 +154,7 @@
 <h2 class="hasAnchor">
 <a href="#acknowledgments" class="anchor"></a>Acknowledgments</h2>
 <ul>
-<li>Our nifty website was designed by Matt Berg and Dan McCarey from <a href="https://ona.io/home/">ona.io</a>
+<li>Our <a href="https://akuko.io/post/covid-intervention-tracking">website</a> was designed by Matt Berg and Dan McCarey from <a href="https://ona.io/home/">ona.io</a>
 </li>
 </ul>
 <p>Contact: Andrew Azman (<a href="mailto:azman@jhu.edu" class="email">azman@jhu.edu</a>) or <a href="mailto:hit-covid@jhu.edu" class="email">hit-covid@jhu.edu</a></p>

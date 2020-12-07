@@ -1,37 +1,36 @@
 
-#' Mapping of interventions 
+#' Plots a world map of an intervention
 #' 
-#' This function maps the interventions at both national and administrative level at a specific time.
-#' The HIT-COVID dataset is loaded with \link{hit_pull}, and data of one specific intervention
-#' is pulled using \link{hit_filter}. 
+#' This function maps the status of a specified intervention at a specified date at both national 
+#' and administrative level.
 #' 
-#' The function aims to draw a world map depicting the latest interventions before this \code{time_point}.
-#' If no value is entered for \code{time_point}, it will return a map of most recent interventions.
-#' Both national level and administrative level data are mapped on the same plot. 
-#' National level data are represented by the color of country territories, and administrative level data are 
-#' represented by dots, both types of data are coded in red (Strongly implemented),
-#' yellow (partially implemented) or green (implementation suspended). The strongest implementation 
-#' intensity is used for mapping if for one territory there are multiple entries in the same intervention group on the same day. 
+#' The HIT-COVID database must first be loaded with \link{hit_pull} and fed into this function.
+#' The function draws a world map depicting the latest intervention status before the provided
+#' \code{time_point}. If no value is entered for \code{time_point}, it will return a map of most 
+#' current intervention status. Both national level and administrative level data are mapped.
+#' National level intervention data are represented by the color of the country polygons. 
+#' Administrative level intervention data are represented by circles. Both types of data are coded 
+#' in red (Strongly implemented), yellow (partially implemented) or gray (implementation suspended).
+#' The strongest implementation intensity is used for mapping if for one territory there are 
+#' multiple entries in the same intervention group on the same day. 
 #' 
 #' @param hit_data the full HIT-COVID database pulled from GitHub, pulled using \link{hit_pull}
 #' @param time_point character string indicating the desired mapping date (default is Sys.Date())
 #' @param intervention_group vector of intervention group to filter the data to 
-#' (see \link{intervention_lookup} column "intervention_group" or run \link{list_interventions} for options)
-#' @param date.format character string indicating the desired format of date. (default is "%m/%d/%Y")
-#' 
-#' @return 
-#' A world map depicting interventions of countries and administrative divisions by a specific date.
+#' (see \link{intervention_lookup} column "intervention_group" or run \link{get_interventions} for options)
+#' @param date_format character string indicating the date format of \code{time_point} 
+#' (default is "%m/%d/%Y").
 #' 
 #' @examples
 #' 
 #' # Puling the HIT-COVID database
 #' hit_data <- hit_pull(add_first_case = FALSE)
 #'  
-#' # Mapping of most recent interventions in "quarantine and isolation" domain
+#' # Mapping of most recent interventions in quarantine and home isolation domain
 #' intervention_map(hit_data, intervention_group = "quar_iso")
 #' 
-#' # Mapping of latest "quarantine and isolation" interventions before 5/24/2020
-#' intervention_map(hit_data, intervention_group = "quar_iso", time_point = "5/24/2020")
+#' # Mapping of latest school closures interventions before 5/24/2020
+#' intervention_map(hit_data, intervention_group = "school_closed", time_point = "5/24/2020")
 #' 
 #' @seealso \link{hit_filter}
 #' 
@@ -45,7 +44,7 @@
 intervention_map <- function(hit_data,
                     time_point = Sys.Date(), 
                     intervention_group = NULL, 
-                    date.format = "%m/%d/%Y") {
+                    date_format = "%m/%d/%Y") {
   
   # Error handling-----------------------------------------------------------------
   
@@ -56,10 +55,10 @@ intervention_map <- function(hit_data,
   }
   
   # Determine if the time_point entered is valid, if not, return warning
-  time_point <- as.Date(time_point, date.format)  
+  time_point <- as.Date(time_point, date_format)  
   if(is.na(time_point)) {
     stop('Time point entered here is not valid, please enter a valid date in right format.')
-  } else if(time_point < as.Date("1/1/2020", date.format) |
+  } else if(time_point < as.Date("1/1/2020", date_format) |
             time_point > Sys.Date()) {
     stop("Time point entered here is not valid, please enter valid date between 1/1/2020 and present.")
   } 
@@ -145,20 +144,20 @@ intervention_map <- function(hit_data,
    
   # set color palette and legend for country level data (considering some recent_status may have 0 record)
   country_legend <- as.data.frame(table(country_map$recent_status))
-  country_legend$country_colors = c("red", "darkorange", "gray66", "white")
+  country_legend$country_colors = c("red2", "gold1", "gray40", "white")
   country_mapping_colors <- country_legend[which(country_legend$Freq > 0), ]$country_colors
    
    
   # set color palette and legend for admin data points
   admin_legend <- as.data.frame(table(admin_map$recent_status))
-  admin_legend$admin_colors = c("gray33", "darkorange3", "red3")
+  admin_legend$admin_colors = c("gray20", "gold3", "red4")
   admin_mapping_colors <- admin_legend[which(admin_legend$Freq > 0), ]$admin_colors
    
   # map data of both level ---------------------------------------------------------
   p <- ggplot2::ggplot() +
      ggplot2::geom_polygon(data = country_map, ggplot2::aes(x = .data$long, y = .data$lat,
                                                             group = .data$group, fill = .data$recent_status), 
-                  color = "black", size = 0.2, alpha = 0.5) +
+                  color = "black", size = 0.2, alpha = 0.3) +
      ggplot2::scale_fill_manual(values = country_mapping_colors, 
                                 guide = ggplot2::guide_legend(title.position = "top")) +
      ggplot2::geom_point(data = admin_map, ggplot2::aes(x = .data$long, y = .data$lat, col = .data$recent_status),
@@ -178,7 +177,7 @@ intervention_map <- function(hit_data,
      ggplot2::coord_fixed(ratio = 1.3) +
      ggplot2::theme(legend.position = "bottom")
    
-  print(p)
+  return(p)
 }
 
 

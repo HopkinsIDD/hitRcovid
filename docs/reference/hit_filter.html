@@ -97,7 +97,7 @@ There is the option to filter by continent, country, admin 1 unit, locality or i
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/my-vignette.html">my-vignette</a>
+      <a href="../articles/hitRcovid-vignette.html">Introduction to hitRcovid: Access and Visualize the HIT-COVID Database</a>
     </li>
   </ul>
 </li>
@@ -161,12 +161,12 @@ There is the option to filter by continent, country, admin 1 unit, locality or i
     </tr>
     <tr>
       <th>country</th>
-      <td><p>vector of ISO 3166-1 alpha-3 country codes to filter the data to
+      <td><p>vector of country ISO 3166-1 alpha-3 codes to filter the data to
 (see <a href='geo_lookup.html'>geo_lookup</a> for concordance of country codes to names)</p></td>
     </tr>
     <tr>
       <th>admin1</th>
-      <td><p>vector of the first administrative unit codes to filter the data to
+      <td><p>vector of the first administrative unit GID codes to filter the data to
 (see <a href='geo_lookup.html'>geo_lookup</a> for concordance of admin 1 codes to names).</p></td>
     </tr>
     <tr>
@@ -176,7 +176,7 @@ There is the option to filter by continent, country, admin 1 unit, locality or i
     <tr>
       <th>intervention_group</th>
       <td><p>vector of intervention group to filter the data to
-(see <a href='intervention_lookup.html'>intervention_lookup</a> column "intervention_group" or run <a href='list_interventions.html'>list_interventions</a> for options)</p></td>
+(see <a href='intervention_lookup.html'>intervention_lookup</a> column "intervention_group" or run <a href='get_interventions.html'>get_interventions</a> for options)</p></td>
     </tr>
     <tr>
       <th>include_national</th>
@@ -231,7 +231,7 @@ set <code>usa_county_data</code> to "include". Note that continent, country, and
 take precedence and what USA county data is included will depend on these filtering arguments.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='hit_pull.html'>hit_pull</a> <a href='list_interventions.html'>list_interventions</a></p></div>
+    <div class='dont-index'><p><a href='hit_pull.html'>hit_pull</a> <a href='get_interventions.html'>get_interventions</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>

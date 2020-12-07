@@ -41,21 +41,22 @@ should be drawn (defulat is TRUE).}
 
 \item{source}{the source of the case data that is used to determine the date of first case and
 first death if \code{hit_data} does not already include that information and either
-\code{first_case_line} or \code{first_death_line} are set to TRUE (default is "WHO").}
+\code{first_case_line} or \code{first_death_line} are set to TRUE. One of "ECDC" or "WHO"
+(default is "WHO").}
 
 \item{continent}{vector of continent names to filter the data to; should be one of
 \code{c("Asia", "Europe", "Africa", "Oceania", "North America", "South America")}}
 
-\item{country}{vector of ISO 3166-1 alpha-3 country codes to filter the data to
+\item{country}{vector of country ISO 3166-1 alpha-3 codes to include in plot
 (see \link{geo_lookup} for concordance of country codes to names)}
 
-\item{admin1}{vector of the first administrative unit codes to filter the data to
+\item{admin1}{vector of the first administrative unit GID codes to include in plot
 (see \link{geo_lookup} for concordance of admin 1 codes to names).}
 
 \item{locality}{vector of the names of localities to include (this is a free text field)}
 
 \item{intervention_group}{vector of intervention group to filter the data to
-(see \link{intervention_lookup} column "intervention_group" for options)}
+(see \link{intervention_lookup} column "intervention_group" or run \link{get_interventions} for options)}
 
 \item{include_national}{logical indicating if national-level data should be included (default is TRUE)}
 
@@ -77,7 +78,7 @@ the option to facet the plot by different location levels. If desired, it also d
 indicating the date of first case and first death in each facet provided.
 }
 \details{
-The dataset must first be loaded with \link{hit_pull} and fed into this function.
+The HIT-COVID database must first be loaded with \link{hit_pull} and fed into this function.
 See \link{hit_filter} for details about each of the different filtering arguments. If desired the
 plot can have facets for different location levels - continent, country, admin1 using the
 \code{facet-by} argument. The default plot will also facet by broad intervention categories.
@@ -108,6 +109,10 @@ intervention_timeline(hit_data, country = "USA")
 #Plotting just state-level data from the USA
 intervention_timeline(hit_data, country = "USA", include_national = FALSE)
 
+#Including three states (admin1 level) and faceting by state
+intervention_timeline(hit_data, admin1 = c("USA.22_1", "USA.31_1", "USA.39_1"),
+facet_by = "admin1", include_national = TRUE)
+
 #Removing vertical lines
 intervention_timeline(hit_data, country = "USA",
 first_case_line = FALSE, first_death_line = FALSE)
@@ -118,7 +123,11 @@ first_case_line = FALSE, first_death_line = FALSE)
 Sam Abbott, Katharine Sherratt, Jonnie Bevan, Hamish Gibbs, Joel Hellewell, James Munday,
 Paul Campbell and Sebastian Funk (2020). covidregionaldata: Subnational Data for the
 Covid-19 Outbreak. R package version 0.6.0.
-https://CRAN.R-project.org/package=covidregionaldata
+\url{https://CRAN.R-project.org/package=covidregionaldata}
+
+ECDC national data: \url{https://opendata.ecdc.europa.eu/covid19}
+
+WHO national data: \url{https://covid19.who.int}
 }
 \seealso{
 \link{hit_filter}, \link{get_first_case}, \link[covidregionaldata]{get_national_data}

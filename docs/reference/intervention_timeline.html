@@ -99,7 +99,7 @@ indicating the date of first case and first death in each facet provided." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/my-vignette.html">my-vignette</a>
+      <a href="../articles/hitRcovid-vignette.html">Introduction to hitRcovid: Access and Visualize the HIT-COVID Database</a>
     </li>
   </ul>
 </li>
@@ -188,7 +188,8 @@ should be drawn (defulat is TRUE).</p></td>
       <th>source</th>
       <td><p>the source of the case data that is used to determine the date of first case and
 first death if <code>hit_data</code> does not already include that information and either
-<code>first_case_line</code> or <code>first_death_line</code> are set to TRUE (default is "WHO").</p></td>
+<code>first_case_line</code> or <code>first_death_line</code> are set to TRUE. One of "ECDC" or "WHO"
+(default is "WHO").</p></td>
     </tr>
     <tr>
       <th>continent</th>
@@ -197,12 +198,12 @@ first death if <code>hit_data</code> does not already include that information a
     </tr>
     <tr>
       <th>country</th>
-      <td><p>vector of ISO 3166-1 alpha-3 country codes to filter the data to
+      <td><p>vector of country ISO 3166-1 alpha-3 codes to include in plot
 (see <a href='geo_lookup.html'>geo_lookup</a> for concordance of country codes to names)</p></td>
     </tr>
     <tr>
       <th>admin1</th>
-      <td><p>vector of the first administrative unit codes to filter the data to
+      <td><p>vector of the first administrative unit GID codes to include in plot
 (see <a href='geo_lookup.html'>geo_lookup</a> for concordance of admin 1 codes to names).</p></td>
     </tr>
     <tr>
@@ -212,7 +213,7 @@ first death if <code>hit_data</code> does not already include that information a
     <tr>
       <th>intervention_group</th>
       <td><p>vector of intervention group to filter the data to
-(see <a href='intervention_lookup.html'>intervention_lookup</a> column "intervention_group" for options)</p></td>
+(see <a href='intervention_lookup.html'>intervention_lookup</a> column "intervention_group" or run <a href='get_interventions.html'>get_interventions</a> for options)</p></td>
     </tr>
     <tr>
       <th>include_national</th>
@@ -240,7 +241,7 @@ of "include", "exclude" or "restrict_to" (default is "exclude").</p></td>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The dataset must first be loaded with <a href='hit_pull.html'>hit_pull</a> and fed into this function.
+    <p>The HIT-COVID database must first be loaded with <a href='hit_pull.html'>hit_pull</a> and fed into this function.
 See <a href='hit_filter.html'>hit_filter</a> for details about each of the different filtering arguments. If desired the
 plot can have facets for different location levels - continent, country, admin1 using the
 <code>facet-by</code> argument. The default plot will also facet by broad intervention categories.
@@ -255,7 +256,9 @@ to FALSE.</p>
     <p>Sam Abbott, Katharine Sherratt, Jonnie Bevan, Hamish Gibbs, Joel Hellewell, James Munday,
 Paul Campbell and Sebastian Funk (2020). covidregionaldata: Subnational Data for the
 Covid-19 Outbreak. R package version 0.6.0.
-https://CRAN.R-project.org/package=covidregionaldata</p>
+<a href='https://CRAN.R-project.org/package=covidregionaldata'>https://CRAN.R-project.org/package=covidregionaldata</a></p>
+<p>ECDC national data: <a href='https://opendata.ecdc.europa.eu/covid19'>https://opendata.ecdc.europa.eu/covid19</a></p>
+<p>WHO national data: <a href='https://covid19.who.int'>https://covid19.who.int</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='hit_filter.html'>hit_filter</a>, <a href='get_first_case.html'>get_first_case</a>, <a href='epiforecasts.io/covidregionaldata//reference/get_national_data.html'>get_national_data</a></p></div>
@@ -275,9 +278,12 @@ https://CRAN.R-project.org/package=covidregionaldata</p>
 <span class='fu'>intervention_timeline</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"USA"</span>)</div><div class='img'><img src='intervention_timeline-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>#Plotting just state-level data from the USA</span>
 <span class='fu'>intervention_timeline</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"USA"</span>, <span class='kw'>include_national</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='intervention_timeline-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'>#Including three states (admin1 level) and faceting by state</span>
+<span class='fu'>intervention_timeline</span>(<span class='no'>hit_data</span>, <span class='kw'>admin1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"USA.22_1"</span>, <span class='st'>"USA.31_1"</span>, <span class='st'>"USA.39_1"</span>),
+<span class='kw'>facet_by</span> <span class='kw'>=</span> <span class='st'>"admin1"</span>, <span class='kw'>include_national</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='intervention_timeline-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>#Removing vertical lines</span>
 <span class='fu'>intervention_timeline</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"USA"</span>,
-<span class='kw'>first_case_line</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>first_death_line</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='intervention_timeline-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>first_case_line</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>first_death_line</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='intervention_timeline-6.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div></pre>
   </div>

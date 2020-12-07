@@ -29,10 +29,14 @@ Suggests:
     testthat
 VignetteBuilder: knitr
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5.0)
 Imports: 
     ggplot2,
     covidregionaldata,
     rlang,
     maps,
-    dplyr
+    dplyr,
+    purrr,
+    zoo,
+    egg,
+    vistime

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mapping of interventions — intervention_map • hitRcovid</title>
+<title>Plots a world map of an intervention — intervention_map • hitRcovid</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,9 @@
 
 
 
-<meta property="og:title" content="Mapping of interventions — intervention_map" />
-<meta property="og:description" content="This function maps the interventions at both national and administrative level at a specific time.
-The HIT-COVID dataset is loaded with hit_pull, and data of one specific intervention
-is pulled using hit_filter." />
+<meta property="og:title" content="Plots a world map of an intervention — intervention_map" />
+<meta property="og:description" content="This function maps the status of a specified intervention at a specified date at both national
+and administrative level." />
 
 
 
@@ -97,7 +96,7 @@ is pulled using hit_filter." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/my-vignette.html">my-vignette</a>
+      <a href="../articles/hitRcovid-vignette.html">Introduction to hitRcovid: Access and Visualize the HIT-COVID Database</a>
     </li>
   </ul>
 </li>
@@ -122,22 +121,21 @@ is pulled using hit_filter." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Mapping of interventions</h1>
+    <h1>Plots a world map of an intervention</h1>
     <small class="dont-index">Source: <a href='https://github.com/HopkinsIDD/hitRcovid/blob/master/R/intervention_map.R'><code>R/intervention_map.R</code></a></small>
     <div class="hidden name"><code>intervention_map.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function maps the interventions at both national and administrative level at a specific time.
-The HIT-COVID dataset is loaded with <a href='hit_pull.html'>hit_pull</a>, and data of one specific intervention
-is pulled using <a href='hit_filter.html'>hit_filter</a>.</p>
+    <p>This function maps the status of a specified intervention at a specified date at both national
+and administrative level.</p>
     </div>
 
     <pre class="usage"><span class='fu'>intervention_map</span>(
   <span class='no'>hit_data</span>,
   <span class='kw'>time_point</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span>(),
   <span class='kw'>intervention_group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>date.format</span> <span class='kw'>=</span> <span class='st'>"%m/%d/%Y"</span>
+  <span class='kw'>date_format</span> <span class='kw'>=</span> <span class='st'>"%m/%d/%Y"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -154,26 +152,26 @@ is pulled using <a href='hit_filter.html'>hit_filter</a>.</p>
     <tr>
       <th>intervention_group</th>
       <td><p>vector of intervention group to filter the data to
-(see <a href='intervention_lookup.html'>intervention_lookup</a> column "intervention_group" or run <a href='list_interventions.html'>list_interventions</a> for options)</p></td>
+(see <a href='intervention_lookup.html'>intervention_lookup</a> column "intervention_group" or run <a href='get_interventions.html'>get_interventions</a> for options)</p></td>
     </tr>
     <tr>
-      <th>date.format</th>
-      <td><p>character string indicating the desired format of date. (default is "%m/%d/%Y")</p></td>
+      <th>date_format</th>
+      <td><p>character string indicating the date format of <code>time_point</code>
+(default is "%m/%d/%Y").</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A world map depicting interventions of countries and administrative divisions by a specific date.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function aims to draw a world map depicting the latest interventions before this <code>time_point</code>.
-If no value is entered for <code>time_point</code>, it will return a map of most recent interventions.
-Both national level and administrative level data are mapped on the same plot.
-National level data are represented by the color of country territories, and administrative level data are
-represented by dots, both types of data are coded in red (Strongly implemented),
-yellow (partially implemented) or green (implementation suspended). The strongest implementation
-intensity is used for mapping if for one territory there are multiple entries in the same intervention group on the same day.</p>
+    <p>The HIT-COVID database must first be loaded with <a href='hit_pull.html'>hit_pull</a> and fed into this function.
+The function draws a world map depicting the latest intervention status before the provided
+<code>time_point</code>. If no value is entered for <code>time_point</code>, it will return a map of most
+current intervention status. Both national level and administrative level data are mapped.
+National level intervention data are represented by the color of the country polygons.
+Administrative level intervention data are represented by circles. Both types of data are coded
+in red (Strongly implemented), yellow (partially implemented) or gray (implementation suspended).
+The strongest implementation intensity is used for mapping if for one territory there are
+multiple entries in the same intervention group on the same day.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>https://gadm.org/download_world.html</p>
@@ -186,10 +184,10 @@ intensity is used for mapping if for one territory there are multiple entries in
 <span class='co'># Puling the HIT-COVID database</span>
 <span class='no'>hit_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hit_pull.html'>hit_pull</a></span>(<span class='kw'>add_first_case</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='co'># Mapping of most recent interventions in "quarantine and isolation" domain</span>
+<span class='co'># Mapping of most recent interventions in quarantine and home isolation domain</span>
 <span class='fu'>intervention_map</span>(<span class='no'>hit_data</span>, <span class='kw'>intervention_group</span> <span class='kw'>=</span> <span class='st'>"quar_iso"</span>)</div><div class='img'><img src='intervention_map-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Mapping of latest "quarantine and isolation" interventions before 5/24/2020</span>
-<span class='fu'>intervention_map</span>(<span class='no'>hit_data</span>, <span class='kw'>intervention_group</span> <span class='kw'>=</span> <span class='st'>"quar_iso"</span>, <span class='kw'>time_point</span> <span class='kw'>=</span> <span class='st'>"5/24/2020"</span>)</div><div class='img'><img src='intervention_map-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Mapping of latest school closures interventions before 5/24/2020</span>
+<span class='fu'>intervention_map</span>(<span class='no'>hit_data</span>, <span class='kw'>intervention_group</span> <span class='kw'>=</span> <span class='st'>"school_closed"</span>, <span class='kw'>time_point</span> <span class='kw'>=</span> <span class='st'>"5/24/2020"</span>)</div><div class='img'><img src='intervention_map-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

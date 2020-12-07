@@ -40,6 +40,10 @@
 #' Covid-19 Outbreak. R package version 0.6.0.
 #' https://CRAN.R-project.org/package=covidregionaldata
 #' 
+#' ECDC national data: \url{https://opendata.ecdc.europa.eu/covid19}
+#' 
+#' WHO national data: \url{https://covid19.who.int}
+#' 
 #' @export
 
 get_first_case <- function(source = c("WHO", "ECDC")){
@@ -71,8 +75,9 @@ get_first_case <- function(source = c("WHO", "ECDC")){
   firsts <- merge(first_case, first_death, by = "iso_code", all = TRUE)
   
   #Adding Alpha_3 code to link to the HIT-COVID database
-  firsts <- merge(firsts, hitRcovid::geo_lookup[, c("country", "alpha_2")],
-                   by.x = "iso_code", by.y = "alpha_2", all.x = TRUE)
+  code <- hitRcovid::geo_lookup[!duplicated(hitRcovid::geo_lookup$country),
+                                c("country", "alpha_2")]
+  firsts <- merge(firsts, code, by.x = "iso_code", by.y = "alpha_2", all.x = TRUE)
   
   firsts <- firsts[, c("country", "first_case", "first_death")]
   
