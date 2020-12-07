@@ -151,35 +151,33 @@ intervention_map <- function(hit_data,
    
   # set color palette and legend for admin data points
   admin_legend <- as.data.frame(table(admin_map$recent_status))
-  admin_legend$admin_colors = c("red3", "darkorange3", "gray33")
+  admin_legend$admin_colors = c("gray33", "darkorange3", "red3")
   admin_mapping_colors <- admin_legend[which(admin_legend$Freq > 0), ]$admin_colors
-  admin_map$recent_status <- ordered(admin_map$recent_status, 
-                                       levels = c("Strongly Implemented", 
-                                                  "Partially Implemented", 
-                                                  "Implementation Suspended"))
-
+   
   # map data of both level ---------------------------------------------------------
   p <- ggplot2::ggplot() +
-    ggplot2::geom_polygon(data = country_map, ggplot2::aes(x = .data$long, y = .data$lat,
-                                                           group = .data$group, fill = .data$recent_status), 
-                          color = "black", size = 0.2, alpha = 0.5) +
-    ggplot2::scale_fill_manual(name = "Country level intervention intensity", values = country_mapping_colors, 
-                               guide = ggplot2::guide_legend(title.position = "left")) +
-    ggplot2::geom_point(data = admin_map, ggplot2::aes(x = .data$long, y = .data$lat, col = .data$recent_status),
-                        alpha = 0.6) +
-    ggplot2::scale_color_manual(name = "Admin level intervention intensity", values = admin_mapping_colors) +
-    ggplot2::theme(panel.background = ggplot2::element_rect(fill = "white")
-                   ,plot.background = ggplot2::element_rect(fill = "white")
-                   ,panel.grid = ggplot2::element_blank()
-                   ,axis.text = ggplot2::element_blank()
-                   ,axis.title = ggplot2::element_blank()
-                   ,axis.ticks = ggplot2::element_blank()) +
-    ggplot2::theme(legend.title.align = 0.5)+
-    ggplot2::theme(legend.text = ggplot2::element_text(size=8),
-                   legend.title = ggplot2::element_text(size=10)) +
-    ggplot2::coord_fixed(ratio = 1.3) +
-    ggplot2::theme(legend.position = "bottom", legend.box = "vertical", legend.key = element_rect(fill = "white"))
-  
+     ggplot2::geom_polygon(data = country_map, ggplot2::aes(x = .data$long, y = .data$lat,
+                                                            group = .data$group, fill = .data$recent_status), 
+                  color = "black", size = 0.2, alpha = 0.5) +
+     ggplot2::scale_fill_manual(values = country_mapping_colors, 
+                                guide = ggplot2::guide_legend(title.position = "top")) +
+     ggplot2::geom_point(data = admin_map, ggplot2::aes(x = .data$long, y = .data$lat, col = .data$recent_status),
+                alpha = 0.6) +
+     ggplot2::scale_color_manual(values = admin_mapping_colors) +
+     ggplot2::theme(panel.background = ggplot2::element_rect(fill = "white")
+                    ,plot.background = ggplot2::element_rect(fill = "white")
+                    ,panel.grid = ggplot2::element_blank()
+                    ,axis.text = ggplot2::element_blank()
+                    ,axis.title = ggplot2::element_blank()
+                    ,axis.ticks = ggplot2::element_blank())+
+     ggplot2::labs(fill = "Intervention intensity")+
+     ggplot2::guides(color = FALSE) +
+     ggplot2::theme(legend.title.align = 0.5)+
+     ggplot2::theme(legend.text = ggplot2::element_text(size=8),
+                    legend.title = ggplot2::element_text(size=10)) +
+     ggplot2::coord_fixed(ratio = 1.3) +
+     ggplot2::theme(legend.position = "bottom")
+   
   print(p)
 }
 
