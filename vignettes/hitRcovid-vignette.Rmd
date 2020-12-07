@@ -225,7 +225,7 @@ intervention_epi(hit_data,
 
 This plot starts when there were more than 100 cases in India:
 
-```{r epi2, fig.height=5.5, fig.width=8}
+```{r epi2, fig.height=5.5, fig.width=8, message=FALSE}
 intervention_epi(hit_data,
                  country = "ETH",
                  case_threshold = 100)
@@ -234,7 +234,7 @@ intervention_epi(hit_data,
 
 Here is the epi-curve for India from February to August:
 
-```{r epi3, fig.height=5.5, fig.width=8}
+```{r epi3, fig.height=5.5, fig.width=8, message=FALSE}
 intervention_epi(hit_data,
                  country = "IND",
                  first_date = "3/1/2020",
@@ -244,7 +244,7 @@ intervention_epi(hit_data,
 
 Here is the epi-curve for England starting when there were 100 cases
 
-```{r epi4, fig.height=5.5, fig.width=8}
+```{r epi4, fig.height=5.5, fig.width=8, message=FALSE}
 intervention_epi(hit_data,
                  admin1 = "GBR.1_1",
                  case_threshold = 100)

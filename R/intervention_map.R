@@ -177,7 +177,9 @@ intervention_map <- function(hit_data,
     ggplot2::theme(legend.text = ggplot2::element_text(size=8),
                    legend.title = ggplot2::element_text(size=10)) +
     ggplot2::coord_fixed(ratio = 1.3) +
-    ggplot2::theme(legend.position = "bottom", legend.box = "vertical", legend.key = element_rect(fill = "white"))
+    ggplot2::theme(legend.position = "bottom",
+                   legend.box = "vertical",
+                   legend.key = ggplot2::element_rect(fill = "white"))
   
   print(p)
 }
