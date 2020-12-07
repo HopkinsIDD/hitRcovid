@@ -164,7 +164,7 @@ This is a timeline of all data from India and New Zealand faceting by country:
 
 ```{r timeline2, fig.height=6.5, fig.width=8}
 intervention_timeline(hit_data,
-                      country = c("IND", "NZL"),
+                      country = c("IND", "ZWE"),
                       facet_by = "country")
 ```
 
@@ -220,25 +220,25 @@ Here is the epi-curve for India starting from January 1, 2020:
 
 ```{r epi1, fig.height=5.5, fig.width=8, message=FALSE}
 intervention_epi(hit_data,
-                 country = "IND")
+                 country = "ETH")
 ```
 
 This plot starts when there were more than 100 cases in India:
 
 ```{r epi2, fig.height=5.5, fig.width=8}
 intervention_epi(hit_data,
-                 country = "IND",
+                 country = "ETH",
                  case_threshold = 100)
 ```
 
 
-Here is the epi-curve for New Zealand from February to May:
+Here is the epi-curve for India from February to August:
 
 ```{r epi3, fig.height=5.5, fig.width=8}
 intervention_epi(hit_data,
-                 country = "NZL",
+                 country = "IND",
                  first_date = "3/1/2020",
-                 last_date = "5/31/2020")
+                 last_date = "8/31/2020")
 ```
 
 
