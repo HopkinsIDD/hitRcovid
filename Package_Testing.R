@@ -1,5 +1,4 @@
 
-
 ## Set directory to hitRcovid
 setwd("~/Boston University/COVID_Interventions/hitRcovid")
 
@@ -59,6 +58,8 @@ intervention_timeline(hit, country = "USA", first_death_line = FALSE)
 intervention_timeline(hit, country = "USA", first_case_line = FALSE, first_death_line = FALSE)
 
 intervention_timeline(hit, country = c("IND", "USA"), facet_by = "country")
+
+intervention_timeline(hit_data, country = "IND", facet_by = "admin1")
 
 intervention_timeline(hit, continent = c("Africa", "North America", "Europe"),
                       facet_by = "continent")

@@ -11,7 +11,7 @@
 #' The HIT-COVID database must first be loaded with \link{hit_pull} and fed into this function.
 #' See \link{hit_filter} for details about each of the different filtering arguments. If desired the
 #' plot can have facets for different location levels - continent, country, admin1 using the
-#' \code{facet-by} argument. The default plot will also facet by broad intervention categories.
+#' \code{facet-by} argument. The default plot will also be facet by broad intervention categories.
 #' This behavior can be turned off by setting \code{intervention_facet} to FALSE.
 #' 
 #' Additionally, by default, vertical lines will be drawn indicating the date of the first case and
