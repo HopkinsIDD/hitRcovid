@@ -53,9 +53,10 @@ geo_lookup <- geo_lookup1 %>%
   left_join(select(admin1_codes, ISO_code, GID_code, ons_region_code),
             by = c("admin1" = "GID_code")) %>%
   rename(admin1_ISO = ISO_code,
-         ons_region_code_uk = ons_region_code)
+         ons_region_code_uk = ons_region_code) %>%
+  filter(!is.na(country))
 
-use_data(geo_lookup, overwrite = TRUE)
+#use_data(geo_lookup, overwrite = TRUE)
 
 intervention_lookup <- read.csv("data/intervention_lookup.csv")
 intervention_lookup <- intervention_lookup %>%
@@ -79,6 +80,7 @@ use_package("purrr")
 use_package("zoo")
 use_package("egg")
 use_package("vistime")
+use_package("knitr")
 
 
 #Add to ignore file
