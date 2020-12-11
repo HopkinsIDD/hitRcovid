@@ -137,10 +137,7 @@ intervention_epi <- function(hit_data,
       stop("The country code provided is not represented in the HIT-COVID database.")
     }
   }
-  
-  #Determining if there is admin1-level data for the admin1 code
-  admin1_avail <- hitRcovid::geo_lookup[!is.na(hitRcovid::geo_lookup$admin1_ISO), ]
-  
+
   #Checking the admin1 code
   if(!is.null(admin1)){
     #Determining if the admin1 code is valid
@@ -148,6 +145,7 @@ intervention_epi <- function(hit_data,
       stop("The admin1 code provided is not valid.")
     }
     #Determining if the admin1 code is in the list with case counts data
+    admin1_avail <- hitRcovid::geo_lookup[!is.na(hitRcovid::geo_lookup$admin1_ISO), ]
     if(!admin1 %in% admin1_avail$admin1){
       stop("There are no case count data available for the admin1 code provided.")
     }

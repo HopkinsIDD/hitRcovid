@@ -123,14 +123,22 @@ intervention_epi(hit_data, admin1 = "BRA.1_1")
 intervention_epi(hit_data, admin1 = "USA.1_1")
 intervention_epi(hit_data, admin1 = "CAN.1_1")
 intervention_epi(hit_data, admin1 = "COL.2_1")
+intervention_epi(hit_data, admin1 = "IND.1_1")
 
 #HIT-COVID doesn't have any admin1 data for Belgium
 #intervention_epi(hit_data, admin1 = "BEL.1_1")
 #The case-count data for Afghanistan is not good quality
 #intervention_epi(hit_data, admin1 = "AFG.12_1")
-#The case-count data for India isn't loading
-#intervention_epi(hit_data, admin1 = "IND.1_1")
 
 
+
+## Completeness report
+
+check_completeness(hit_data, country = "USA")
+check_completeness(hit_data, country = "ZWE")
+check_completeness(hit_data, country = "GBR")
+
+check_completeness(hit_data, admin1 = "USA.31_1")
+check_completeness(hit_data, admin1 = "GBR.1_1")
 
 
