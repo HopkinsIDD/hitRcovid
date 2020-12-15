@@ -213,7 +213,7 @@ intervention_timeline(hit_data,
 
 The funciton [intervention_epi()](https://hopkinsidd.github.io/hitRcovid/reference/intervention_epi.html) can be used to display a barplot of daily case counts (the epi-curve) along with a timeline showing the status of selected interventions (border closures, household confinement, universal mask mandates, restaurant closures, primary school closures, and retail store closures) over time.
 
-The main usage would be to plot the epi-curves at the country level, but admin1 level case counts are available for 11 countries (Afghanistan, Belgium, Brazil, Canada, Columbia, Germany, India, Italy, Russia, UK, and USA). Only one country or admin1 unit can be plotted at a time. The user can specify the date range for the plot using first_date and last_date. Another way to restrict the plot is to change case_threshold. In this case the earliest date of the plot will be when the total number of cases in the country exceeded case_threshold.
+The main usage would be to plot the epi-curves at the country level, but admin1 level case counts are available for 11 countries (Afghanistan, Belgium, Brazil, Canada, Columbia, Germany, India, Italy, Russia, UK, and USA). Only one country or admin1 unit can be plotted at a time. The user can specify the date range for the plot using start_date and end_date. Another way to restrict the plot is to change case_threshold. In this case the earliest date of the plot will be when the total number of cases in the country exceeded case_threshold.
 
 
 Here is the epi-curve for India starting from January 1, 2020:
@@ -237,8 +237,8 @@ Here is the epi-curve for India from February to August:
 ```{r epi3, fig.height=5.5, fig.width=8, message=FALSE}
 intervention_epi(hit_data,
                  country = "IND",
-                 first_date = "3/1/2020",
-                 last_date = "8/31/2020")
+                 start_date = "3/1/2020",
+                 end_date = "8/31/2020")
 ```
 
 
@@ -259,6 +259,27 @@ The HIT-COVID database is a managed crowd sourcing effort supported by numerous 
 This caveat is especially important when interpreting the intervention timelines printed under the epi curves. These final bars of each timeline represent the last logged status of an intervention. For some locations, the intervention data may not have been updated which means that older policies would appear to carry to the present when they are not still active. Care should be taken when interpreting these plots without knowledge of the completeness of the intervention data of the location of interest.
 
 If you are interested in working on a particular are which has incomplete data and would like to contribute to this database, please reach out to the management team at [hit-covid@jhu.edu](hit-covid@jhu.edu).
+
+
+
+### Check Completion
+
+In order to understand the completeness of a certain country or admin1 unit, the [check_completeness()](https://hopkinsidd.github.io/hitRcovid/reference/check_completeness.html) function can be used. prints information about the date the location was previously updated, what percentage of the entries have been verified by contributors, and the status of each intervention group (complete, incomplete, unsure).
+
+When requesting a national level report, the completeness table only reflects national-level entries. If fewer than 20% of all entries for that country are at the  national level, the function gives a message that this table may be misleading. That is because for those countries the interventions are likely being managed at the admin1 level and therefore reports for specific admin1 units might be more useful.
+
+Here is the printed report for Zimbabwe (all national entries)
+
+```{r complete1}
+check_completeness(hit_data, country = "ZWE")
+```
+
+And here is the report for the Massachusetts, USA (primarily admin1 entries)
+
+```{r complete2}
+check_completeness(hit_data, admin1 = "USA.22_1")
+```
+
 
 
 ## Mangement Team

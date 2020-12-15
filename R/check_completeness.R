@@ -113,10 +113,13 @@ check_completeness <- function(hit_data, country = NULL, admin1 = NULL){
     quality_tab_p <- prop.table(table(country_admin1$entry_quality))
     
     #Finding date of last update per intervention
-    last_update <- dplyr::arrange(country_admin1, .data$intervention_group, desc(.data$entry_time))
+    last_update <- dplyr::arrange(country_admin1, .data$intervention_group, dplyr::desc(.data$entry_time))
     
     #Filtering the completeness dataset
     locn_comp <- completeness[completeness$admin1 == admin1 & !is.na(completeness$admin1), ]
+    
+    #Dummy variable so later warning doesn't fail
+    p_national <- 0
     
   }else{
     
@@ -132,7 +135,7 @@ check_completeness <- function(hit_data, country = NULL, admin1 = NULL){
     quality_tab_p <- prop.table(table(locn_data$entry_quality))
     
     #Finding date of last update per intervention
-    last_update <- dplyr::arrange(country_national, .data$intervention_group, desc(.data$entry_time))
+    last_update <- dplyr::arrange(country_national, .data$intervention_group, dplyr::desc(.data$entry_time))
     
     #Filtering the completeness dataset
     locn_comp <- completeness[completeness$country == country & is.na(completeness$admin1), ]
@@ -158,13 +161,13 @@ check_completeness <- function(hit_data, country = NULL, admin1 = NULL){
   
   #Finding last time each intervention was marked as complete
   complete <- locn_comp[locn_comp$completeness == "Complete" & !is.na(locn_comp$completeness), ]
-  complete <- dplyr::arrange(complete, .data$intervention_group, desc(.data$date))
+  complete <- dplyr::arrange(complete, .data$intervention_group, dplyr::desc(.data$date))
   complete <- dplyr::group_by(complete, .data$intervention_group) 
   complete <- dplyr::slice(complete, 1)
   complete <- complete[, c("intervention_group", "date")]
   
   #Finding the most recent status
-  last_comp <- dplyr::arrange(locn_comp, .data$intervention_group, desc(.data$date))
+  last_comp <- dplyr::arrange(locn_comp, .data$intervention_group, dplyr::desc(.data$date))
   last_comp <- dplyr::group_by(last_comp, .data$intervention_group) 
   last_comp <- dplyr::slice(last_comp, 1)
   last_comp <- last_comp[, c("intervention_group", "completeness", "date")]

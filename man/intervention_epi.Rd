@@ -10,8 +10,8 @@ intervention_epi(
   admin1 = NULL,
   source = c("WHO", "ECDC"),
   case_threshold = 0,
-  first_date = NULL,
-  last_date = NULL,
+  start_date = NULL,
+  end_date = NULL,
   date_format = "\%m/\%d/\%Y",
   include_title = TRUE
 )
@@ -30,10 +30,10 @@ intervention_epi(
 \item{case_threshold}{threshold the total number of cases needs to exceed to start the plot
 (default is 0).}
 
-\item{first_date}{character string indicating the earliest date to plot (default is first day where
+\item{start_date}{character string indicating the earliest date to plot (default is first day where
 the total number of cases is greater than the \code{case_threshold}).}
 
-\item{last_date}{character string indicating the latest date to plot (default is today)}
+\item{end_date}{character string indicating the latest date to plot (default is today)}
 
 \item{date_format}{character string indicating the format of the date inputs (default is "\%m/\%d/\%Y").}
 
@@ -49,10 +49,10 @@ and retail store closures) are also plotted. The admin1 plotting is only availab
 The HIT-COVID database must first be loaded with \link{hit_pull} and fed into this function.
 Only one country or admin1 unit can be plotted at a time and the resulting plot will include the
 case counts for this location with select intervention data. The user can specify the date range
-for the plot using \code{first_date} and \code{last_date}. Another way to restrict the plot is to change
+for the plot using \code{start_date} and \code{end_date}. Another way to restrict the plot is to change
 \code{case_threshold}. When the \code{case_threshold is specified} then the earliest date of the
 plot will be when the total number of cases in the country exceeded \code{case_threshold}.
-If both \code{first_date} and \code{case_threshold} are provided, \code{first_date} will be used
+If both \code{start_date} and \code{case_threshold} are provided, \code{start_date} will be used
 as the beginning of the plot.
 
 The source for the country level data is either the European Centre for Disease
@@ -82,7 +82,7 @@ intervention_epi(hit_data, country = "IND")
 intervention_epi(hit_data, country = "IND", case_threshold = 100)
 
 # Plotting the case counts for the New Zealand from February to May 
-intervention_epi(hit_data, country = "NZL", first_date = "3/1/2020", last_date = "5/31/2020")
+intervention_epi(hit_data, country = "NZL", start_date = "3/1/2020", end_date = "5/31/2020")
 
 # Plotting the case counts for New Jersey, USA
 intervention_epi(hit_data, admin1 = "USA.31_1")

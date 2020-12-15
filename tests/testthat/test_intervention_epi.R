@@ -11,15 +11,15 @@ test_that("intervention_epi for countries returns grob objects with no errors",{
   expect_true("grob" %in% class(intervention_epi(hit, country = "IND", case_threshold = 100)))
   
   expect_true("grob" %in% class(intervention_epi(hit, country = "IND", case_threshold = 100,
-                                                   first_date = "2/1/2020")))
+                                                   start_date = "2/1/2020")))
   
   expect_true("grob" %in% class(intervention_epi(hit, country = "IND", case_threshold = 100,
-                                                   last_date = "9/30/2020")))
+                                                   end_date = "9/30/2020")))
   
-  expect_true("grob" %in% class(intervention_epi(hit, country = "IND", first_date = "2/1/2020",
-                                                   last_date = "9/30/2020")))
+  expect_true("grob" %in% class(intervention_epi(hit, country = "IND", start_date = "2/1/2020",
+                                                   end_date = "9/30/2020")))
   
-  expect_true("grob" %in% class(intervention_epi(hit_data, country = "IND", admin1 = "GBR.1_1")))
+  expect_true("grob" %in% class(intervention_epi(hit, country = "IND", admin1 = "GBR.1_1")))
 
 })
 
@@ -60,29 +60,29 @@ test_that("Descriptive error messages returned from intervention_epi for country
 
 test_that("Descriptive error messages returned from intervention_epi for date inputs", {
   
-  expect_error(intervention_epi(hit, country = "IND", first_date = "garbage"),
-               "first_date is not valid, please enter a valid date in right format")
+  expect_error(intervention_epi(hit, country = "IND", start_date = "garbage"),
+               "start_date is not valid, please enter a valid date in right format")
   
-  expect_error(intervention_epi(hit, country = "IND", last_date = "garbage"),
-               "last_date is not valid, please enter a valid date in right format")
+  expect_error(intervention_epi(hit, country = "IND", end_date = "garbage"),
+               "end_date is not valid, please enter a valid date in right format")
   
-  expect_error(intervention_epi(hit, country = "IND", first_date = "12/31/2019"),
-               "first_date is not valid, please enter valid date between 1/1/2020 and present.")
+  expect_error(intervention_epi(hit, country = "IND", start_date = "12/31/2019"),
+               "start_date is not valid, please enter valid date between 1/1/2020 and present.")
   
-  expect_error(intervention_epi(hit, country = "IND", first_date = Sys.Date() + 10),
-               "first_date is not valid, please enter valid date between 1/1/2020 and present.")
+  expect_error(intervention_epi(hit, country = "IND", start_date = Sys.Date() + 10),
+               "start_date is not valid, please enter valid date between 1/1/2020 and present.")
   
-  expect_error(intervention_epi(hit, country = "IND", last_date = "12/31/2019"),
-               "last_date is not valid, please enter valid date between 1/1/2020 and present.")
+  expect_error(intervention_epi(hit, country = "IND", end_date = "12/31/2019"),
+               "end_date is not valid, please enter valid date between 1/1/2020 and present.")
   
-  expect_error(intervention_epi(hit, country = "IND", last_date = Sys.Date() + 10),
-               "last_date is not valid, please enter valid date between 1/1/2020 and present.")
+  expect_error(intervention_epi(hit, country = "IND", end_date = Sys.Date() + 10),
+               "end_date is not valid, please enter valid date between 1/1/2020 and present.")
   
-  expect_error(intervention_epi(hit, country = "IND", first_date = "5/31/2020",
-                                last_date = "4/1/2020"),
-               "first_date must be earlier than last_date")
+  expect_error(intervention_epi(hit, country = "IND", start_date = "5/31/2020",
+                                end_date = "4/1/2020"),
+               "start_date must be earlier than end_date")
   
-  expect_error(intervention_epi(hit, country = "IND", last_date = "1/1/2020"),
-               "first_date must be earlier than last_date")
+  expect_error(intervention_epi(hit, country = "IND", end_date = "1/1/2020"),
+               "start_date must be earlier than end_date")
 })
 

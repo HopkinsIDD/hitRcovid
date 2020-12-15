@@ -179,12 +179,117 @@ reports for specific admin1 units might be more useful.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
+<span class='co'># Puling the HIT-COVID database</span>
+<span class='no'>hit_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hit_pull.html'>hit_pull</a></span>(<span class='kw'>add_first_case</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
 <span class='co'># Printing report for Zimbabwe</span>
-<span class='fu'>check_completeness</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"ZWE"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in country %in% hit_data$country: object 'hit_data' not found</span></div><div class='input'>
+<span class='fu'>check_completeness</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"ZWE"</span>)</div><div class='output co'>#&gt; 
+#&gt; Completeness Report for Zimbabwe (ZWE).
+#&gt; 
+#&gt; There have been 49 national level policy changes logged.
+#&gt; There have been 0 admin1 level policy changes logged.
+#&gt; Therefore, 100% of the updates are at the national level.
+#&gt; 
+#&gt; Of all of the entries for this country, 49 (100%) were marked as verified.
+#&gt; At the national level, the last day that a intervention update or 'no updates' was logged was: 2020-11-04.
+#&gt; Table of Intervention Completeness
+#&gt; 
+#&gt; |Intervention                        |Last Update |Last Marked Complete |Current Status |Date of Current Status |
+#&gt; |:-----------------------------------|:-----------|:--------------------|:--------------|:----------------------|
+#&gt; |Border closures                     |2020-11-04  |2020-05-07           |Unsure         |2020-11-13             |
+#&gt; |Contact tracing                     |2020-04-02  |NA                   |Unsure         |2020-11-13             |
+#&gt; |Household confinement               |2020-11-04  |2020-05-07           |Unsure         |2020-11-13             |
+#&gt; |Leisure and entertainment closures  |2020-04-02  |2020-05-07           |Unsure         |2020-11-13             |
+#&gt; |Limiting movement within borders    |2020-11-04  |NA                   |Unsure         |2020-11-13             |
+#&gt; |Limiting size of gatherings         |2020-04-02  |2020-05-07           |Unsure         |2020-11-13             |
+#&gt; |Long-term care closures             |NA          |NA                   |Unsure         |2020-11-13             |
+#&gt; |Military and police deployment      |2020-04-02  |2020-05-07           |Unsure         |2020-11-13             |
+#&gt; |Office closures                     |2020-11-04  |NA                   |Unsure         |2020-11-13             |
+#&gt; |Public space closures               |NA          |2020-05-07           |Unsure         |2020-11-13             |
+#&gt; |Public transportation closures      |2020-11-04  |2020-05-07           |Unsure         |2020-11-13             |
+#&gt; |Quarantine and home isolation       |2020-11-04  |2020-05-07           |Unsure         |2020-11-13             |
+#&gt; |Religious venue closures            |NA          |NA                   |Unsure         |2020-11-13             |
+#&gt; |Restaurant closures                 |2020-11-04  |2020-05-07           |Unsure         |2020-11-13             |
+#&gt; |Retail store closures               |2020-11-04  |NA                   |Unsure         |2020-11-13             |
+#&gt; |School closures                     |2020-11-04  |2020-05-07           |Unsure         |2020-11-13             |
+#&gt; |State of emergency                  |2020-11-04  |2020-05-07           |Unsure         |2020-11-13             |
+#&gt; |Symptom screening                   |2020-11-04  |2020-05-07           |Unsure         |2020-11-13             |
+#&gt; |Testing of asymptomatic individuals |NA          |NA                   |Unsure         |2020-11-13             |
+#&gt; |Testing of symptomatic individuals  |2020-04-02  |2020-05-07           |Unsure         |2020-11-13             |
+#&gt; |Universal facemask policies         |2020-11-04  |NA                   |Unsure         |2020-11-13             |</div><div class='input'>
 <span class='co'># Printing report for Great Britain</span>
-<span class='fu'>check_completeness</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"GBR"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in country %in% hit_data$country: object 'hit_data' not found</span></div><div class='input'>
+<span class='fu'>check_completeness</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"GBR"</span>)</div><div class='output co'>#&gt; 
+#&gt; Completeness Report for United Kingdom (GBR).
+#&gt; 
+#&gt; There have been 11 national level policy changes logged.
+#&gt; There have been 161 admin1 level policy changes logged.
+#&gt; Therefore, 6.4% of the updates are at the national level.
+#&gt; 
+#&gt; Of all of the entries for this country, 135 (78.5%) were marked as verified.
+#&gt; At the national level, the last day that a intervention update or 'no updates' was logged was: 2020-06-08.
+#&gt; At the admin1 level, the last day that a intervention update or 'no updates' was logged was: 2020-11-18.
+#&gt; 
+#&gt; Table of Intervention Completeness
+#&gt; 
+#&gt; |Intervention                        |Last Update |Last Marked Complete |Current Status |Date of Current Status |
+#&gt; |:-----------------------------------|:-----------|:--------------------|:--------------|:----------------------|
+#&gt; |Border closures                     |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Contact tracing                     |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Household confinement               |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Leisure and entertainment closures  |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Limiting movement within borders    |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Limiting size of gatherings         |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Long-term care closures             |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Military and police deployment      |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Office closures                     |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Public space closures               |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Public transportation closures      |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Quarantine and home isolation       |2020-06-08  |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Religious venue closures            |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Restaurant closures                 |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Retail store closures               |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |School closures                     |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |State of emergency                  |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Symptom screening                   |NA          |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Testing of asymptomatic individuals |2020-04-30  |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Testing of symptomatic individuals  |2020-05-19  |2020-09-26           |Complete       |2020-09-26             |
+#&gt; |Universal facemask policies         |2020-05-12  |2020-09-26           |Complete       |2020-09-26             |</div><div class='output co'>#&gt; <span class='message'>Fewer than 20% of the updates for this country are at the national level so this table</span>
+#&gt; <span class='message'> may be misleading. You can run this function at the admin1 level for more detailed information.</span></div><div class='input'>
 <span class='co'># Printing report for England</span>
-<span class='fu'>check_completeness</span>(<span class='no'>hit_data</span>, <span class='kw'>admin1</span> <span class='kw'>=</span> <span class='st'>"GBR.1_1"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in admin1 %in% hit_data$admin1: object 'hit_data' not found</span></div><div class='input'>
+<span class='fu'>check_completeness</span>(<span class='no'>hit_data</span>, <span class='kw'>admin1</span> <span class='kw'>=</span> <span class='st'>"GBR.1_1"</span>)</div><div class='output co'>#&gt; 
+#&gt; Completeness Report for England (GBR.1_1).
+#&gt; 
+#&gt; There have been 11 national level policy changes logged.
+#&gt; There have been 57 admin1 level policy changes logged.
+#&gt; Of all of the entries for this country, 50 (87.7%) were marked as verified.
+#&gt; At the national level, the last day that a intervention update or 'no updates' was logged was: 2020-06-08.
+#&gt; At the admin1 level, the last day that a intervention update or 'no updates' was logged was: 2020-11-05.
+#&gt; 
+#&gt; Table of Intervention Completeness
+#&gt; 
+#&gt; |Intervention                        |Last Update |Last Marked Complete |Current Status |Date of Current Status |
+#&gt; |:-----------------------------------|:-----------|:--------------------|:--------------|:----------------------|
+#&gt; |Border closures                     |2020-07-14  |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Contact tracing                     |2020-09-11  |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Household confinement               |2020-11-05  |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Leisure and entertainment closures  |2020-11-05  |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Limiting movement within borders    |2020-11-05  |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Limiting size of gatherings         |2020-11-05  |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Long-term care closures             |NA          |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Military and police deployment      |NA          |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Office closures                     |2020-03-29  |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Public space closures               |2020-07-14  |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Public transportation closures      |2020-03-30  |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Quarantine and home isolation       |2020-09-29  |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Religious venue closures            |2020-11-05  |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Restaurant closures                 |2020-11-05  |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Retail store closures               |2020-11-05  |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |School closures                     |2020-09-09  |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |State of emergency                  |NA          |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Symptom screening                   |NA          |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Testing of asymptomatic individuals |2020-06-10  |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Testing of symptomatic individuals  |2020-04-30  |2020-10-03           |Complete       |2020-10-03             |
+#&gt; |Universal facemask policies         |2020-09-29  |2020-10-03           |Complete       |2020-10-03             |</div><div class='input'>
 
 </div></pre>
   </div>

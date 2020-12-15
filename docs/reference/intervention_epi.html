@@ -141,8 +141,8 @@ and retail store closures) are also plotted. The admin1 plotting is only availab
   <span class='kw'>admin1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>source</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"WHO"</span>, <span class='st'>"ECDC"</span>),
   <span class='kw'>case_threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>first_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>last_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>start_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>end_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>date_format</span> <span class='kw'>=</span> <span class='st'>"%m/%d/%Y"</span>,
   <span class='kw'>include_title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
@@ -174,12 +174,12 @@ and retail store closures) are also plotted. The admin1 plotting is only availab
 (default is 0).</p></td>
     </tr>
     <tr>
-      <th>first_date</th>
+      <th>start_date</th>
       <td><p>character string indicating the earliest date to plot (default is first day where
 the total number of cases is greater than the <code>case_threshold</code>).</p></td>
     </tr>
     <tr>
-      <th>last_date</th>
+      <th>end_date</th>
       <td><p>character string indicating the latest date to plot (default is today)</p></td>
     </tr>
     <tr>
@@ -197,10 +197,10 @@ the total number of cases is greater than the <code>case_threshold</code>).</p><
     <p>The HIT-COVID database must first be loaded with <a href='hit_pull.html'>hit_pull</a> and fed into this function.
 Only one country or admin1 unit can be plotted at a time and the resulting plot will include the
 case counts for this location with select intervention data. The user can specify the date range
-for the plot using <code>first_date</code> and <code>last_date</code>. Another way to restrict the plot is to change
+for the plot using <code>start_date</code> and <code>end_date</code>. Another way to restrict the plot is to change
 <code>case_threshold</code>. When the <code>case_threshold is specified</code> then the earliest date of the
 plot will be when the total number of cases in the country exceeded <code>case_threshold</code>.
-If both <code>first_date</code> and <code>case_threshold</code> are provided, <code>first_date</code> will be used
+If both <code>start_date</code> and <code>case_threshold</code> are provided, <code>start_date</code> will be used
 as the beginning of the plot.</p>
 <p>The source for the country level data is either the European Centre for Disease
 Control (ECDC) or the World Health Organization (WHO) with the WHO as the default. The source for
@@ -250,7 +250,7 @@ Covid-19 Outbreak. R package version 0.6.0.
 <span class='co'># Starting when there were more than 100 cases</span>
 <span class='fu'>intervention_epi</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"IND"</span>, <span class='kw'>case_threshold</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='img'><img src='intervention_epi-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Plotting the case counts for the New Zealand from February to May </span>
-<span class='fu'>intervention_epi</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"NZL"</span>, <span class='kw'>first_date</span> <span class='kw'>=</span> <span class='st'>"3/1/2020"</span>, <span class='kw'>last_date</span> <span class='kw'>=</span> <span class='st'>"5/31/2020"</span>)</div><div class='img'><img src='intervention_epi-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>intervention_epi</span>(<span class='no'>hit_data</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"NZL"</span>, <span class='kw'>start_date</span> <span class='kw'>=</span> <span class='st'>"3/1/2020"</span>, <span class='kw'>end_date</span> <span class='kw'>=</span> <span class='st'>"5/31/2020"</span>)</div><div class='img'><img src='intervention_epi-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Plotting the case counts for New Jersey, USA</span>
 <span class='fu'>intervention_epi</span>(<span class='no'>hit_data</span>, <span class='kw'>admin1</span> <span class='kw'>=</span> <span class='st'>"USA.31_1"</span>)</div><div class='img'><img src='intervention_epi-4.png' alt='' width='700' height='433' /></div><div class='input'> 
 </div></pre>

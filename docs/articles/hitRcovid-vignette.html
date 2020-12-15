@@ -241,7 +241,7 @@
 <h2 class="hasAnchor">
 <a href="#epi-curve-with-intervention-data" class="anchor"></a>Epi-curve with intervention data</h2>
 <p>The funciton <a href="https://hopkinsidd.github.io/hitRcovid/reference/intervention_epi.html">intervention_epi()</a> can be used to display a barplot of daily case counts (the epi-curve) along with a timeline showing the status of selected interventions (border closures, household confinement, universal mask mandates, restaurant closures, primary school closures, and retail store closures) over time.</p>
-<p>The main usage would be to plot the epi-curves at the country level, but admin1 level case counts are available for 11 countries (Afghanistan, Belgium, Brazil, Canada, Columbia, Germany, India, Italy, Russia, UK, and USA). Only one country or admin1 unit can be plotted at a time. The user can specify the date range for the plot using first_date and last_date. Another way to restrict the plot is to change case_threshold. In this case the earliest date of the plot will be when the total number of cases in the country exceeded case_threshold.</p>
+<p>The main usage would be to plot the epi-curves at the country level, but admin1 level case counts are available for 11 countries (Afghanistan, Belgium, Brazil, Canada, Columbia, Germany, India, Italy, Russia, UK, and USA). Only one country or admin1 unit can be plotted at a time. The user can specify the date range for the plot using start_date and end_date. Another way to restrict the plot is to change case_threshold. In this case the earliest date of the plot will be when the total number of cases in the country exceeded case_threshold.</p>
 <p>Here is the epi-curve for India starting from January 1, 2020:</p>
 <div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_epi.html">intervention_epi</a></span>(<span class="no">hit_data</span>,
                  <span class="kw">country</span> <span class="kw">=</span> <span class="st">"ETH"</span>)</pre></body></html></div>
@@ -254,8 +254,8 @@
 <p>Here is the epi-curve for India from February to August:</p>
 <div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_epi.html">intervention_epi</a></span>(<span class="no">hit_data</span>,
                  <span class="kw">country</span> <span class="kw">=</span> <span class="st">"IND"</span>,
-                 <span class="kw">first_date</span> <span class="kw">=</span> <span class="st">"3/1/2020"</span>,
-                 <span class="kw">last_date</span> <span class="kw">=</span> <span class="st">"8/31/2020"</span>)</pre></body></html></div>
+                 <span class="kw">start_date</span> <span class="kw">=</span> <span class="st">"3/1/2020"</span>,
+                 <span class="kw">end_date</span> <span class="kw">=</span> <span class="st">"8/31/2020"</span>)</pre></body></html></div>
 <p><img src="hitRcovid-vignette_files/figure-html/epi3-1.png" width="768"></p>
 <p>Here is the epi-curve for England starting when there were 100 cases</p>
 <div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="../reference/intervention_epi.html">intervention_epi</a></span>(<span class="no">hit_data</span>,
@@ -269,6 +269,84 @@
 <p>The HIT-COVID database is a managed crowd sourcing effort supported by numerous volunteers over the past eight months. Because of this data collection effort, the database is not complete for all countries and admin1 units. This should be taken into account when using this database.</p>
 <p>This caveat is especially important when interpreting the intervention timelines printed under the epi curves. These final bars of each timeline represent the last logged status of an intervention. For some locations, the intervention data may not have been updated which means that older policies would appear to carry to the present when they are not still active. Care should be taken when interpreting these plots without knowledge of the completeness of the intervention data of the location of interest.</p>
 <p>If you are interested in working on a particular are which has incomplete data and would like to contribute to this database, please reach out to the management team at <a href="hit-covid@jhu.edu">hit-covid@jhu.edu</a>.</p>
+<div id="check-completion" class="section level3">
+<h3 class="hasAnchor">
+<a href="#check-completion" class="anchor"></a>Check Completion</h3>
+<p>In order to understand the completeness of a certain country or admin1 unit, the <a href="https://hopkinsidd.github.io/hitRcovid/reference/check_completeness.html">check_completeness()</a> function can be used. prints information about the date the location was previously updated, what percentage of the entries have been verified by contributors, and the status of each intervention group (complete, incomplete, unsure).</p>
+<p>When requesting a national level report, the completeness table only reflects national-level entries. If fewer than 20% of all entries for that country are at the national level, the function gives a message that this table may be misleading. That is because for those countries the interventions are likely being managed at the admin1 level and therefore reports for specific admin1 units might be more useful.</p>
+<p>Here is the printed report for Zimbabwe (all national entries)</p>
+<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="fu"><a href="../reference/check_completeness.html">check_completeness</a></span>(<span class="no">hit_data</span>, <span class="kw">country</span> <span class="kw">=</span> <span class="st">"ZWE"</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Completeness Report for Zimbabwe (ZWE).</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; There have been 49 national level policy changes logged.</span>
+<span class="co">#&gt; There have been 0 admin1 level policy changes logged.</span>
+<span class="co">#&gt; Therefore, 100% of the updates are at the national level.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Of all of the entries for this country, 49 (100%) were marked as verified.</span>
+<span class="co">#&gt; At the national level, the last day that a intervention update or 'no updates' was logged was: 2020-11-04.</span>
+<span class="co">#&gt; Table of Intervention Completeness</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; |Intervention                        |Last Update |Last Marked Complete |Current Status |Date of Current Status |</span>
+<span class="co">#&gt; |:-----------------------------------|:-----------|:--------------------|:--------------|:----------------------|</span>
+<span class="co">#&gt; |Border closures                     |2020-11-04  |2020-05-07           |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Contact tracing                     |2020-04-02  |NA                   |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Household confinement               |2020-11-04  |2020-05-07           |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Leisure and entertainment closures  |2020-04-02  |2020-05-07           |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Limiting movement within borders    |2020-11-04  |NA                   |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Limiting size of gatherings         |2020-04-02  |2020-05-07           |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Long-term care closures             |NA          |NA                   |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Military and police deployment      |2020-04-02  |2020-05-07           |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Office closures                     |2020-11-04  |NA                   |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Public space closures               |NA          |2020-05-07           |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Public transportation closures      |2020-11-04  |2020-05-07           |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Quarantine and home isolation       |2020-11-04  |2020-05-07           |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Religious venue closures            |NA          |NA                   |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Restaurant closures                 |2020-11-04  |2020-05-07           |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Retail store closures               |2020-11-04  |NA                   |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |School closures                     |2020-11-04  |2020-05-07           |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |State of emergency                  |2020-11-04  |2020-05-07           |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Symptom screening                   |2020-11-04  |2020-05-07           |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Testing of asymptomatic individuals |NA          |NA                   |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Testing of symptomatic individuals  |2020-04-02  |2020-05-07           |Unsure         |2020-11-13             |</span>
+<span class="co">#&gt; |Universal facemask policies         |2020-11-04  |NA                   |Unsure         |2020-11-13             |</span></pre></body></html></div>
+<p>And here is the report for the Massachusetts, USA (primarily admin1 entries)</p>
+<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="fu"><a href="../reference/check_completeness.html">check_completeness</a></span>(<span class="no">hit_data</span>, <span class="kw">admin1</span> <span class="kw">=</span> <span class="st">"USA.22_1"</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Completeness Report for Massachusetts (USA.22_1).</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; There have been 35 national level policy changes logged.</span>
+<span class="co">#&gt; There have been 80 admin1 level policy changes logged.</span>
+<span class="co">#&gt; Of all of the entries for this country, 76 (95%) were marked as verified.</span>
+<span class="co">#&gt; At the national level, the last day that a intervention update or 'no updates' was logged was: 2020-11-24.</span>
+<span class="co">#&gt; At the admin1 level, the last day that a intervention update or 'no updates' was logged was: 2020-12-10.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Table of Intervention Completeness</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; |Intervention                        |Last Update |Last Marked Complete |Current Status |Date of Current Status |</span>
+<span class="co">#&gt; |:-----------------------------------|:-----------|:--------------------|:--------------|:----------------------|</span>
+<span class="co">#&gt; |Border closures                     |NA          |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Contact tracing                     |2020-09-24  |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Household confinement               |2020-11-05  |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Leisure and entertainment closures  |2020-12-10  |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Limiting movement within borders    |NA          |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Limiting size of gatherings         |2020-12-10  |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Long-term care closures             |2020-10-01  |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Military and police deployment      |NA          |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Office closures                     |2020-06-25  |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Public space closures               |2020-06-11  |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Public transportation closures      |2020-06-18  |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Quarantine and home isolation       |2020-07-30  |NA                   |Incomplete     |2020-12-04             |</span>
+<span class="co">#&gt; |Religious venue closures            |2020-06-04  |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Restaurant closures                 |2020-12-10  |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Retail store closures               |2020-11-05  |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |School closures                     |2020-11-19  |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |State of emergency                  |2020-04-02  |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Symptom screening                   |NA          |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Testing of asymptomatic individuals |2020-08-06  |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Testing of symptomatic individuals  |2020-05-14  |2020-12-04           |Complete       |2020-12-04             |</span>
+<span class="co">#&gt; |Universal facemask policies         |2020-12-10  |2020-12-04           |Complete       |2020-12-04             |</span></pre></body></html></div>
+</div>
 </div>
 <div id="mangement-team" class="section level2">
 <h2 class="hasAnchor">

@@ -45,6 +45,9 @@ reports for specific admin1 units might be more useful.
 }
 \examples{
 
+# Puling the HIT-COVID database
+hit_data <- hit_pull(add_first_case = FALSE)
+
 # Printing report for Zimbabwe
 check_completeness(hit_data, country = "ZWE")
 

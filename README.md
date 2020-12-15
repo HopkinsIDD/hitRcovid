@@ -51,12 +51,18 @@ The package contains a plotting function, [intervention_map()](https://hopkinsid
 
 The package contains a plotting funciton, [intervention_epi()](https://hopkinsidd.github.io/hitRcovid/reference/intervention_epi.html), to display a barplot of daily case counts (the epi-curve) along with a timeline showing the status of selected interventions (border closures, household confinement, universal mask mandates, restaurant closures, primary school closures, and retail store closures) over time. The main usage would be to plot the epi-curves at the country level, but admin1 level case counts are available for 11 countries (Afghanistan, Belgium, Brazil, Canada, Columbia, Germany, India, Italy, Russia, UK, and USA).
 
-*IMPORTANT note about intervention timelines printed under the epi curves. These final bars of each timeline represent the last logged status of an intervention. For some locations, the intervention data may not have been updated which means that older policies would appear to carry to the present when they are not still active. Care should be taken when interpreting these plots without knowledge of the completeness of the intervention data of the location of interest. The *
+*IMPORTANT note about intervention timelines printed under the epi curves. These final bars of each timeline represent the last logged status of an intervention. For some locations, the intervention data may not have been updated which means that older policies would appear to carry to the present when they are not still active. Care should be taken when interpreting these plots without knowledge of the completeness of the intervention data of the location of interest. The [check_completeness()](https://hopkinsidd.github.io/hitRcovid/reference/check_completeness.html) function can be used to get a sense of the completeness of a given country or admin1 unit*
 
 Here is an example plotting the epi-curve and intervention status for India starting from when the country had 100 total cases:
 
 `intervention_epi(hit_data, country = "IND", case_threshold = 100)`
 
+
+## Checking Completeness
+
+The HIT-COVID database is a managed crowd sourcing effort supported by numerous volunteers over the past eight months. Because of this data collection effort, the database is not complete for all countries and admin1 units. This should be taken into account when using this database. To get a sense of the completeness of a given location (country or admin1 unit) the [check_completeness()](https://hopkinsidd.github.io/hitRcovid/reference/check_completeness.html) function can be used. It prints information about the date the location was previously updated, what percentage of the entries have been verified by contributors, and the status of each intervention group (complete, incomplete, unsure). Here is an example:
+
+`check_completeness(hit_data, country = "ZWE")`
 
 
 ## Mangement Team

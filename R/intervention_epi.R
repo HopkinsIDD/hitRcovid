@@ -9,10 +9,10 @@
 #' The HIT-COVID database must first be loaded with \link{hit_pull} and fed into this function. 
 #' Only one country or admin1 unit can be plotted at a time and the resulting plot will include the
 #' case counts for this location with select intervention data. The user can specify the date range 
-#' for the plot using \code{first_date} and \code{last_date}. Another way to restrict the plot is to change 
+#' for the plot using \code{start_date} and \code{end_date}. Another way to restrict the plot is to change 
 #' \code{case_threshold}. When the \code{case_threshold is specified} then the earliest date of the 
 #' plot will be when the total number of cases in the country exceeded \code{case_threshold}.
-#' If both \code{first_date} and \code{case_threshold} are provided, \code{first_date} will be used
+#' If both \code{start_date} and \code{case_threshold} are provided, \code{start_date} will be used
 #' as the beginning of the plot.
 #' 
 #' The source for the country level data is either the European Centre for Disease
@@ -38,9 +38,9 @@
 #' @param source the source of the daily case count data, one of "ECDC" or "WHO" (default is "WHO").
 #' @param case_threshold threshold the total number of cases needs to exceed to start the plot 
 #' (default is 0).
-#' @param first_date character string indicating the earliest date to plot (default is first day where
+#' @param start_date character string indicating the earliest date to plot (default is first day where
 #' the total number of cases is greater than the \code{case_threshold}).
-#' @param last_date character string indicating the latest date to plot (default is today)
+#' @param end_date character string indicating the latest date to plot (default is today)
 #' @param date_format character string indicating the format of the date inputs (default is "%m/%d/%Y").
 #' @param include_title logical indicating if the plot should have a title (default is TRUE)
 #' 
@@ -56,7 +56,7 @@
 #' intervention_epi(hit_data, country = "IND", case_threshold = 100)
 #' 
 #' # Plotting the case counts for the New Zealand from February to May 
-#' intervention_epi(hit_data, country = "NZL", first_date = "3/1/2020", last_date = "5/31/2020")
+#' intervention_epi(hit_data, country = "NZL", start_date = "3/1/2020", end_date = "5/31/2020")
 #' 
 #' # Plotting the case counts for New Jersey, USA
 #' intervention_epi(hit_data, admin1 = "USA.31_1")
@@ -108,8 +108,8 @@ intervention_epi <- function(hit_data,
                       admin1 = NULL,
                       source = c("WHO", "ECDC"),
                       case_threshold = 0,
-                      first_date = NULL,
-                      last_date = NULL,
+                      start_date = NULL,
+                      end_date = NULL,
                       date_format = "%m/%d/%Y",
                       include_title = TRUE){
   
@@ -164,22 +164,22 @@ intervention_epi <- function(hit_data,
   }
   
   # Determine if the dates entered are valid, if not, return warning
-  if(!is.null(first_date)){
-    first_date <- as.Date(first_date, date_format)  
-    if(is.na(first_date)) {
-      stop('first_date is not valid, please enter a valid date in right format.')
-    } else if(first_date < as.Date("1/1/2020", date_format) |
-              first_date > Sys.Date()) {
-      stop("first_date is not valid, please enter valid date between 1/1/2020 and present.")
+  if(!is.null(start_date)){
+    start_date <- as.Date(start_date, date_format)  
+    if(is.na(start_date)) {
+      stop('start_date is not valid, please enter a valid date in right format.')
+    } else if(start_date < as.Date("1/1/2020", date_format) |
+              start_date > Sys.Date()) {
+      stop("start_date is not valid, please enter valid date between 1/1/2020 and present.")
     } 
   }
-  if(!is.null(last_date)){
-    last_date <- as.Date(last_date, date_format)  
-    if(is.na(last_date)) {
-      stop('last_date is not valid, please enter a valid date in right format.')
-    } else if(last_date < as.Date("1/1/2020", date_format) |
-              last_date > Sys.Date()) {
-      stop("last_date is not valid, please enter valid date between 1/1/2020 and present.")
+  if(!is.null(end_date)){
+    end_date <- as.Date(end_date, date_format)  
+    if(is.na(end_date)) {
+      stop('end_date is not valid, please enter a valid date in right format.')
+    } else if(end_date < as.Date("1/1/2020", date_format) |
+              end_date > Sys.Date()) {
+      stop("end_date is not valid, please enter valid date between 1/1/2020 and present.")
     } 
   }
 
@@ -242,33 +242,35 @@ intervention_epi <- function(hit_data,
     
     #Filtering to admin1 unit specified
     if(name == "UK"){
-      case_counts <- case_counts[case_counts$ons_region_code == new_code, ]
+      case_counts <- unique(case_counts[case_counts$ons_region_code == new_code,
+                                 c("date", "ons_region_code", "cases_new", "cases_total")])
     }else{
-      case_counts <- case_counts[case_counts$iso_3166_2 == new_code, ]
+      case_counts <- unique(case_counts[case_counts$iso_3166_2 == new_code,
+                                 c("date", "iso_3166_2", "cases_new", "cases_total")])
     }
   }
   
   
   
-  #If first_date provided, filtering to days after that date
-  #If first_date is not provided, filtering to days when there are more than case_threshold cases
-  if(!is.null(first_date)){
-    case_counts <- case_counts[case_counts$date >= first_date, ]
+  #If start_date provided, filtering to days after that date
+  #If start_date is not provided, filtering to days when there are more than case_threshold cases
+  if(!is.null(start_date)){
+    case_counts <- case_counts[case_counts$date >= start_date, ]
   }else{
     case_counts <- case_counts[case_counts$cases_total > case_threshold & 
                                  !is.na(case_counts$cases_total), ]
   }
   
-  #Finding the min and max date (if first_date and last_date were not user-specified)
-  #If provided first_date is before the 
-  if(is.null(first_date)){first_date <- min(case_counts$date)}
-  if(is.null(last_date)){last_date <- Sys.Date()}
-  if(last_date <= first_date){
-    stop("first_date must be earlier than last_date")
+  #Finding the min and max date (if start_date and end_date were not user-specified)
+  #If provided start_date is before the 
+  if(is.null(start_date)){start_date <- min(case_counts$date)}
+  if(is.null(end_date)){end_date <- Sys.Date()}
+  if(end_date <= start_date){
+    stop("start_date must be earlier than end_date")
   }
   
-  #Filtering to days before last_date
-  case_counts <- case_counts[case_counts$date <= last_date, ]
+  #Filtering to days before end_date
+  case_counts <- case_counts[case_counts$date <= end_date, ]
   
   #Adding 7-day rolling average
   case_counts$cases_smooth <- zoo::rollmean(case_counts$cases_new, 7, fill = NA)
@@ -317,7 +319,7 @@ intervention_epi <- function(hit_data,
   #Finding the start and end date for each group of updates with the same status
   int_data2 <- dplyr::group_by(int_data2, .data$intervention_group)
   int_data2 <- dplyr::mutate(int_data2, end = dplyr::lead(.data$start))
-  int_data2$end <- ifelse(is.na(int_data2$end), as.character(last_date), int_data2$end)
+  int_data2$end <- ifelse(is.na(int_data2$end), as.character(end_date), int_data2$end)
   
   #Collapsing to one row for each group of updates with the same status
   int_data3 <- dplyr::group_by(int_data2, .data$intervention_group, .data$interval)
@@ -325,16 +327,16 @@ intervention_epi <- function(hit_data,
   int_data3$start <- as.Date(int_data3$start)
   int_data3$end <- as.Date(int_data3$end)
   
-  # If 'start' is earlier than first_date and 'end' is later than first_date
-  # then set the 'start' to be first_date or this bar will not be plotted
-  int_data3[int_data3$start <= first_date & int_data3$end >= first_date,]$start <- first_date
-  # If 'start' is within the date range and 'end' is later than last_date
-  # then set the 'end' to be the last_date or this bar will not be plotted
-  int_data3[int_data3$start >= first_date & int_data3$start <= last_date &
-              int_data3$end > last_date,]$end <- last_date
+  # If 'start' is earlier than start_date and 'end' is later than start_date
+  # then set the 'start' to be start_date or this bar will not be plotted
+  int_data3[int_data3$start <= start_date & int_data3$end >= start_date,]$start <- start_date
+  # If 'start' is within the date range and 'end' is later than end_date
+  # then set the 'end' to be the end_date or this bar will not be plotted
+  int_data3[int_data3$start >= start_date & int_data3$start <= end_date &
+              int_data3$end > end_date,]$end <- end_date
   
   #Removing interventions which start after the time window
-  int_data3 <- int_data3[!(int_data3$start >= last_date), ]
+  int_data3 <- int_data3[!(int_data3$start >= end_date), ]
   
   #Removing rows where 'start' == 'end', otherwise there will be a dot on the plot
   int_data3 <- int_data3[int_data3$start < int_data3$end, ]
@@ -355,7 +357,7 @@ intervention_epi <- function(hit_data,
     ggplot2::geom_line(ggplot2::aes(x = .data$date, y = .data$cases_smooth),
                        color = "darkblue", size = 1.3, na.rm = TRUE) +
     ggplot2::labs(y = "Number of new cases") +
-    ggplot2::xlim(c(first_date - 1, last_date + 1)) +
+    ggplot2::xlim(c(start_date - 1, end_date + 1)) +
     ggplot2::theme_bw() +
     ggplot2::theme(axis.title.y = ggplot2::element_text(margin = ggplot2::margin(t = 0, r = 10, b = 0, l = 0)),
                    axis.title.x = ggplot2::element_blank())
@@ -387,10 +389,12 @@ intervention_epi <- function(hit_data,
     ggplot2::theme(legend.position = "bottom",
                    legend.margin=ggplot2::margin(0,0,0,0),
                    legend.box.margin=ggplot2::margin(-10,-10,-5,-10)) +
-    ggplot2::xlim(as.POSIXct(c(first_date - 1, last_date + 1)))
+    ggplot2::xlim(as.POSIXct(c(start_date - 1, end_date + 1)))
   
   #Combining and using egg package to align axes
+  suppressWarnings(
   p <- egg::ggarrange(p1, p2, heights = c(0.7, 0.3), draw = FALSE)
+  )
   
   return(p)
 }
