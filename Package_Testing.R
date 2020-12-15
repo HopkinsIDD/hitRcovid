@@ -112,6 +112,7 @@ intervention_epi(hit, country = "IND", last_date = "12/31/2019")
 intervention_epi(hit, country = "IND", last_date = Sys.Date() + 10)
 intervention_epi(hit, country = "IND", first_date = "5/31/2020", last_date = "4/1/2020")
 intervention_epi(hit, country = "IND", last_date = "1/1/2020")
+intervention_epi(hit_data, country = "IND", admin1 = "GBR.1_1")
 
 #Admin1 level
 intervention_epi(hit_data, admin1 = "BEL.1_1")
@@ -137,8 +138,15 @@ intervention_epi(hit_data, admin1 = "IND.1_1")
 check_completeness(hit_data, country = "USA")
 check_completeness(hit_data, country = "ZWE")
 check_completeness(hit_data, country = "GBR")
-
 check_completeness(hit_data, admin1 = "USA.31_1")
 check_completeness(hit_data, admin1 = "GBR.1_1")
+check_completeness(hit_data, country = "GBR", admin1 = "GBR.1_1")
+check_completeness(hit_data, country = "USA", admin1 = "GBR.1_1")
 
+#Error checking
+check_completeness(hit_data)
+check_completeness(hit_data, country = "garbage")
+check_completeness(hit_data, admin1 = "garbage")
+check_completeness(hit_data, country = "SWE")
+check_completeness(hit_data, admin1 = "BEL.1_1")
 

@@ -113,6 +113,9 @@ intervention_epi <- function(hit_data,
                       date_format = "%m/%d/%Y",
                       include_title = TRUE){
   
+  #If both admin1 and country supplied, set country to NULL
+  if(!is.null(admin1)){country <- NULL}
+  
   #### Error handling -----------------------------------------------------------------------------
   
   source <- toupper(source)

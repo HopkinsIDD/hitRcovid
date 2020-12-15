@@ -117,10 +117,10 @@
 <p>You can then filter the database by location and/or intervention type using <a href="https://hopkinsidd.github.io/hitRcovid/reference/hit_filter.html">hit_filter()</a> function. This function is meant to be very flexible and the various options are described in detail in the documentations.</p>
 <p>The country and admin codes to be used for filtering can be found in the <a href="https://hopkinsidd.github.io/hitRcovid/reference/geo_lookup.html">geo_lookup</a> dataframe provided in the package. Additionally, the admin1 codes that have data in the database for a specified country can be printed by using <a href="https://hopkinsidd.github.io/hitRcovid/reference/get_admin1.html">get_admin1</a>.</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="../reference/get_admin1.html">get_admin1</a></span>(<span class="no">hit_data</span>, <span class="kw">country</span> <span class="kw">=</span> <span class="st">"USA"</span>)
-<span class="co">#&gt;  [1] "USA.1_1"  "USA.36_1" "USA.2_1"  "USA.39_1" "USA.43_1" "USA.44_1"</span>
-<span class="co">#&gt;  [7] "USA.25_1" "USA.5_1"  "USA.23_1" "USA.48_1" "USA.14_1" "USA.33_1"</span>
-<span class="co">#&gt; [13] "USA.11_1" "USA.6_1"  "USA.28_1" "USA.16_1" "USA.51_1" "USA.30_1"</span>
-<span class="co">#&gt; [19] "USA.9_1"  "USA.18_1" "USA.45_1" "USA.47_1" "USA.34_1" "USA.8_1" </span>
+<span class="co">#&gt;  [1] "USA.1_1"  "USA.36_1" "USA.43_1" "USA.39_1" "USA.25_1" "USA.23_1"</span>
+<span class="co">#&gt;  [7] "USA.5_1"  "USA.2_1"  "USA.33_1" "USA.44_1" "USA.48_1" "USA.14_1"</span>
+<span class="co">#&gt; [13] "USA.11_1" "USA.28_1" "USA.16_1" "USA.6_1"  "USA.30_1" "USA.51_1"</span>
+<span class="co">#&gt; [19] "USA.45_1" "USA.47_1" "USA.9_1"  "USA.18_1" "USA.34_1" "USA.8_1" </span>
 <span class="co">#&gt; [25] "USA.10_1" "USA.42_1" "USA.46_1" "USA.27_1" "USA.21_1" "USA.20_1"</span>
 <span class="co">#&gt; [31] "USA.19_1" "USA.38_1" "USA.12_1" "USA.49_1" "USA.31_1" "USA.22_1"</span>
 <span class="co">#&gt; [37] "USA.17_1" "USA.7_1"  "USA.4_1"  "USA.13_1" "USA.26_1" "USA.40_1"</span>
@@ -142,7 +142,7 @@
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">afr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/hit_filter.html">hit_filter</a></span>(<span class="no">hit_data</span>,
                   <span class="kw">continent</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Asia"</span>, <span class="st">"Africa"</span>))
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">afr</span>)
-<span class="co">#&gt; [1] 4602</span></pre></body></html></div>
+<span class="co">#&gt; [1] 4659</span></pre></body></html></div>
 <p>You can also filter by intervention type. The intervention group codes and names can be found in the <a href="https://hopkinsidd.github.io/hitRcovid/reference/intervention_lookup.html">intervention_lookup</a> dataframe provided in the package or all options can be printed using the function <a href="https://hopkinsidd.github.io/hitRcovid/reference/list_interventions.html">get_interventions()</a>. Then you can use those codes to filter by intervention type either on their own or in conjunction with location filtering.</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/get_interventions.html">get_interventions</a></span>()
 <span class="co">#&gt;  [1] "enforcement_deployed"    "mask"                   </span>
@@ -160,14 +160,14 @@
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">school_restaurant</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/hit_filter.html">hit_filter</a></span>(<span class="no">hit_data</span>,
                                 <span class="kw">intervention</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"school_closed"</span>, <span class="st">"restaurant_closed"</span>))
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">school_restaurant</span>)
-<span class="co">#&gt; [1] 1916</span></pre></body></html></div>
+<span class="co">#&gt; [1] 1945</span></pre></body></html></div>
 <p>Here we are looking at all mask policies across three US states and removing the national data:</p>
 <div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">us_mask</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/hit_filter.html">hit_filter</a></span>(<span class="no">hit_data</span>,
                       <span class="kw">intervention</span> <span class="kw">=</span> <span class="st">"mask"</span>,
                       <span class="kw">admin1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"USA.22_1"</span>, <span class="st">"USA.31_1"</span>, <span class="st">"USA.39_1"</span>),
                       <span class="kw">include_national</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">us_mask</span>)
-<span class="co">#&gt; [1] 9</span></pre></body></html></div>
+<span class="co">#&gt; [1] 10</span></pre></body></html></div>
 </div>
 <div id="world-map-of-status-of-an-intervention" class="section level2">
 <h2 class="hasAnchor">

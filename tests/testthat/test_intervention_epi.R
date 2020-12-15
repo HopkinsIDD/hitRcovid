@@ -2,7 +2,7 @@
 context("intervention_epi")
 library(hitRcovid)
 
-hit <- hit_pull()
+hit <- hit_pull(add_first_case = FALSE)
 
 test_that("intervention_epi for countries returns grob objects with no errors",{
   
@@ -18,6 +18,9 @@ test_that("intervention_epi for countries returns grob objects with no errors",{
   
   expect_true("grob" %in% class(intervention_epi(hit, country = "IND", first_date = "2/1/2020",
                                                    last_date = "9/30/2020")))
+  
+  expect_true("grob" %in% class(intervention_epi(hit_data, country = "IND", admin1 = "GBR.1_1")))
+
 })
 
 test_that("intervention_epi for admin1 units returns grob objects with no errors",{
